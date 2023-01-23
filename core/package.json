@@ -1,0 +1,12 @@
+{
+  "name": "rice",
+  "module": "core.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "^0.4.0"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}
