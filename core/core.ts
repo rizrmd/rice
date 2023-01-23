@@ -2,11 +2,15 @@ import { spawn, spawnSync } from "bun";
 import { existsSync } from "fs";
 import { join } from "path";
 
-if (!existsSync(join(import.meta.dir, "node_modules"))) {
-  spawnSync({
-    cmd: ["bun", "i"],
-    cwd: join(import.meta.dir),
-  });
+const dirs = ["", "frontend", "backend", "rpc"];
+
+for (const dir of dirs) {
+  if (!existsSync(join(import.meta.dir, dir, "node_modules"))) {
+    spawnSync({
+      cmd: ["bun", "i"],
+      cwd: join(import.meta.dir, dir),
+    });
+  }
 }
 
 const frontend = spawn({
@@ -21,8 +25,8 @@ const tailwind = spawn({
   cmd: ["bun", "run", "tw"],
   cwd: join(import.meta.dir, "frontend"),
   stdin: "inherit",
-  stdout: "ignore",
-  stderr: "ignore",
+  stdout: "inherit",
+  stderr: "inherit",
 });
 
 const backend = spawn({

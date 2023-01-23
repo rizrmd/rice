@@ -8,8 +8,19 @@
   }
 }
 
-body {
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
   margin: 0;
+}
+
+body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
 }

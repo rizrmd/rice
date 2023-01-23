@@ -10,7 +10,7 @@ export const Main = () => {
   return (
     <div
       className={cx(
-        "h-screen w-screen flex",
+        "flex flex-1",
         pick(bar.position, {
           bottom: "flex-col-reverse",
           left: "flex-row",
@@ -19,8 +19,8 @@ export const Main = () => {
         })
       )}
     >
-      <Bar key={'bar'} />
-      <Desktop key={'desktop'} />
+      <Bar key={"bar"} />
+      <Desktop key={"desktop"} />
     </div>
   );
 };
