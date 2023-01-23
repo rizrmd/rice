@@ -1,15 +1,12 @@
 {
-  "name": "bunre",
+  "name": "frontend",
   "version": "0.1.67",
   "dependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "goober": "^2.1.11",
     "react": "^18.2.0",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
-    "web-vitals": "^3.0.3",
-    "webfontloader": "^1.6.28"
+    "web-vitals": "^3.0.3"
   },
   "eslintConfig": {
     "extends": [

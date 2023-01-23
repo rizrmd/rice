@@ -10,3 +10,13 @@ const frontend = spawn({
 });
 
 await frontend.exited;
+
+const backend = spawn({
+  cmd: ["bun", "index.ts"],
+  cwd: join(import.meta.dir, "backend"),
+  stdin: null,
+  stdout: "inherit",
+  stderr: "inherit",
+});
+
+await backend.exited;
