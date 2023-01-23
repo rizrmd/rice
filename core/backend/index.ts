@@ -1,9 +1,4 @@
-import { watch } from "@napi-rs/notify";
 import { serve } from "bun";
-
-watch(process.cwd(), (_, e) => {
-  console.log(e);
-});
 
 serve({
   port: 12340,

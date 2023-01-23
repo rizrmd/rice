@@ -1,5 +1,13 @@
-import { spawn } from "bun";
+import { spawn, spawnSync } from "bun";
+import { existsSync } from "fs";
 import { join } from "path";
+
+if (!existsSync(join(import.meta.dir, "node_modules"))) {
+  spawnSync({
+    cmd: ["bun", "i"],
+    cwd: join(import.meta.dir),
+  });
+}
 
 const frontend = spawn({
   cmd: ["bun", "dev", "-p", "12345", "--public-dir", "./"],
