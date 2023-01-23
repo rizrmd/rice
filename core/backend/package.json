@@ -1,8 +1,16 @@
 {
   "name": "backend",
-  "module": "index.ts",
+  "module": "export.ts",
   "type": "module",
   "devDependencies": {
     "bun-types": "^0.4.0"
-  }
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cuid": "^2.1.8"
+  },
+  "workspaces": [
+    "../rpc",
+    "../frontend"
+  ]
 }

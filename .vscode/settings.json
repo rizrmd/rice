@@ -6,17 +6,16 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "bun.lockb": true,
+    "**/bun.lockb": true,
+    "**/node_modules": false,
     "src/index.tsx": true,
     ".gitignore": true,
-    ".vscode": true,
-    "node_modules": true
+    ".vscode": true
   },
   "hide-files.files": [
     "bun.lockb",
     "src/index.tsx",
     ".gitignore",
     ".vscode",
-    "node_modules"
   ]
 }

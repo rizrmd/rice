@@ -1,3 +1,12 @@
 #!/usr/bin/env bun
 
+console.log(`
+     ___  _        
+    / _ \\(_)______ 
+   / , _/ / __/ -_)
+  /_/|_/_/\\__/\\__/ 
+                 
+github.com/rizrmd/rice
+`);
+
 await import("./core/core");
