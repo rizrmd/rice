@@ -27,6 +27,7 @@ if (frontend.stderr) {
   while (true) {
     const { done, value } = await reader.read();
     const text = dec.decode(value);
+    // process.stdout.write(text);
     if (text.includes("Link: ")) {
       frontEndURL = text.split("Link: ")[1].split("\n").shift() || "";
       break;
@@ -54,31 +55,52 @@ const tailwind = spawn({
 });
 
 const backend = spawn({
-  cmd: ["bun", "--hot", "index.ts"],
+  cmd: ["bun", "--hot", "./src/index.ts"],
   cwd: join(import.meta.dir, "backend"),
-  stdin: null,
+  stdin: "inherit",
   stdout: "inherit",
   stderr: "inherit",
 });
 
 const init = () => {
-  const ws = new WebSocket("ws://localhost:12345");
-  const queue: ClientQueue = {};
-  ws.onopen = async () => {
-    const c = client(ws, queue);
-    c.initFE({ url: frontEndURL });
-  };
-  ws.onmessage = async ({ data }) => {
-    if (data instanceof ArrayBuffer) {
-      const msg = schema.res.unpack(new Uint8Array(data));
-      if (msg.result) queue[msg.id].resolve(msg.result);
-      else if (msg.error) queue[msg.id].reject(msg.reject);
-      delete queue[msg.id];
-    }
-  };
-  ws.onclose = init;
-  ws.onerror = init;
+  let retry = 0;
+  return new Promise<void>((resolve) => {
+    const connect = () => {
+      setTimeout(() => {
+        if (retry > 0) {
+          console.log("Retrying connection: ", retry);
+        }
+        if (retry > 4) {
+          resolve();
+          return;
+        }
+        try {
+          const ws = new WebSocket("ws://localhost:12345");
+          const queue: ClientQueue = {};
+          ws.onopen = async () => {
+            const c = client(ws, queue);
+            c.initFE({ url: frontEndURL });
+            resolve();
+          };
+          ws.onmessage = async ({ data }) => {
+            if (data instanceof ArrayBuffer) {
+              const msg = schema.res.unpack(new Uint8Array(data));
+              if (msg.result) queue[msg.id].resolve(msg.result);
+              else if (msg.error) queue[msg.id].reject(msg.reject);
+              delete queue[msg.id];
+            }
+          };
+          ws.onclose = connect;
+          ws.onerror = connect;
+        } catch (e: any) {
+          connect();
+        }
+        retry++;
+      }, 300);
+    };
+    connect();
+  });
 };
-init();
+await init();
 
 await Promise.all([frontend.exited, tailwind.exited, backend.exited]);

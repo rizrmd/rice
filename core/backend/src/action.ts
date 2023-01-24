@@ -6,9 +6,12 @@ import {
   JsonRpcRequest,
   JsonRpcResponse,
 } from "rpc";
+import { state } from "./state.js";
 
 export const actions = {
   initFE({ url }: { url: string }) {
+    state.frontend.url = new URL(url);
+    state.frontend.url.pathname = "";
     console.log(url);
   },
 };
