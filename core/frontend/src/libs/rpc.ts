@@ -1,6 +1,7 @@
 import { client, ClientQueue, schema } from "backend";
 
 export const initRPC = () => {
+  return;
   const ws = new WebSocket("ws://localhost:12345");
   const queue: ClientQueue = {};
   ws.onopen = async () => {
@@ -14,6 +15,6 @@ export const initRPC = () => {
       delete queue[msg.id];
     }
   };
-  ws.onclose = initRPC;
-  ws.onerror = initRPC;
+  ws.onclose = () => setTimeout(initRPC, 1000);
+  ws.onerror = () => setTimeout(initRPC, 1000);
 };

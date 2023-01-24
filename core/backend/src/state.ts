@@ -4,6 +4,7 @@ const defaultState = {
   frontend: {
     url: null as null | URL,
   },
+  pathCache: {} as Record<string, true>,
 };
 
 export const initState = () => {

@@ -1,17 +1,23 @@
 import { css } from "goober";
 import { useGlobal } from "../../libs/use-global";
-import { StateBar } from "../../state/bar";
+import { state_app } from "../../state/app";
+import { state_bar } from "../../state/bar";
 
 export const Bar = () => {
-  const bar = useGlobal(StateBar);
+  const app = useGlobal(state_app);
+  const bar = useGlobal(state_bar);
+  console.log("bar");
+
   return (
     <div
-    key={123}
+      key={123}
       className={css`
         background-color: ${bar.bg.color};
         backdrop-filter: blur(${bar.bg.blur});
         flex-basis: ${bar.size};
       `}
-    ></div>
+    >
+      {app.running.length}
+    </div>
   );
 };

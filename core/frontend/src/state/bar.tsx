@@ -1,4 +1,4 @@
-const defaultBar = {
+export const state_bar = {
   position: "top" as "top" | "left" | "bottom" | "right",
   size: "35px",
   bg: {
@@ -6,5 +6,3 @@ const defaultBar = {
     color: "rgba(0,0,0,.5)",
   },
 };
-export const TStateBar = typeof defaultBar;
-export const StateBar = { ...defaultBar };

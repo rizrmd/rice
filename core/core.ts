@@ -1,5 +1,6 @@
 import { client, ClientQueue, schema } from "backend";
 import { spawn, spawnSync } from "bun";
+import open from "open";
 import { join } from "path";
 
 const dec = new TextDecoder();
@@ -13,13 +14,16 @@ for (const dir of dirs) {
   // }
 }
 
+const cmd = ["bun", "dev", "-p", "12340"];
 const frontend = spawn({
-  cmd: ["bun", "dev", "-p", "12340", "--public-dir", "./"],
+  cmd,
   cwd: join(import.meta.dir, "frontend"),
   stdin: null,
   stdout: "pipe",
   stderr: "pipe",
 });
+
+// console.log(cmd.join(' '))
 
 let frontEndURL = "";
 if (frontend.stderr) {
@@ -79,7 +83,11 @@ const init = () => {
           const queue: ClientQueue = {};
           ws.onopen = async () => {
             const c = client(ws, queue);
-            c.initFE({ url: frontEndURL });
+            await c.initFE({ url: frontEndURL });
+
+            const url = "http://localhost:12345";
+            console.log(url);
+            open(url);
             resolve();
           };
           ws.onmessage = async ({ data }) => {
