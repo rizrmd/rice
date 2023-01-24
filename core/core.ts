@@ -1,5 +1,6 @@
 import type { ClientQueue } from "backend";
 import { spawn, spawnSync } from "bun";
+import { unlinkSync } from "fs";
 import { join } from "path";
 
 const arg = process.argv.pop();
@@ -9,8 +10,17 @@ const dirs = {
   "": "",
   frontend: "src/main/index.tsx",
   backend: "src/index.ts",
-  rpc: "src/idnex.ts",
+  rpc: "src/index.ts",
 };
+
+if (arg === "r") {
+  for (const [dir, main] of Object.entries(dirs)) {
+    try {
+      unlinkSync(join(import.meta.dir, dir, "node_modules.bun"));
+    } catch (e) {}
+  }
+  process.exit();
+}
 
 if (arg === "i") {
   for (const [dir, main] of Object.entries(dirs)) {
@@ -30,6 +40,7 @@ if (arg === "i") {
       stderr: "inherit",
     });
   }
+  process.exit();
 }
 const open = await import("open");
 const { client, schema } = await import("./backend/src/action");
