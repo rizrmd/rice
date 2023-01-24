@@ -3,12 +3,16 @@ import { createRoot } from "react-dom/client";
 import { Main } from "../element/main";
 import { useLocal } from "../libs/use-local";
 
-import { } from "backend";
+import {} from "backend";
 
 import "./index.compiled.css";
+import { initRPC } from "../libs/rpc";
 
 //@ts-ignore
 const container = document.getElementById("root");
+
+initRPC();
+
 if (container) {
   const root = createRoot(container);
 

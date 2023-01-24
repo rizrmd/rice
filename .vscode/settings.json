@@ -7,7 +7,9 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/bun.lockb": true,
-    "**/node_modules": true
+    "**/node_modules": true,
+    ".vscode": true,
+    ".gitignore": true
   },
   "hide-files.files": [
     ".gitignore",

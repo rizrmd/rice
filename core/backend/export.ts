@@ -1,31 +1,58 @@
 import cuid from "cuid";
+import { Packr } from "msgpackr";
+import {
+  createJsonRpcClient,
+  Handlers,
+  JsonRpcRequest,
+  JsonRpcResponse,
+} from "rpc";
 
-type Item = { attr: string };
-const items = new Map<string, Item>();
-
-export const api = {
-  async hello(greeting: string) {
-    return greeting + " World";
+export const actions = {
+  initFE({ url }: { url: string }) {
+    console.log(url);
   },
-  // you can nest and regroup methods
-  foo: {
-    bar: {
-      baz: {
-        async create(item: Item) {
-          const id = cuid();
-          items.set(id, item);
-          return id;
-        },
-        async read(id: string) {
-          return items.get(id);
-        },
-        async update(id: string, item: Item) {
-          items.set(id, item);
-        },
-        async delete(id: string) {
-          items.delete(id);
-        },
-      },
+};
+
+const structures = {
+  req: [["type", "method", "params", "id"]],
+  res: [["id", "result", "error"]],
+};
+export const schema = {
+  req: new Packr({
+    bundleStrings: true,
+    structures: structures.req,
+    maxSharedStructures: structures.req.length,
+  }),
+  res: new Packr({
+    bundleStrings: true,
+    structures: structures.res,
+    maxSharedStructures: structures.res.length,
+  }),
+};
+export type ClientQueue = Record<
+  string,
+  {
+    method: string;
+    resolve: (value: any) => void;
+    reject: (reason: any) => void;
+  }
+>;
+export const client = (ws: WebSocket, queue: ClientQueue) => {
+  const sender = {
+    sendRequest(req: JsonRpcRequest & { id: string }) {
+      const id = cuid();
+      return new Promise<JsonRpcResponse>(async (resolve, reject) => {
+        queue[id] = { method: req.method, resolve, reject };
+        ws.send(
+          schema.req.pack({
+            type: "action",
+            method: req.method,
+            params: req.params,
+            id,
+          })
+        );
+      });
     },
-  },
+  };
+  return createJsonRpcClient<Handlers<typeof actions>>(sender);
 };

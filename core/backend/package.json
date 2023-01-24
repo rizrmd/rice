@@ -1,16 +1,15 @@
 {
   "name": "backend",
+  "main": "export.ts",
   "module": "export.ts",
   "type": "module",
   "devDependencies": {
     "bun-types": "^0.4.0"
   },
   "dependencies": {
+    "msgpackr": "^1.8.1",
     "cors": "^2.8.5",
     "cuid": "^2.1.8"
   },
-  "workspaces": [
-    "../rpc",
-    "../frontend"
-  ]
+  "workspaces": []
 }
