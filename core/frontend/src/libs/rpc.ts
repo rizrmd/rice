@@ -1,7 +1,6 @@
 import { client, ClientQueue, schema } from "backend";
 
 export const initRPC = () => {
-  return;
   const ws = new WebSocket("ws://localhost:12345");
   const queue: ClientQueue = {};
   ws.onopen = async () => {

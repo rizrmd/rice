@@ -9,7 +9,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "latest",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "msgpackr": "^1.8.1"
   },
   "workspaces": [],
   "eslintConfig": {

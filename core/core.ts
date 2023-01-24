@@ -1,9 +1,9 @@
 import type { ClientQueue } from "backend";
 import { spawn, spawnSync } from "bun";
-import { unlinkSync } from "fs";
+import { existsSync, rmSync } from "fs";
 import { join } from "path";
 
-const arg = process.argv.pop();
+let arg = process.argv.pop();
 
 const dec = new TextDecoder();
 const dirs = {
@@ -16,13 +16,20 @@ const dirs = {
 if (arg === "r") {
   for (const [dir, main] of Object.entries(dirs)) {
     try {
-      unlinkSync(join(import.meta.dir, dir, "node_modules.bun"));
+      rmSync(join(import.meta.dir, dir, "node_modules"), {
+        recursive: true,
+        force: true,
+      });
     } catch (e) {}
+    // try {
+    //   unlinkSync(join(import.meta.dir, dir, "node_modules.bun"));
+    // } catch (e) {}
   }
   process.exit();
 }
 
-if (arg === "i") {
+if (arg === "i" || !existsSync(join(import.meta.dir, "node_modules"))) {
+  console.log("Installing dependencies:\n");
   for (const [dir, main] of Object.entries(dirs)) {
     spawnSync({
       cmd: ["bun", "i"],
@@ -32,18 +39,23 @@ if (arg === "i") {
       stderr: "inherit",
     });
 
-    spawnSync({
-      cmd: ["bun", "bun", join(import.meta.dir, dir, main)],
-      cwd: join(import.meta.dir, dir),
-      stdin: "inherit",
-      stdout: "inherit",
-      stderr: "inherit",
-    });
+    // spawnSync({
+    //   cmd: ["bun", "bun", join(import.meta.dir, dir, main)],
+    //   cwd: join(import.meta.dir, dir),
+    //   stdin: "inherit",
+    //   stdout: "inherit",
+    //   stderr: "inherit",
+    // });
   }
+  console.log(`\n
+Done
+
+== Please run ./rice again ==
+`);
   process.exit();
 }
-const open = await import("open");
-const { client, schema } = await import("./backend/src/action");
+
+const { client, schema } = await import("./backend/src/export");
 
 const cmd = ["bun", "dev", "-p", "12340"];
 const frontend = spawn({
@@ -116,9 +128,6 @@ const init = () => {
             const c = client(ws, queue);
             await c.initFE({ url: frontEndURL });
 
-            const url = "http://localhost:12345";
-            console.log(url);
-            open(url);
             resolve();
           };
           ws.onmessage = async ({ data }) => {

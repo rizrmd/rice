@@ -1,12 +1,13 @@
 {
   "name": "backend",
-  "main": "./src/action.ts",
-  "module": "./src/action.ts",
+  "main": "./src/export.ts",
+  "module": "./src/export.ts",
   "type": "module",
   "devDependencies": {
     "bun-types": "^0.4.0"
   },
   "dependencies": {
+    "open": "^8.4.0",
     "binaryextensions": "^4.18.0",
     "textextensions": "^5.14.0",
     "msgpackr": "^1.8.1",
