@@ -1,18 +1,34 @@
-import { client, ClientQueue, schema } from "backend";
 import { spawn, spawnSync } from "bun";
-import open from "open";
+import { existsSync } from "fs";
 import { join } from "path";
 
 const dec = new TextDecoder();
-const dirs = ["", "frontend", "backend", "rpc"];
-for (const dir of dirs) {
-  // if (!existsSync(join(import.meta.dir, dir, "node_modules"))) {
+const dirs = {
+  "": "",
+  frontend: "src/main/index.tsx",
+  backend: "src/index.ts",
+  rpc: "src/idnex.ts",
+};
+for (const [dir, main] of Object.entries(dirs)) {
   spawnSync({
     cmd: ["bun", "i"],
     cwd: join(import.meta.dir, dir),
+    stdin: "inherit",
+    stdout: "ignore",
+    stderr: "ignore",
   });
-  // }
+
+  // spawnSync({
+  //   cmd: ["bun", "bun", join(import.meta.dir, dir, main)],
+  //   cwd: join(import.meta.dir, dir),
+  //   stdin: "inherit",
+  //   stdout: "ignore",
+  //   stderr: "ignore",
+  // });
 }
+const open = await import("open");
+import type { ClientQueue } from "backend";
+const { client, schema } = await import("./backend/src/action");
 
 const cmd = ["bun", "dev", "-p", "12340"];
 const frontend = spawn({
