@@ -1,5 +1,7 @@
+import { bg, UnitBg } from "./unit/bg";
+
 export const state_desktop = {
-  bg: {
-    img: "0px",
-  },
+  bg: bg.use({
+    img: "/user/pictures/bg.jpg",
+  }),
 };

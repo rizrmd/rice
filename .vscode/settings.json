@@ -5,7 +5,12 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/Thumbs.db": true
+    "**/Thumbs.db": true,
+    "**/node_modules": true,
+    "**/bun.lockb": true,
+    "**/tsconfig.json": true,
+    "**/go.sum": true,
+    ".vscode": true
   },
   "hide-files.files": []
 }

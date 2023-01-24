@@ -8,8 +8,8 @@
   "workspaces": [
     "backend",
     "frontend",
-    "rpc"
+    "rpc",
+    "rice"
   ],
-  "dependencies": {
-  }
+  "dependencies": {}
 }

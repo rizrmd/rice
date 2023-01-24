@@ -2,14 +2,15 @@ import { createContext } from "react";
 import { createRoot } from "react-dom/client";
 import { Main } from "../element/main";
 import { useLocal } from "../libs/use-local";
-
-import {} from "backend";
+import react from "react";
 
 import "./index.compiled.css";
 import { initRPC } from "../libs/rpc";
 
 //@ts-ignore
 const container = document.getElementById("root");
+
+(window as any).react = react;
 
 initRPC();
 

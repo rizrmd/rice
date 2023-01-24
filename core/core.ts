@@ -35,8 +35,8 @@ if (arg === "i" || !existsSync(join(import.meta.dir, "node_modules"))) {
       cmd: ["bun", "i"],
       cwd: join(import.meta.dir, dir),
       stdin: "inherit",
-      stdout: "inherit",
-      stderr: "inherit",
+      stdout: "ignore",
+      stderr: "ignore",
     });
 
     // spawnSync({
@@ -65,8 +65,6 @@ const frontend = spawn({
   stdout: "pipe",
   stderr: "pipe",
 });
-
-// console.log(cmd.join(' '))
 
 let frontEndURL = "";
 if (frontend.stderr) {
