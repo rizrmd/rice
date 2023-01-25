@@ -1,5 +1,6 @@
 import { css } from "goober";
 import { cx } from "src/libs/cx";
+import { pick } from "src/libs/pick";
 import { bg } from "src/state/unit/bg";
 import { useGlobal } from "../../libs/use-global";
 import { state_app } from "../../state/app";
@@ -12,6 +13,13 @@ export const Bar = () => {
   return (
     <div
       className={cx(
+        "flex",
+        pick(bar.position, {
+          top: "flex-row",
+          left: "flex-col",
+          bottom: "flex-col",
+          right: "flex-row",
+        }),
         css`
           flex-basis: ${bar.size};
         `,
@@ -21,6 +29,39 @@ export const Bar = () => {
         e.preventDefault();
         e.stopPropagation();
       }}
-    ></div>
+    >
+      {bar.app.map((item) => {
+        return (
+          <iframe
+            className={cx(
+              pick(bar.position, {
+                top: css`
+                  width: ${item.size};
+                  height: ${bar.size};
+                `,
+                left: css`
+                  width: ${bar.size};
+                  height: ${item.size};
+                `,
+                bottom: css`
+                  width: ${item.size};
+                  height: ${bar.size};
+                `,
+                right: css`
+                  width: ${bar.size};
+                  height: ${item.size};
+                `,
+              }),
+              css`
+                overflow: hidden;
+              `
+            )}
+            src={`/app/${item.name}/bar`}
+            key={item.name}
+            ref={(e) => (item.iframe = e)}
+          />
+        );
+      })}
+    </div>
   );
 };

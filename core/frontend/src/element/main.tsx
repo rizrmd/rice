@@ -1,4 +1,4 @@
-import { css } from "goober";
+import { state_app } from "src/state/app";
 import { state_desktop } from "src/state/desktop";
 import { bg } from "src/state/unit/bg";
 import { cx } from "../libs/cx";
@@ -6,11 +6,17 @@ import { pick } from "../libs/pick";
 import { useGlobal } from "../libs/use-global";
 import { state_bar } from "../state/bar";
 import { Bar } from "./bar/bar";
+import { Boot } from "./boot";
 import { Desktop } from "./desktop/desktop";
 
 export const Main = () => {
   const bar = useGlobal(state_bar);
+  const app = useGlobal(state_app);
   const desktop = useGlobal(state_desktop);
+
+  if (desktop.booting) {
+    return <Boot />;
+  }
 
   return (
     <div

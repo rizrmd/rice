@@ -1,5 +1,4 @@
 {
   "name": "rice",
-  "main": "index.tsx",
-  "dependencies": {}
+  "main": "index.tsx"
 }

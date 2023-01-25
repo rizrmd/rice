@@ -46,10 +46,16 @@ export const useGlobal = <T extends object>(
   }, []);
 
   const res = global.get(defaultValue);
+  (defaultValue as any)._ref = global.get(defaultValue);
+
   res.render = () => {
     ctx.render.forEach((render) => {
       render({});
     });
   };
   return res;
+};
+
+export const declareGlobal = <T>(arg: T) => {
+  return arg as T & { _ref: T & { render: () => void } };
 };

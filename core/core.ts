@@ -69,23 +69,25 @@ const frontend = spawn({
 let frontEndURL = "";
 if (frontend.stderr) {
   const reader = frontend.stderr.getReader();
-  while (true) {
-    const { done, value } = await reader.read();
-    const text = dec.decode(value);
-    // process.stdout.write(text);
-    if (text.includes("Link: ")) {
-      frontEndURL = text.split("Link: ")[1].split("\n").shift() || "";
-      break;
+  new Promise(async () => {
+    while (true) {
+      const { done, value } = await reader.read();
+      const text = dec.decode(value);
+      if (frontEndURL) process.stdout.write(text);
+      if (text.includes("Link: ")) {
+        frontEndURL = text.split("Link: ")[1].split("\n").shift() || "";
+        break;
+      }
+      if (done) {
+        break;
+      }
     }
-    if (done) {
-      break;
-    }
-  }
+  });
 }
 
 const tailwind = spawn({
   cmd: [
-    "node",
+    "node", // bun ga bisa ngewatch fs >.<, jadi kalau di save ga ngebuild
     join(import.meta.dir, "frontend", "node_modules", ".bin", "tailwindcss"),
     "-i",
     "./src/main/index.css",

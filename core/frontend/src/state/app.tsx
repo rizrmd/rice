@@ -1,14 +1,9 @@
-import { createContext } from "react";
-import { AppContext, AppInfo } from "rice";
-import launcher from "../../../../app/launcher";
+import { AppInfo } from "rice";
+import { declareGlobal } from "src/libs/use-global";
 
-
-export const state_app = {
-  installed: [launcher] as AppInfo[],
-  running: [
-    { pid: "123", ctx: createContext({ ...launcher, pid: "123" }) },
-  ] as {
+export const state_app = declareGlobal({
+  installed: {} as Record<string, AppInfo>,
+  running: [] as (AppInfo & {
     pid: string;
-    ctx: AppContext;
-  }[],
-};
+  })[],
+});

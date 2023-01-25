@@ -1,10 +1,23 @@
+import { Subprocess } from "bun";
+import { ChildProcess } from "child_process";
+import { app } from "rice";
 export const state = globalThis as unknown as typeof defaultState;
 
 const defaultState = {
+  rice: {
+    url: new URL("http://localhost:12345"),
+  },
   frontend: {
     url: null as null | URL,
   },
-  pathCache: {} as Record<string, true>,
+  app: {} as Record<
+    string,
+    {
+      info: ReturnType<typeof app>;
+      bar?: string;
+      app?: string
+    }
+  >,
 };
 
 export const initState = () => {
