@@ -1,4 +1,4 @@
-type AppURL = string;
+import { _rice } from "inject";
 
 export type AppInfo = {
   name: string;
@@ -20,3 +20,7 @@ export type AppInfo = {
 export const app = (arg: AppInfo) => {
   return arg;
 };
+
+declare global {
+  const rice: typeof _rice;
+}

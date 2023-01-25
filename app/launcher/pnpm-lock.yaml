@@ -8,6 +8,7 @@ specifiers:
   process: ^0.11.10
   react: ^18.2.0
   react-dom: ^18.2.0
+  rice: ../../core/rice
 
 dependencies:
   '@types/react': 18.0.27
@@ -16,6 +17,7 @@ dependencies:
   goober: 2.1.11_csstype@3.1.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  rice: link:../../core/rice
 
 devDependencies:
   process: 0.11.10

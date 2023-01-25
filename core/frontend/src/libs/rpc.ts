@@ -1,5 +1,5 @@
 import { client, ClientQueue, schema } from "backend";
-import { state_app } from "src/state/app";
+import { AppRunning, state_app } from "src/state/app";
 import { state_desktop } from "src/state/desktop";
 import { w } from "./w";
 
@@ -13,7 +13,22 @@ export const initRPC = () => {
   ws.onopen = async () => {
     w.rpc = client(ws, queue);
 
-    state_app._ref.installed = await w.rpc.apps();
+    const apps = await w.rpc.apps();
+
+    if (Object.keys(state_app.installed).length === 0) {
+      for (const [k, v] of Object.entries(apps)) {
+        state_app.installed[k] = v;
+
+        if (state_app.startup.includes(k)) {
+          const app: AppRunning = v as any;
+          app.iframe = document.createElement("iframe");
+          app.iframe.src = `/app/${app.name}`;
+          app.iframe.id = `app-${app.name}`;
+          document.body.append(app.iframe);
+          state_app.running.push(app);
+        }
+      }
+    }
 
     state_desktop._ref.booting = false;
     state_desktop._ref.render();

@@ -47,12 +47,17 @@ export const frontEndProxy = async (url: URL) => {
         if (pathname === "/bun:wrap") {
           text = text.replace(
             'new URL(location.origin+"/bun:_api.hmr");',
-            `new URL("${feurl}bun:_api.hmr");if (!window.bun_hmr_retry) window.bun_hmr_retry = 1; window.bun_hmr_retry++;if (window.bun_hmr_retry > 5) return;`
+            `\
+new URL("${feurl}bun:_api.hmr");
+if (!window.bun_hmr_retry) window.bun_hmr_retry = 1;
+window.bun_hmr_retry++;
+
+if (window.bun_hmr_retry > 5) return;`
           );
-          text = text.replace(
-            `L.log("Live reload connected in",e(S-Q),"ms");`,
-            `console.clear();L.log("Live reload connected in",e(S-Q),"ms");`
-          );
+          // text = text.replace(
+          //   `L.log("Live reload connected in",e(S-Q),"ms");`,
+          //   `console.clear();L.log("Live reload connected in",e(S-Q),"ms");`
+          // );
         } else {
           text = text.replaceAll(feurl, beurl);
           text = text.replaceAll(ofeurl, beurl);

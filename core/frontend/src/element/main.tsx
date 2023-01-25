@@ -11,7 +11,7 @@ import { Desktop } from "./desktop/desktop";
 
 export const Main = () => {
   const bar = useGlobal(state_bar);
-  const _ = useGlobal(state_app);
+  const _ = useGlobal(state_app); // required to re-render on app change
   const desktop = useGlobal(state_desktop);
 
   if (desktop.booting) {

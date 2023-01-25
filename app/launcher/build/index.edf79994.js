@@ -2927,26 +2927,35 @@ try {
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _client = require("react-dom/client");
 var _goober = require("goober");
+var _rice = require("rice");
 const container = document.getElementById("app");
 const root = (0, _client.createRoot)(container);
-root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-    className: (0, _goober.css)`
-      color: white;
-      font-size: 9px;
-    `,
-    children: "Halo sodara"
-}, void 0, false, {
-    fileName: "src/index.tsx",
-    lineNumber: 7,
-    columnNumber: 3
-}, undefined));
+switch(rice.mode){
+    case "init":
+        break;
+    case "bar":
+        break;
+    case "app":
+        root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: (0, _goober.css)`
+            color: white;
+            font-size: 9px;
+          `,
+            children: "Halo sodara"
+        }, void 0, false, {
+            fileName: "src/index.tsx",
+            lineNumber: 19,
+            columnNumber: 9
+        }, undefined));
+        break;
+}
 
   $parcel$ReactRefreshHelpers$2a8f.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"hce59","react-dom/client":"6ixee","goober":"crJDf","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"hce59":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"hce59","react-dom/client":"6ixee","goober":"crJDf","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","rice":"xrjVv"}],"hce59":[function(require,module,exports) {
 "use strict";
 module.exports = require("3f3fa948097fa3ee");
 
@@ -27383,6 +27392,14 @@ function registerExportsForReactRefresh(module1) {
     }
 }
 
-},{"57d7857198673997":"5sxsY"}]},["3kpDH","l2FR1","4aBH6"], "4aBH6", "parcelRequirea9bf")
+},{"57d7857198673997":"5sxsY"}],"xrjVv":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "app", ()=>app);
+const app = (arg)=>{
+    return arg;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}]},["3kpDH","l2FR1","4aBH6"], "4aBH6", "parcelRequirea9bf")
 
 //# sourceMappingURL=index.edf79994.js.map

@@ -3,7 +3,7 @@ import { existsSync, statSync } from "fs";
 import { readFile } from "fs/promises";
 import { join, resolve } from "path";
 import { state } from "../state";
-import { indexRewrite } from "./index-rewrite";
+import { injectIndex } from "./inject";
 import { frontEndProxy, proxy } from "./proxy";
 const root = join(import.meta.dir, "..", "..", "..", "..");
 
@@ -33,7 +33,9 @@ export const http = async (req: Request, server: Server) => {
         } else {
           const src = app.info.src;
 
-          const mode = q === "?bar" ? "bar" : "app";
+          let mode: Parameters<typeof injectIndex>[1] = "init";
+          if (q === "?bar") mode = "bar";
+          if (q === "?frame") mode = "frame";
 
           if (src.type === "file") {
             const base = join(root, "app", appName);
@@ -48,9 +50,9 @@ export const http = async (req: Request, server: Server) => {
             return proxy([src.url, path].join("/"));
           }
 
-          await indexRewrite(appName, mode);
+          await injectIndex(appName, mode);
 
-          return new Response(app.html[mode], {
+          return new Response(app.html, {
             headers: {
               "content-type": "text/html",
             },

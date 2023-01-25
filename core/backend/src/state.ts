@@ -14,10 +14,7 @@ const defaultState = {
     string,
     {
       info: ReturnType<typeof app>;
-      html: {
-        app: string;
-        bar: string;
-      };
+      html: string;
     }
   >,
 };
