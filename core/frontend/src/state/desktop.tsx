@@ -5,5 +5,6 @@ export const state_desktop = declareGlobal({
   booting: true,
   bg: bg.use({
     img: "/user/pictures/bg.jpg",
+    color: "#0a1a20",
   }),
 });

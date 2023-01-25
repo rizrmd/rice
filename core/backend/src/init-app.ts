@@ -1,9 +1,7 @@
-import { spawn, which } from "bun";
 import { existsSync, readdirSync, statSync } from "fs";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { app } from "rice";
-import { readStream } from "./libs/read-stream";
 import { state } from "./state";
 
 export const initApp = async () => {
@@ -21,17 +19,12 @@ export const initApp = async () => {
 
       try {
         const info = (await import(appPath)).default as ReturnType<typeof app>;
-
-        let bar = "";
-        if (info.bar) {
-          if (existsSync(join(path, info.bar.src))) {
-            bar = await readFile(join(path, info.bar.src), "utf-8");
-          }
-        }
-
         state.app[appName] = {
           info,
-          bar
+          html: {
+            app: "",
+            bar: "",
+          },
         };
       } catch (e) {
         console.log(`Error when booting app "${appName}":\n`, e);

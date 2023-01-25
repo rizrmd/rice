@@ -4,7 +4,7 @@ import { state_desktop } from "src/state/desktop";
 import { w } from "./w";
 
 export const initRPC = () => {
-  const ws = new WebSocket("ws://localhost:12345");
+  const ws = new WebSocket("ws://localhost:12345/rice:rpc");
   const queue: ClientQueue = {};
   ws.onopen = async () => {
     w.rpc = client(ws, queue);

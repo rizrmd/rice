@@ -56,7 +56,7 @@ export const Bar = () => {
                 overflow: hidden;
               `
             )}
-            src={`/app/${item.name}/bar`}
+            src={`/app/${item.name}/index?bar`}
             key={item.name}
             ref={(e) => (item.iframe = e)}
           />

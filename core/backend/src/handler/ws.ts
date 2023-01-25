@@ -3,23 +3,35 @@ import { createRequestHandler, Handlers, RequestHandler } from "rpc";
 import { Action, action } from "../action";
 import { schema } from "../export";
 
-const clients = new WeakMap<ServerWebSocket, RequestHandler>();
-export const ws: WebSocketHandler<any> = {
+const clients = new WeakMap<ServerWebSocket<{ url: string }>, RequestHandler>();
+export const ws: WebSocketHandler<{ url: string }> = {
   open(ws) {
+    const { url } = ws.data;
     ws.subscribe("all");
-    clients.set(ws, createRequestHandler<Handlers<Action>>(action));
+
+    if (url.includes("rice:rpc")) {
+      clients.set(ws, createRequestHandler<Handlers<Action>>(action));
+    }
   },
   async message(ws, raw) {
-    if (raw instanceof Uint8Array) {
-      const msg = schema.req.unpack(raw);
+    const { url } = ws.data;
 
-      const handler = clients.get(ws);
-      const res = await handler?.handleRequest(msg);
+    if (url.includes("rice:rpc")) {
+      if (raw instanceof Uint8Array) {
+        const msg = schema.req.unpack(raw);
 
-      ws.send(schema.res.pack(res));
+        const handler = clients.get(ws);
+        const res = await handler?.handleRequest(msg);
+
+        ws.send(schema.res.pack(res));
+      }
     }
   },
   close(ws) {
-    clients.delete(ws);
+    const { url } = ws.data;
+
+    if (url.includes("rice:rpc")) {
+      clients.delete(ws);
+    }
   },
 };

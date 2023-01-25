@@ -122,7 +122,7 @@ const init = () => {
           return;
         }
         try {
-          const ws = new WebSocket("ws://localhost:12345");
+          const ws = new WebSocket("ws://localhost:12345/rice:rpc");
           const queue: ClientQueue = {};
           ws.onopen = async () => {
             const c = client(ws, queue);

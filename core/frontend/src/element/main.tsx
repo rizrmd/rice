@@ -11,7 +11,7 @@ import { Desktop } from "./desktop/desktop";
 
 export const Main = () => {
   const bar = useGlobal(state_bar);
-  const app = useGlobal(state_app);
+  const _ = useGlobal(state_app);
   const desktop = useGlobal(state_desktop);
 
   if (desktop.booting) {

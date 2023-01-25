@@ -43,8 +43,21 @@ export const frontEndProxy = async (url: URL) => {
 
       if (shouldReplace) {
         let text = dec.decode(buf);
-        text = text.replaceAll(feurl, beurl);
-        text = text.replaceAll(ofeurl, beurl);
+
+        if (pathname === "/bun:wrap") {
+          text = text.replace(
+            'new URL(location.origin+"/bun:_api.hmr")',
+            `new URL("${feurl}bun:_api.hmr")`
+          );
+          text = text.replace(
+            `L.log("Live reload connected in",e(S-Q),"ms");`,
+            `console.clear();L.log("Live reload connected in",e(S-Q),"ms");`
+          );
+        } else {
+          text = text.replaceAll(feurl, beurl);
+          text = text.replaceAll(ofeurl, beurl);
+        }
+
         return new Response(text, {
           headers: res.headers,
           status: res.status,
@@ -56,11 +69,7 @@ export const frontEndProxy = async (url: URL) => {
   }
 };
 
-export const proxy = async (
-  to: string,
-  base: string,
-  alternateTo: string[]
-) => {
+export const proxy = async (to: string) => {
   const res = await fetch(to);
   const final = res.clone();
   const reader = res.body?.getReader();
@@ -86,19 +95,6 @@ export const proxy = async (
 
     if (shouldReplace) {
       let text = dec.decode(buf);
-      text = text.replaceAll(`href="/`, `href="${base}`);
-      text = text.replaceAll(`src="/`, `src="${base}`);
-
-      const tourl = new URL(to);
-      tourl.pathname = "";
-      text = text.replaceAll(tourl.toString(), base);
-
-      console.log(tourl.toString(), base, alternateTo);
-      if (alternateTo) {
-        for (const url of alternateTo) {
-          text = text.replaceAll(url, base);
-        } 
-      }
 
       return new Response(text, {
         headers: res.headers,

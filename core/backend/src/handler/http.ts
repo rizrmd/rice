@@ -1,12 +1,20 @@
 import { file, Server } from "bun";
-import { existsSync } from "fs";
+import { existsSync, statSync } from "fs";
+import { readFile } from "fs/promises";
 import { join, resolve } from "path";
 import { state } from "../state";
-import { frontEndProxy } from "./proxy";
+import { indexRewrite } from "./index-rewrite";
+import { frontEndProxy, proxy } from "./proxy";
 const root = join(import.meta.dir, "..", "..", "..", "..");
 
 export const http = async (req: Request, server: Server) => {
-  if (server.upgrade(req)) {
+  if (
+    server.upgrade(req, {
+      data: {
+        url: req.url,
+      },
+    })
+  ) {
     return;
   }
   if (state.frontend.url) {
@@ -14,6 +22,7 @@ export const http = async (req: Request, server: Server) => {
     const path = url.pathname;
 
     if (path.startsWith("/app/")) {
+      const q = url.search;
       const [_, appName, part, ...pathname] = path.split("/").filter((e) => e);
 
       const app = state.app[appName];
@@ -21,15 +30,30 @@ export const http = async (req: Request, server: Server) => {
         if (part === "icon") {
           const iconPath = join(root, "app", appName, app.info.icon);
           if (existsSync(iconPath)) return new Response(file(iconPath));
-        } else if (part === "bar") {
-          if (app.bar) {
-            return new Response(app.bar, {
-              headers: { "content-type": "text/html" },
-            });
+        } else {
+          const src = app.info.src;
+
+          const mode = q === "?bar" ? "bar" : "app";
+
+          if (src.type === "file") {
+            const base = join(root, "app", appName);
+
+            const path = join(base, src.basedir, part, ...pathname);
+            try {
+              if (statSync(path).isFile()) {
+                return new Response(file(path));
+              }
+            } catch (e) {}
+          } else if (src.type === "url") {
+            return proxy([src.url, path].join("/"));
           }
 
-          return new Response(`Bar "${appName}" Not Found`, {
-            status: 404,
+          await indexRewrite(appName, mode);
+
+          return new Response(app.html[mode], {
+            headers: {
+              "content-type": "text/html",
+            },
           });
         }
       }

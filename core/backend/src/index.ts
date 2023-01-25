@@ -1,5 +1,5 @@
 import { serve } from "bun";
-import { initApp } from "./boot";
+import { initApp } from "./init-app";
 import { handler } from "./handler/handler";
 import { initState, state } from "./state";
 

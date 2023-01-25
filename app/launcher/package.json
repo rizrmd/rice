@@ -1,0 +1,17 @@
+{
+  "name": "launcher",
+  "scripts": {
+    "dev": "parcel src/index.html --public-url=/app/launcher",
+    "build": "rm -rf dist && parcel build src/index.html --public-url=/app/launcher"
+  },
+  "dependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "goober": "^2.1.11",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
+  }
+}
