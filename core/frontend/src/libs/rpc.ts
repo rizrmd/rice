@@ -3,7 +3,11 @@ import { state_app } from "src/state/app";
 import { state_desktop } from "src/state/desktop";
 import { w } from "./w";
 
+let retry = 0;
 export const initRPC = () => {
+  retry++;
+
+  if (retry > 5) return;
   const ws = new WebSocket("ws://localhost:12345/rice:rpc");
   const queue: ClientQueue = {};
   ws.onopen = async () => {
