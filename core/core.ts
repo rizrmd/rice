@@ -1,6 +1,6 @@
 import type { ClientQueue } from "backend";
 import { spawn, spawnSync } from "bun";
-import { existsSync, rmSync } from "fs";
+import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
 
 let arg = process.argv.pop();
@@ -29,7 +29,21 @@ if (arg === "r") {
 }
 
 if (arg === "i" || !existsSync(join(import.meta.dir, "node_modules"))) {
-  console.log("Installing dependencies:\n");
+  console.log("Installing dependencies...");
+
+  const appDir = join(import.meta.dir, "..", "app");
+  for (const dir of readdirSync(appDir)) {
+    if (statSync(join(appDir, dir)).isDirectory()) {
+      spawnSync({
+        cmd: ["bun", "i"],
+        cwd: join(appDir, dir),
+        stdin: "inherit",
+        stdout: "ignore",
+        stderr: "ignore",
+      });
+    }
+  }
+
   for (const [dir, main] of Object.entries(dirs)) {
     spawnSync({
       cmd: ["bun", "i"],
@@ -47,7 +61,7 @@ if (arg === "i" || !existsSync(join(import.meta.dir, "node_modules"))) {
     //   stderr: "inherit",
     // });
   }
-  console.log(`\n
+  console.log(`
 Done
 
 == Please run ./rice again ==
