@@ -30,7 +30,7 @@ export const Bar = () => {
         e.stopPropagation();
       }}
     >
-      {bar.app.map((item) => {
+      {/* {bar.app.map((item) => {
         return (
           <iframe
             className={cx(
@@ -61,7 +61,7 @@ export const Bar = () => {
             ref={(e) => (item.iframe = e)}
           />
         );
-      })}
+      })} */}
     </div>
   );
 };

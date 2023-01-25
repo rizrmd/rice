@@ -1,7 +1,0 @@
-{
-  "name": "app",
-  "workspaces": [
-    "../core/rice",
-    "./launcher"
-  ]
-}

@@ -11,9 +11,9 @@ export const initApp = async () => {
     if (appName === "node_modules") continue;
     const path = join(root, "app", appName);
     if (statSync(path).isDirectory()) {
-      const appPath = join(path, "app.tsx");
+      const appPath = join(path, "app.ts");
       if (!existsSync(appPath)) {
-        console.log(`ERRROR: app.tsx in "${appName}" app is not found.`);
+        console.log(`ERRROR: app.ts in "${appName}" app is not found.`);
         continue;
       }
 
