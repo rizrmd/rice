@@ -1,4 +1,4 @@
-import { _rice } from "inject";
+import type { _rice } from "inject";
 
 export type AppInfo = {
   name: string;

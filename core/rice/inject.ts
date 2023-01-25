@@ -1,7 +1,5 @@
 const w: any = window;
 export const _rice = {
-  //@ts-ignore
-  mode: $CURRENT_MODE as "bar" | "frame" | "init",
   bar: {
     start: (arg: { size: string; position: "start" | "center" | "end" }) => {},
   },

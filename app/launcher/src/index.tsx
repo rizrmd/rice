@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { css } from "goober";
-import "rice";
+import "rice/inject";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
