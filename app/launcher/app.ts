@@ -1,5 +1,5 @@
-import { app } from "rice";
-export default app({
+import { createApp } from "rice";
+export default createApp({
   name: "launcher",
   title: "Launcher",
   icon: "/src/logo192.png",

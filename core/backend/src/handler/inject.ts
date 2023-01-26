@@ -3,13 +3,13 @@ import { existsSync } from "fs";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { backend_state } from "../state";
-import { rice } from "rice";
+import { app } from "rice";
 const root = join(import.meta.dir, "..", "..", "..", "..");
 
 const dec = new TextDecoder();
 export const injectIndex = async (
   appName: string,
-  mode: typeof rice["mode"]
+  mode: typeof app["mode"]
 ) => {
   const app = backend_state.app[appName].info;
   if (app.src.type === "file") {

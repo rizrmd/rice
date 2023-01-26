@@ -1,26 +1,33 @@
 import { css } from "goober";
 import { createRoot } from "react-dom/client";
-import { bar, rice } from "rice";
+import { bar, cx, app } from "rice";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
 
 (async () => {
-  switch (rice.mode) {
+  switch (app.mode) {
     case "init":
       {
-        bar.create({ position: "start", size: "32px" });
+        bar.create({ position: "start", size: "100px" });
       }
       break;
     case "bar": {
       root.render(
         <div
-          className={css`
-            color: white;
-            font-size: 9px;
-          `}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          className={cx(
+            "flex items-center px-4 border-r border-r-[#ececeb22]",
+            css`
+              color: white;
+              font-size: 9px;
+            `
+          )}
         >
-          New Rice Bar
+          <div>New Rice Bar</div>
         </div>
       );
       break;

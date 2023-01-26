@@ -26,6 +26,7 @@ export const initRPC = () => {
           app.iframe = document.createElement("iframe");
           app.iframe.src = `/app/${app.name}`;
           app.iframe.id = `app-${app.name}`;
+          app.iframe.className = "hidden";
           document.body.append(app.iframe);
           state_app.running.push(app);
         }

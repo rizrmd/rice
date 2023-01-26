@@ -9,12 +9,24 @@
   <!-- style:start -->
   <style>
     html,
-    body {
-      margin: 0px;
-      padding: 0px;
+    body,
+    #root,
+    #app {
+      width: 100vw;
+      height: 100vh;
+      overscroll-behavior: none;
+      font-family: 'JetBrains Mono';
+      user-select: none;
+      display: flex;
+      flex: 1;
       color: white;
       background: #0a1a20;
       overflow: hidden;
+    }
+
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     iframe {
@@ -23,8 +35,9 @@
       padding: 0px;
     }
   </style>
-  <link href="./index.css" rel="stylesheet">
+  <link href="./font.css" rel="stylesheet">
   <!-- style:end -->
+  <link href="./index.css" rel="stylesheet">
 </head>
 
 <body>

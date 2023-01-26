@@ -13,6 +13,7 @@
     "**/pnpm-lock.yaml": true,
     "**/.gitignore": true,
     "**/.postcssrc": true,
+    "**/.htmlnanorc": true,
     "**/.parcel-cache": true,
     ".vscode": true
   },

@@ -42,11 +42,11 @@ export const Bar = () => {
               src={`/app/${item.name}?bar`}
               className={cx(
                 pick(dir, {
-                  vertical: css`
+                  horizontal: css`
                     width: ${item.size};
                     height: ${bar.size};
                   `,
-                  horizontal: css`
+                  vertical: css`
                     width: ${bar.size};
                     height: ${item.size};
                   `,
