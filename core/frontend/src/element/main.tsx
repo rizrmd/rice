@@ -1,10 +1,10 @@
-import { state_app } from "src/state/app";
-import { state_desktop } from "src/state/desktop";
-import { bg } from "src/state/unit/bg";
 import { cx } from "../libs/cx";
 import { pick } from "../libs/pick";
 import { useGlobal } from "../libs/use-global";
+import { state_app } from "../state/app";
 import { state_bar } from "../state/bar";
+import { state_desktop } from "../state/desktop";
+import { bg } from "../state/unit/bg";
 import { Bar } from "./bar/bar";
 import { Boot } from "./boot";
 import { Desktop } from "./desktop/desktop";

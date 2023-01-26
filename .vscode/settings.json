@@ -1,4 +1,5 @@
 {
+  "typescript.preferences.importModuleSpecifier": "relative",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -9,6 +10,10 @@
     "**/node_modules": true,
     "**/bun.lockb": true,
     "**/go.sum": true,
+    "**/pnpm-lock.yaml": true,
+    "**/.gitignore": true,
+    "**/.postcssrc": true,
+    "**/.parcel-cache": true,
     ".vscode": true
   },
   "hide-files.files": []

@@ -1,10 +1,10 @@
 import { css } from "goober";
-import { cx } from "src/libs/cx";
-import { pick } from "src/libs/pick";
-import { bg } from "src/state/unit/bg";
+import { cx } from "../../libs/cx";
+import { pick } from "../../libs/pick";
 import { useGlobal } from "../../libs/use-global";
 import { state_app } from "../../state/app";
 import { state_bar } from "../../state/bar";
+import { bg } from "../../state/unit/bg";
 
 export const Bar = () => {
   const app = useGlobal(state_app);
@@ -30,6 +30,7 @@ export const Bar = () => {
         e.stopPropagation();
       }}
     >
+      bisa jadi gini yah. boleh juga nih. mantap haloha wekeke.
       {/* {bar.app.map((item) => {
         return (
           <iframe

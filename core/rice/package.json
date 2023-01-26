@@ -1,4 +1,8 @@
 {
   "name": "rice",
-  "main": "index.tsx"
+  "main": "index.tsx",
+  "module": "index.tsx",
+  "dependencies": {
+    "frontend": "../frontend"
+  }
 }

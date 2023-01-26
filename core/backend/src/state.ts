@@ -7,8 +7,8 @@ const defaultState = {
   rice: {
     url: new URL("http://localhost:12345"),
   },
-  frontend: {
-    url: null as null | URL,
+  dev: {
+    url: "",
   },
   app: {} as Record<
     string,

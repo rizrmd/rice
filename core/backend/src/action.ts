@@ -1,16 +1,9 @@
+import { AppInfo } from "rice/types";
 import { state } from "./state.js";
-import open, { App } from "open";
-import { AppInfo } from "rice";
 
 export const action = {
-  initFE({ url }: { url: string }) {
-    state.frontend.url = new URL(url);
-    state.frontend.url.pathname = "";
-
-    const openurl = "http://localhost:12345";
-    console.log(openurl);
-    // open(openurl);
-    return "ok";
+  setDevUrl(url: string) {
+    state.dev.url = url;
   },
   apps() {
     const apps: Record<string, AppInfo> = {};

@@ -1,9 +1,7 @@
 import {
-  createContext,
-  startTransition,
-  useContext,
+  createContext, useContext,
   useEffect,
-  useState,
+  useState
 } from "react";
 
 export const GlobalContext = createContext({

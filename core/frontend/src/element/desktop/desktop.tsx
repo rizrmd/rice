@@ -1,6 +1,4 @@
-import { css } from "goober";
-import { FC, useContext } from "react";
-import { cx } from "src/libs/cx";
+import { cx } from "../../libs/cx";
 import { useGlobal } from "../../libs/use-global";
 import { state_app } from "../../state/app";
 

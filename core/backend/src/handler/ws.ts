@@ -3,7 +3,8 @@ import { createRequestHandler, Handlers, RequestHandler } from "rpc";
 import { Action, action } from "../action";
 import { schema } from "../export";
 
-const clients = new WeakMap<ServerWebSocket<{ url: string }>, RequestHandler>();
+type SWS = ServerWebSocket<{ url: string }>;
+const clients = new WeakMap<SWS, RequestHandler>();
 export const ws: WebSocketHandler<{ url: string }> = {
   open(ws) {
     const { url } = ws.data;
@@ -15,7 +16,6 @@ export const ws: WebSocketHandler<{ url: string }> = {
   },
   async message(ws, raw) {
     const { url } = ws.data;
-
     if (url.includes("rice:rpc")) {
       if (raw instanceof Uint8Array) {
         const msg = schema.req.unpack(raw);

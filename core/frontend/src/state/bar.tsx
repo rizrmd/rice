@@ -1,4 +1,4 @@
-import { declareGlobal } from "src/libs/use-global";
+import { declareGlobal } from "../libs/use-global";
 import { bg } from "./unit/bg";
 
 export const state_bar = declareGlobal({

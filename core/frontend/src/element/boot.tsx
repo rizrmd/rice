@@ -1,7 +1,7 @@
 import { css } from "goober";
-import { cx } from "src/libs/cx";
-import { useGlobal } from "src/libs/use-global";
-import { state_desktop } from "src/state/desktop";
+import { cx } from "../libs/cx";
+import { useGlobal } from "../libs/use-global";
+import { state_desktop } from "../state/desktop";
 
 export const Boot = () => {
   const desktop = useGlobal(state_desktop);

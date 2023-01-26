@@ -1,6 +1,6 @@
 import { client, ClientQueue, schema } from "backend";
-import { AppRunning, state_app } from "src/state/app";
-import { state_desktop } from "src/state/desktop";
+import { AppRunning, state_app } from "../state/app";
+import { state_desktop } from "../state/desktop";
 import { w } from "./w";
 
 let retry = 0;

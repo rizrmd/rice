@@ -3,8 +3,8 @@ import { ws } from "./ws";
 
 export const handler = globalThis as unknown as {
   http: typeof http;
-  ws: typeof ws;
+  ws: Required<typeof ws>;
 };
 
 handler.http = http;
-handler.ws = ws;
+handler.ws = ws as any;

@@ -21,10 +21,7 @@ export const initApp = async () => {
         const info = (await import(appPath)).default as ReturnType<typeof app>;
         state.app[appName] = {
           info,
-          html: {
-            app: "",
-            bar: "",
-          },
+          html: "",
         };
       } catch (e) {
         console.log(`Error when booting app "${appName}":\n`, e);

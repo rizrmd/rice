@@ -1,26 +1,41 @@
-import type { _rice } from "inject";
-
-export type AppInfo = {
-  name: string;
-  title: string;
-  icon: string;
-  desc?: string;
-  src:
-    | {
-        type: "url";
-        url: string;
-      }
-    | {
-        type: "file";
-        basedir: string;
-        index: string;
-      };
-};
+import cuid from "cuid";
+import { default_app } from 'frontend/src/state/app';
+import { AppInfo } from "types";
 
 export const app = (arg: AppInfo) => {
   return arg;
 };
 
-declare global {
-  const rice: typeof _rice;
+export const rice = {
+  // @ts-ignore
+  mode: (typeof $CURRENT_MODE === "undefined" ? "init" : $CURRENT_MODE) as
+    | "init"
+    | "bar"
+    | "frame",
+};
+
+export const bar = {
+  start: async (arg: {
+    size: string;
+    position: "start" | "center" | "end";
+  }) => {},
+};
+
+export const state = new Proxy({}, {}) as {
+  app: (typeof default_app)
 }
+
+export const event = {};
+
+export const frame = {
+  create: async (arg: {
+    width?: string;
+    height?: string;
+    attachedToBar?: boolean;
+  }) => {
+    return {
+      window_id: cuid(),
+    };
+  },
+  close: async (arg: { window_id: string }) => {},
+};

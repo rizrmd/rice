@@ -1,10 +1,8 @@
 import { createContext } from "react";
 import { createRoot } from "react-dom/client";
-import { Main } from "../element/main";
-import { useLocal } from "../libs/use-local";
-
-import { initRPC } from "../libs/rpc";
-import "./index.compiled.css";
+import { Main } from "./element/main";
+import { useLocal } from "./libs/use-local";
+import { initRPC } from "./libs/rpc";
 
 //@ts-ignore
 const container = document.getElementById("root");
