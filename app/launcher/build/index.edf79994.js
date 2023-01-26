@@ -2932,6 +2932,7 @@ const container = document.getElementById("app");
 const root = (0, _client.createRoot)(container);
 switch((0, _rice.rice).mode){
     case "init":
+        console.log("mantap jiwa lah");
         break;
     case "bar":
         root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -2942,7 +2943,7 @@ switch((0, _rice.rice).mode){
             children: "New Rice Bar"
         }, void 0, false, {
             fileName: "src/index.tsx",
-            lineNumber: 15,
+            lineNumber: 16,
             columnNumber: 7
         }, undefined));
         break;
@@ -2955,7 +2956,7 @@ switch((0, _rice.rice).mode){
             children: "New Rice App"
         }, void 0, false, {
             fileName: "src/index.tsx",
-            lineNumber: 29,
+            lineNumber: 30,
             columnNumber: 9
         }, undefined));
         break;

@@ -1,4 +1,4 @@
-import { client, ClientQueue, schema } from "backend";
+import type { ClientQueue, client, schema } from "backend";
 import { spawn, spawnSync } from "bun";
 import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
@@ -64,26 +64,31 @@ Done
   const { client, schema } = await import("./backend/src/export");
   if (cmd === "dev") {
     if (appName) {
-      // const app = spawn({
-      //   cmd: ["bun", "run", "dev"],
-      //   cwd: join(import.meta.dir, "..", "app", appName),
-      //   stdin: "inherit",
-      //   stdout: "inherit",
-      //   stderr: "inherit",
-      // });
-      // if (app.stdout) {
-      //   const reader = app.stdout.getReader();
-      //   new Promise(async () => {
-      //     while (true) {
-      //       const { done, value } = await reader.read();
-      //       const text = dec.decode(value);
-      //       process.stdout.write(text);
-      //       if (done) {
-      //         break;
-      //       }
-      //     }
-      //   });
-      // }
+      const app = spawn({
+        cmd: ["bun", "run", "dev"],
+        cwd: join(import.meta.dir, "..", "app", appName),
+        stdin: "ignore",
+        stdout: "pipe",
+        stderr: "pipe",
+      });
+      let printStdout = false;
+      stream(app.stdout, (raw) => {
+        const text = dec.decode(raw);
+        if (text.includes("Built in ")) {
+          printStdout = true;
+        }
+        if (
+          printStdout &&
+          !text.includes("Bundling") &&
+          !text.includes("Packaging & Optimizing")
+        )
+          process.stdout.write(`[${appName}] ` + text);
+      });
+      stream(app.stderr, (raw) => {
+        if (printStdout) {
+          process.stdout.write(raw);
+        }
+      });
     }
 
     console.log("[Development Mode]\n");
@@ -96,13 +101,21 @@ Done
     });
 
     let parcelURL = "";
+    let shouldPrint = false;
     stream(parcel.stdout, (raw) => {
-      if (parcelURL) process.stdout.write(raw);
       const text = dec.decode(raw);
       if (text.includes("running at ")) {
         parcelURL = text.split("running at ")[1].split("\n").shift() || "";
-        initBackend(parcelURL);
+        initBackend(parcelURL, client, schema);
       }
+      if (text.includes("Built in")) shouldPrint = true;
+
+      if (
+        shouldPrint &&
+        !text.includes("Bundling") &&
+        !text.includes("Packaging & Optimizing")
+      )
+        process.stdout.write(`[rice] ` + text);
     });
     stream(parcel.stderr, (raw) => process.stdout.write(raw));
   }
@@ -137,7 +150,11 @@ const stream = (
   }
 };
 
-const initBackend = (parcelURL: string) => {
+const initBackend = (
+  parcelURL: string,
+  _client: typeof client,
+  _schema: typeof schema
+) => {
   let retry = 0;
   const connect = () => {
     setTimeout(() => {
@@ -151,12 +168,12 @@ const initBackend = (parcelURL: string) => {
         const ws = new WebSocket("ws://localhost:12345/rice:rpc");
         const queue: ClientQueue = {};
         ws.onopen = async () => {
-          const c = client(ws, queue);
+          const c = _client(ws, queue);
           c.setDevUrl(parcelURL);
         };
         ws.onmessage = async ({ data }) => {
           if (data instanceof ArrayBuffer) {
-            const msg = schema.res.unpack(new Uint8Array(data));
+            const msg = _schema.res.unpack(new Uint8Array(data));
             if (msg.result) queue[msg.id].resolve(msg.result);
             else if (msg.error) queue[msg.id].reject(msg.reject);
             delete queue[msg.id];

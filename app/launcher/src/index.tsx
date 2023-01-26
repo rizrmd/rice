@@ -7,7 +7,8 @@ const root = createRoot(container);
 
 switch (rice.mode) {
   case "init":
-    {
+    {  
+      console.log('mantap jiwa lah')
     }
     break;
   case "bar": {
