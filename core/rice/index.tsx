@@ -1,4 +1,5 @@
 import { createClient } from "frontend/src/libs/rpc-action";
+import { AppBarData, BarItem } from "frontend/src/state/bar";
 import { AppInfo } from "types";
 
 export { cx } from "frontend/src/libs/cx";
@@ -11,11 +12,14 @@ export const app = {
   // @ts-ignore
   name: typeof $APP_NAME === "undefined" ? "" : $APP_NAME,
   // @ts-ignore
-  mode: (typeof $CURRENT_MODE === "undefined" ? "init" : $CURRENT_MODE) as
+  mode: (typeof $APP_MODE === "undefined" ? "init" : $APP_MODE) as
     | "init"
     | "bar"
     | "frame",
-  data: undefined as any,
+  // @ts-ignore
+  data: (typeof $APP_DATA === "undefined" ? undefined : $APP_DATA) as Promise<
+    undefined | AppBarData
+  >,
 };
 
 const rpc = createClient(app.name);

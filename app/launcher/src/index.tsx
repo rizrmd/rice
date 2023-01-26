@@ -9,10 +9,11 @@ const root = createRoot(container);
   switch (app.mode) {
     case "init":
       {
-        bar.create({ position: "start", size: "100px" });
+        const mybar = await bar.create({ position: "start", size: "100px" });
       }
       break;
     case "bar": {
+      const bar = await app.data;
       root.render(
         <div
           onContextMenu={(e) => {

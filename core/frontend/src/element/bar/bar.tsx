@@ -40,6 +40,16 @@ export const Bar = () => {
             <iframe
               key={item.id}
               src={`/app/${item.name}?bar`}
+              onLoad={(e) => {
+                const data = { ...item };
+                delete data.iframe;
+                
+                item.iframe = e.currentTarget;
+                e.currentTarget.contentWindow.postMessage({
+                  type: "APP_DATA",
+                  result: { type: "bar", ...data },
+                });
+              }}
               className={cx(
                 pick(dir, {
                   horizontal: css`

@@ -16,10 +16,12 @@ export const state_bar = declareGlobal({
   },
 });
 
-type BarItem = {
+export type BarItem = {
   id: string;
   name: string;
   size: string;
   iframe: null | HTMLIFrameElement;
   data?: any;
 };
+
+export type AppBarData = { type: "bar" } & Omit<BarItem, "iframe">;

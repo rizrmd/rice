@@ -61,6 +61,7 @@ Done
     process.exit();
   }
 
+  let parcelURL = "";
   const { client, schema } = await import("./backend/src/export");
   if (cmd === "dev") {
     if (appName) {
@@ -91,34 +92,40 @@ Done
       });
     }
 
-    console.log("[Development Mode]\n");
+    console.log("[Development Mode]");
     const parcel = spawn({
-      cmd: ["parcel", "public/index.html", "--dist-dir", "build"],
+      cmd: ["bun", "run", "dev"],
       cwd: join(import.meta.dir, "frontend"),
       stdin: "ignore",
       stdout: "pipe",
       stderr: "pipe",
     });
 
-    let parcelURL = "";
     let shouldPrint = false;
-    stream(parcel.stdout, (raw) => {
-      const text = dec.decode(raw);
-      if (text.includes("running at ")) {
-        parcelURL = text.split("running at ")[1].split("\n").shift() || "";
-        initBackend(parcelURL, client, schema);
-      }
-      if (text.includes("Built in")) shouldPrint = true;
+    await new Promise<void>((resolve) => {
+      stream(parcel.stdout, (raw) => {
+        const text = dec.decode(raw);
+        if (text.includes("running at ")) {
+          parcelURL = text.split("running at ")[1].split("\n").shift() || "";
+        }
+        if (text.includes("Built in")) {
+          shouldPrint = true;
+          resolve();
+        }
 
-      if (
-        shouldPrint &&
-        !text.includes("Bundling") &&
-        !text.includes("Packaging & Optimizing")
-      )
-        process.stdout.write(`[rice] ` + text);
+        if (
+          shouldPrint &&
+          !text.includes("Bundling") &&
+          !text.includes("Packaging & Optimizing")
+        )
+          process.stdout.write(`[rice] ` + text);
+      });
+      stream(parcel.stderr, (raw) => {
+        if (shouldPrint) process.stdout.write(raw);
+      });
     });
-    stream(parcel.stderr, (raw) => process.stdout.write(raw));
   }
+  console.log("");
 
   const backend = spawn({
     cmd: ["bun", "--hot", "./src/index.ts"],
@@ -127,6 +134,7 @@ Done
     stdout: "inherit",
     stderr: "inherit",
   });
+  initBackend(parcelURL, client, schema);
 
   await Promise.all([backend.exited]);
 };

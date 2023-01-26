@@ -1,7 +1,7 @@
 {
   "name": "launcher",
   "scripts": {
-    "dev": "parcel src/index.html --public-url=/app/launcher --dist-dir build -p 12300",
+    "dev": "rm -rf build && parcel src/index.html --public-url=/app/launcher --dist-dir build -p 12300",
     "build": "rm -rf build && parcel build src/index.html --public-url=/app/launcher --dist-dir build"
   },
   "dependencies": {

@@ -27,6 +27,12 @@ export const initRPC = () => {
           app.iframe.src = `/app/${app.name}`;
           app.iframe.id = `app-${app.name}`;
           app.iframe.className = "hidden";
+          app.iframe.onload = () => {
+            app.iframe.contentWindow.postMessage({
+              type: "APP_DATA",
+              result: undefined,
+            });
+          };
           document.body.append(app.iframe);
           state_app.running.push(app);
         }
@@ -61,7 +67,6 @@ const eventMethod = window.addEventListener
   : "attachEvent";
 const eventer = window[eventMethod];
 const messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
-
 const handler = createRequestHandler<Handlers<typeof rpcAction>>(rpcAction);
 eventer(messageEvent, async function (e: MessageEvent<any>) {
   const data = e.data;

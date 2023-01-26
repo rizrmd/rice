@@ -6,7 +6,7 @@ import {
   JsonRpcRequest,
   JsonRpcResponse,
 } from "rpc";
-import { state_bar } from "../state/bar";
+import { AppBarData, state_bar } from "../state/bar";
 
 export const rpcAction = {
   create_bar(arg: {
@@ -15,13 +15,23 @@ export const rpcAction = {
     position: "start" | "center" | "end";
     data?: any;
   }) {
+    const bar_id = cuid();
     state_bar._ref.items[arg.position].push({
-      id: cuid(),
+      id: bar_id,
       iframe: null,
       name: arg.appName,
       size: arg.size,
     });
     state_bar._ref.render();
+
+    const result: AppBarData = {
+      type: "bar",
+      id: bar_id,
+      name: arg.appName,
+      size: arg.size,
+      data: arg.data,
+    };
+    return result;
   },
 };
 
@@ -37,6 +47,12 @@ export const createClient = (appName: string) => {
   const messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
   eventer(messageEvent, function (e: MessageEvent<any>) {
     const data = e.data;
+
+    if (data.type === "APP_DATA") {
+      (window as any).app_data_resolve(data.result);
+      return;
+    }
+
     if (queue[data.id]) {
       if ("result" in data) {
         queue[data.id].resolve(data.result);
@@ -46,7 +62,11 @@ export const createClient = (appName: string) => {
             ? data.error.message
             : `Error when calling rpc.${queue[data.id].method} from app ${
                 queue[data.id].appName
-              }. Rice cannot get detailed error.`
+              }. Rice cannot get detailed error. \n\n(${JSON.stringify(
+                data.error,
+                null,
+                2
+              )})`
         );
       }
       delete queue[data.id];

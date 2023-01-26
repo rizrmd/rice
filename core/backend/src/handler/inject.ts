@@ -22,7 +22,14 @@ export const injectIndex = async (
 
       html = html.replace(
         "</body>",
-        `<script>$CURRENT_MODE="${mode}"; $APP_NAME="${appName}";</script></body>`
+        `\
+<script>
+$APP_MODE="${mode}"; 
+$APP_NAME="${appName}"; 
+$APP_DATA=new Promise(function (resolve) {
+  window.app_data_resolve = resolve;
+});
+</script></body>`
       );
 
       backend_state.app[appName].html = html;
