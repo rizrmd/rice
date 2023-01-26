@@ -1,4 +1,3 @@
-import cuid from "cuid";
 import { default_app } from "frontend/src/state/app";
 import { AppInfo } from "types";
 
@@ -41,7 +40,7 @@ export const frame = {
     attachedToBar?: boolean;
   }) => {
     return {
-      window_id: cuid(),
+      window_id: "",
     };
   },
   close: async (arg: { window_id: string }) => {},

@@ -2,15 +2,16 @@
   "name": "frontend",
   "version": "0.1.67",
   "scripts": {
-    "tw": "bun x tailwindcss  -i ./src/main/index.css -o ./src/main/index.compiled.css --watch"
+    "tw": "bun x tailwindcss  -i ./src/main/index.css -o ./src/main/index.compiled.css --watch",
+    "dev": "parcel public/index.html --dist-dir build"
   },
   "dependencies": {
     "goober": "^2.1.11",
+    "msgpackr": "^1.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "latest",
-    "webfontloader": "^1.6.28",
-    "msgpackr": "^1.8.1"
+    "webfontloader": "^1.6.28"
   },
   "workspaces": [],
   "eslintConfig": {
@@ -19,6 +20,7 @@
     ]
   },
   "devDependencies": {
+    "buffer": "^6.0.3",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "postcss": "^8.4.21",
