@@ -30,7 +30,6 @@ export const Bar = () => {
         e.stopPropagation();
       }}
     >
-      bisa jadi gini yah. boleh juga nih. mantap haloha wekeke.
       {/* {bar.app.map((item) => {
         return (
           <iframe

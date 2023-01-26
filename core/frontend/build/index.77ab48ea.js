@@ -27676,8 +27676,7 @@ const Bar = ()=>{
         onContextMenu: (e)=>{
             e.preventDefault();
             e.stopPropagation();
-        },
-        children: "bisa jadi gini yah. boleh juga nih. mantap haloha wekeke."
+        }
     }, void 0, false, {
         fileName: "core/frontend/src/element/bar/bar.tsx",
         lineNumber: 14,

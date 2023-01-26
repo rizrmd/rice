@@ -52,14 +52,6 @@ if (arg === "i" || !existsSync(join(import.meta.dir, "node_modules"))) {
       stdout: "ignore",
       stderr: "ignore",
     });
-
-    // spawnSync({
-    //   cmd: ["bun", "bun", join(import.meta.dir, dir, main)],
-    //   cwd: join(import.meta.dir, dir),
-    //   stdin: "inherit",
-    //   stdout: "inherit",
-    //   stderr: "inherit",
-    // });
   }
   console.log(`
 Done
@@ -70,15 +62,6 @@ Done
 }
 
 const { client, schema } = await import("./backend/src/export");
-
-// const cmd = ["bun", "dev", "-p", "12340"];
-// const frontend = spawn({
-//   cmd,
-//   cwd: join(import.meta.dir, "frontend"),
-//   stdin: null,
-//   stdout: "pipe",
-//   stderr: "pipe",
-// });
 
 if (arg === "dev") {
   console.log("[Development Mode]\n");

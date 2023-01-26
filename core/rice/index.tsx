@@ -1,5 +1,5 @@
 import cuid from "cuid";
-import { default_app } from 'frontend/src/state/app';
+import { default_app } from "frontend/src/state/app";
 import { AppInfo } from "types";
 
 export const app = (arg: AppInfo) => {
@@ -21,9 +21,16 @@ export const bar = {
   }) => {},
 };
 
-export const state = new Proxy({}, {}) as {
-  app: (typeof default_app)
-}
+export const state = new Proxy(
+  {},
+  {
+    get(target, p, receiver) {
+      console.log(p);
+    },
+  }
+) as {
+  app: typeof default_app;
+};
 
 export const event = {};
 
