@@ -24,13 +24,13 @@ export const schema = {
     maxSharedStructures: structures.res.length,
   }),
 };
-export type ClientQueue = Record<
+export type ClientQueue<T = {}> = Record<
   string,
   {
     method: string;
     resolve: (value: any) => void;
     reject: (reason: any) => void;
-  }
+  } & T
 >;
 export const client = (ws: WebSocket, queue: ClientQueue) => {
   const sender = {

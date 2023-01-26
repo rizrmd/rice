@@ -2,7 +2,7 @@ import { file, Server } from "bun";
 import { existsSync, statSync } from "fs";
 import { readFile } from "fs/promises";
 import { join, resolve } from "path";
-import { state } from "../state";
+import { backend_state } from "../state";
 import { injectIndex } from "./inject";
 import { proxy } from "./proxy";
 const root = join(import.meta.dir, "..", "..", "..", "..");
@@ -27,7 +27,7 @@ export const http = async (req: Request, server: Server) => {
     const q = url.search;
     const [_, appName, part, ...pathname] = path.split("/").filter((e) => e);
 
-    const app = state.app[appName];
+    const app = backend_state.app[appName];
     if (app) {
       if (part === "icon") {
         const iconPath = join(root, "app", appName, app.info.icon);
@@ -109,12 +109,12 @@ const replaceContent = async (targetPath: string) => {
   if (!skipCheckContent.has(targetPath)) {
     const res = await readFile(targetPath, "utf-8");
     if (
-      state.dev.url &&
+      backend_state.dev.url &&
       res.includes(
         `new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "")`
       )
     ) {
-      const url = new URL(state.dev.url);
+      const url = new URL(backend_state.dev.url);
       const replaced = res.replace(
         `new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "")`,
         `new WebSocket(protocol + "://" + hostname + ":${url.port}"`

@@ -1,6 +1,8 @@
 import { client, ClientQueue, schema } from "backend";
+import { createRequestHandler, Handlers } from "rpc";
 import { AppRunning, state_app } from "../state/app";
 import { state_desktop } from "../state/desktop";
+import { rpcAction } from "./rpc-action";
 import { w } from "./w";
 
 let retry = 0;
@@ -52,3 +54,18 @@ export const initRPC = () => {
   ws.onclose = () => setTimeout(initRPC, 1000);
   ws.onerror = () => setTimeout(initRPC, 1000);
 };
+
+const eventMethod = window.addEventListener
+  ? "addEventListener"
+  : "attachEvent";
+const eventer = window[eventMethod];
+const messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
+
+const handler = createRequestHandler<Handlers<typeof rpcAction>>(rpcAction);
+eventer(messageEvent, async function (e: MessageEvent<any>) {
+  const data = e.data;
+  if (typeof data === "object" && data.type === "action") {
+    const result = await handler.handleRequest(data);
+    e.source.postMessage(result);
+  }
+});

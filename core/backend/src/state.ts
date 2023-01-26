@@ -1,11 +1,16 @@
-import { Subprocess } from "bun";
-import { ChildProcess } from "child_process";
+import { readFile } from "fs/promises";
+import { join } from "path";
 import { app } from "rice";
-export const state = globalThis as unknown as typeof defaultState;
 
-const defaultState = {
+const root = join(import.meta.dir, "..", "..", "..");
+
+export const backend_state =
+  globalThis as unknown as typeof default_backend_state;
+
+const default_backend_state = {
   rice: {
     url: new URL("http://localhost:12345"),
+    style: "",
   },
   dev: {
     url: "",
@@ -19,8 +24,17 @@ const defaultState = {
   >,
 };
 
-export const initState = () => {
-  for (const [k, v] of Object.entries(defaultState)) {
-    if (!(state as any)[k]) (state as any)[k] = v;
+export const initState = async () => {
+  for (const [k, v] of Object.entries(default_backend_state)) {
+    if (!(backend_state as any)[k]) (backend_state as any)[k] = v;
   }
+
+  const fedir = join(root, "core", "frontend", "build");
+  const index = await readFile(join(fedir, "index.html"), "utf-8");
+
+  backend_state.rice.style =
+    index
+      .split("<!-- style:start -->")[1]
+      .split("<!-- style:end -->")
+      .shift() || "";
 };

@@ -1,4 +1,5 @@
 import { default_app } from "frontend/src/state/app";
+import { createClient } from "frontend/src/libs/rpc-action";
 import { AppInfo } from "types";
 
 export const app = (arg: AppInfo) => {
@@ -11,27 +12,22 @@ export const rice = {
     | "init"
     | "bar"
     | "frame",
+  data: undefined as any,
+  app: {
+    // @ts-ignore
+    name: typeof $APP_NAME === "undefined" ? "" : $APP_NAME,
+  },
 };
+
+const rpc = createClient(rice.app.name);
 
 export const bar = {
-  start: async (arg: {
-    size: string;
-    position: "start" | "center" | "end";
-  }) => {},
+  create: async (
+    arg: Omit<Parameters<typeof rpc.create_bar>[0], "appName">
+  ) => {
+    return await rpc.create_bar({ ...arg, appName: rice.app.name });
+  },
 };
-
-export const state = new Proxy(
-  {},
-  {
-    get(target, p, receiver) {
-      console.log(p);
-    },
-  }
-) as {
-  app: typeof default_app;
-};
-
-export const event = {};
 
 export const frame = {
   create: async (arg: {

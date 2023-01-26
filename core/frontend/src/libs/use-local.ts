@@ -7,9 +7,6 @@ export const useLocal = <T extends object>(
   }) => Promise<void | (() => void)> | void | (() => void),
   deps?: any[]
 ): T & { render: () => void } => {
-  if (typeof isSSR !== "undefined" && isSSR)
-    return { ...data, render: () => {} } as any;
-
   const [, _render] = useState({});
   const _ = useRef({
     data: null as unknown as T & { render: () => void },
@@ -36,8 +33,6 @@ export const useLocal = <T extends object>(
         if (local.deps[k] !== dep) {
           local.deps[k] = dep;
 
-          // local.data = { ...data } as any;
-          // local.data.render = () => _render({});
           if (effect) {
             setTimeout(() => {
               effect({ init: false });

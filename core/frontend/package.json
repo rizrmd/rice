@@ -6,6 +6,7 @@
     "dev": "parcel public/index.html --dist-dir build"
   },
   "dependencies": {
+    "cuid": "^3.0.0",
     "goober": "^2.1.11",
     "msgpackr": "^1.8.2",
     "react": "^18.2.0",

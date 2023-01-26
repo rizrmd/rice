@@ -27501,13 +27501,11 @@ const state_bar = (0, _useGlobal.declareGlobal)({
         color: "rgba(0,0,0,.2)"
     }),
     css: "",
-    app: [
-        {
-            name: "launcher",
-            iframe: null,
-            size: "40px;"
-        }
-    ]
+    items: {
+        start: [],
+        center: [],
+        end: []
+    }
 });
 
 },{"../libs/use-global":"bDE6Q","./unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hdyCa":[function(require,module,exports) {
@@ -27664,22 +27662,65 @@ const Bar = ()=>{
     _s();
     const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
     const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
+    const dir = bar.position === "bottom" || bar.position === "top" ? "horizontal" : "vertical";
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex", (0, _pick.pick)(bar.position, {
-            top: "flex-row",
-            left: "flex-col",
-            bottom: "flex-col",
-            right: "flex-row"
+        className: (0, _cx.cx)("flex justify-between", (0, _pick.pick)(dir, {
+            horizontal: "flex-row",
+            vertical: "flex-col"
         }), (0, _goober.css)`
           flex-basis: ${bar.size};
         `, (0, _bg.bg).render(bar.bg)),
         onContextMenu: (e)=>{
             e.preventDefault();
             e.stopPropagation();
-        }
-    }, void 0, false, {
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "bar-start",
+                children: bar.items.start.map((item)=>{
+                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("iframe", {
+                        src: `/app/${item.name}?bar`,
+                        className: (0, _cx.cx)((0, _pick.pick)(dir, {
+                            vertical: (0, _goober.css)`
+                    width: ${item.size};
+                    height: ${bar.size};
+                  `,
+                            horizontal: (0, _goober.css)`
+                    width: ${bar.size};
+                    height: ${item.size};
+                  `
+                        }), (0, _goober.css)`
+                  overflow: hidden;
+                `)
+                    }, item.id, false, {
+                        fileName: "src/element/bar/bar.tsx",
+                        lineNumber: 40,
+                        columnNumber: 13
+                    }, undefined);
+                })
+            }, void 0, false, {
+                fileName: "src/element/bar/bar.tsx",
+                lineNumber: 37,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "bar-center"
+            }, void 0, false, {
+                fileName: "src/element/bar/bar.tsx",
+                lineNumber: 62,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "bar-end"
+            }, void 0, false, {
+                fileName: "src/element/bar/bar.tsx",
+                lineNumber: 63,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
         fileName: "src/element/bar/bar.tsx",
-        lineNumber: 14,
+        lineNumber: 20,
         columnNumber: 5
     }, undefined);
 };
@@ -27799,10 +27840,6 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "useLocal", ()=>useLocal);
 var _react = require("react");
 const useLocal = (data, effect, deps)=>{
-    if (typeof isSSR !== "undefined" && isSSR) return {
-        ...data,
-        render: ()=>{}
-    };
     const [, _render] = (0, _react.useState)({});
     const _ = (0, _react.useRef)({
         data: null,
@@ -27826,8 +27863,6 @@ const useLocal = (data, effect, deps)=>{
     } else if (local.deps.length > 0 && deps) {
         for (const [k, dep] of Object.entries(deps))if (local.deps[k] !== dep) {
             local.deps[k] = dep;
-            // local.data = { ...data } as any;
-            // local.data.render = () => _render({});
             if (effect) setTimeout(()=>{
                 effect({
                     init: false
@@ -27849,8 +27884,10 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "initRPC", ()=>initRPC);
 var _backend = require("backend");
+var _rpc = require("rpc");
 var _app = require("../state/app");
 var _desktop = require("../state/desktop");
+var _rpcAction = require("./rpc-action");
 var _w = require("./w");
 let retry = 0;
 const initRPC = ()=>{
@@ -27891,8 +27928,19 @@ const initRPC = ()=>{
     ws.onclose = ()=>setTimeout(initRPC, 1000);
     ws.onerror = ()=>setTimeout(initRPC, 1000);
 };
+const eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+const eventer = window[eventMethod];
+const messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
+const handler = (0, _rpc.createRequestHandler)((0, _rpcAction.rpcAction));
+eventer(messageEvent, async function(e) {
+    const data = e.data;
+    if (typeof data === "object" && data.type === "action") {
+        const result = await handler.handleRequest(data);
+        e.source.postMessage(result);
+    }
+});
 
-},{"backend":"5PGFP","../state/app":"cFz1s","../state/desktop":"1yaQI","./w":"6jnvI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"5PGFP":[function(require,module,exports) {
+},{"backend":"5PGFP","../state/app":"cFz1s","../state/desktop":"1yaQI","./w":"6jnvI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","rpc":"jNaSg","./rpc-action":"jZBTz"}],"5PGFP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "schema", ()=>schema);
@@ -31832,6 +31880,143 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "w", ()=>w);
 const w = window;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}]},["3kpDH","5d35h","4aBH6"], "4aBH6", "parcelRequire10c2")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"jZBTz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "rpcAction", ()=>rpcAction);
+parcelHelpers.export(exports, "createClient", ()=>createClient);
+var _cuid = require("cuid");
+var _cuidDefault = parcelHelpers.interopDefault(_cuid);
+var _rpc = require("rpc");
+var _bar = require("../state/bar");
+const rpcAction = {
+    create_bar (arg) {
+        (0, _bar.state_bar)._ref.items[arg.position].push({
+            id: (0, _cuidDefault.default)(),
+            iframe: null,
+            name: arg.appName,
+            size: arg.size
+        });
+        (0, _bar.state_bar)._ref.render();
+    }
+};
+const createClient = (appName)=>{
+    const queue = {};
+    if (typeof window === "undefined") return;
+    const eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    const eventer = window[eventMethod];
+    const messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
+    eventer(messageEvent, function(e) {
+        const data = e.data;
+        if (queue[data.id]) {
+            if ("result" in data) queue[data.id].resolve(data.result);
+            else queue[data.id].reject(data.error ? data.error.message : `Error when calling rpc.${queue[data.id].method} from app ${queue[data.id].appName}. Rice cannot get detailed error.`);
+            delete queue[data.id];
+        }
+    });
+    return (0, _rpc.createJsonRpcClient)({
+        sendRequest (req) {
+            const id = (0, _cuidDefault.default)();
+            return new Promise(async (resolve, reject)=>{
+                queue[id] = {
+                    appName,
+                    method: req.method,
+                    resolve,
+                    reject
+                };
+                parent.postMessage({
+                    type: "action",
+                    method: req.method,
+                    params: req.params,
+                    id
+                });
+            });
+        }
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","cuid":"1NFTW","rpc":"jNaSg","../state/bar":"dPrzi"}],"1NFTW":[function(require,module,exports) {
+/**
+ * cuid.js
+ * Collision-resistant UID generator for browsers and node.
+ * Sequential for fast db lookups and recency sorting.
+ * Safe for element IDs and server-side lookups.
+ *
+ * Extracted from CLCTR
+ *
+ * Copyright (c) Eric Elliott 2012
+ * MIT License
+ */ var fingerprint = require("669fa2dffc1a781c");
+var pad = require("2c6cf48989a59677");
+var getRandomValue = require("bcc7826746c36b1b");
+var c = 0, blockSize = 4, base = 36, discreteValues = Math.pow(base, blockSize);
+function randomBlock() {
+    return pad((getRandomValue() * discreteValues << 0).toString(base), blockSize);
+}
+function safeCounter() {
+    c = c < discreteValues ? c : 0;
+    c++; // this is not subliminal
+    return c - 1;
+}
+function cuid() {
+    // Starting with a lowercase letter makes
+    // it HTML element ID friendly.
+    var letter = "c", // timestamp
+    // warning: this exposes the exact date and time
+    // that the uid was created.
+    timestamp = new Date().getTime().toString(base), // Prevent same-machine collisions.
+    counter = pad(safeCounter().toString(base), blockSize), // A few chars to generate distinct ids for different
+    // clients (so different computers are far less
+    // likely to generate the same id)
+    print = fingerprint(), // Grab some more chars from Math.random()
+    random = randomBlock() + randomBlock();
+    return letter + timestamp + counter + print + random;
+}
+cuid.slug = function slug() {
+    var date = new Date().getTime().toString(36), counter = safeCounter().toString(36).slice(-4), print = fingerprint().slice(0, 1) + fingerprint().slice(-1), random = randomBlock().slice(-2);
+    return date.slice(-2) + counter + print + random;
+};
+cuid.isCuid = function isCuid(stringToCheck) {
+    if (typeof stringToCheck !== "string") return false;
+    if (stringToCheck.startsWith("c")) return true;
+    return false;
+};
+cuid.isSlug = function isSlug(stringToCheck) {
+    if (typeof stringToCheck !== "string") return false;
+    var stringLength = stringToCheck.length;
+    if (stringLength >= 7 && stringLength <= 10) return true;
+    return false;
+};
+cuid.fingerprint = fingerprint;
+module.exports = cuid;
+
+},{"669fa2dffc1a781c":"8Ki24","2c6cf48989a59677":"8BuzW","bcc7826746c36b1b":"7X523"}],"8Ki24":[function(require,module,exports) {
+var pad = require("b3a732d1ce393831");
+var env = typeof window === "object" ? window : self;
+var globalCount = Object.keys(env).length;
+var mimeTypesLength = navigator.mimeTypes ? navigator.mimeTypes.length : 0;
+var clientId = pad((mimeTypesLength + navigator.userAgent.length).toString(36) + globalCount.toString(36), 4);
+module.exports = function fingerprint() {
+    return clientId;
+};
+
+},{"b3a732d1ce393831":"8BuzW"}],"8BuzW":[function(require,module,exports) {
+module.exports = function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length - size);
+};
+
+},{}],"7X523":[function(require,module,exports) {
+var getRandomValue;
+var crypto = typeof window !== "undefined" && (window.crypto || window.msCrypto) || typeof self !== "undefined" && self.crypto;
+if (crypto) {
+    var lim = Math.pow(2, 32) - 1;
+    getRandomValue = function() {
+        return Math.abs(crypto.getRandomValues(new Uint32Array(1))[0] / lim);
+    };
+} else getRandomValue = Math.random;
+module.exports = getRandomValue;
+
+},{}]},["3kpDH","5d35h","4aBH6"], "4aBH6", "parcelRequire10c2")
 
 //# sourceMappingURL=index.b0a2d388.js.map

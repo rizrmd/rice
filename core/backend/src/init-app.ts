@@ -2,7 +2,7 @@ import { existsSync, readdirSync, statSync } from "fs";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { app } from "rice";
-import { state } from "./state";
+import { backend_state } from "./state";
 
 export const initApp = async () => {
   const root = join(import.meta.dir, "..", "..", "..");
@@ -19,7 +19,7 @@ export const initApp = async () => {
 
       try {
         const info = (await import(appPath)).default as ReturnType<typeof app>;
-        state.app[appName] = {
+        backend_state.app[appName] = {
           info,
           html: "",
         };
