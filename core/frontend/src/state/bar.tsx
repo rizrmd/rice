@@ -9,16 +9,14 @@ export const state_bar = declareGlobal({
     color: "rgba(0,0,0,.2)",
   }),
   css: "",
-  items: {
-    start: [] as BarItem[],
-    center: [] as BarItem[],
-    end: [] as BarItem[],
-  },
+  items: [] as BarItem[],
 });
 
+export type BarID = string;
+
 export type BarItem = {
-  id: string;
-  name: string;
+  id: BarID;
+  appName: string;
   size: string;
   iframe: null | HTMLIFrameElement;
   data?: any;

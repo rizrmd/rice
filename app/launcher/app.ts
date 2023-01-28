@@ -2,7 +2,7 @@ import { createApp } from "rice";
 export default createApp({
   name: "launcher",
   title: "Launcher",
-  icon: "/src/logo192.png",
+  icon: "/src/logo.png",
   src: {
     type: "file",
     basedir: "build",

@@ -1,10 +1,10 @@
 import { css } from "goober";
-import { Fragment } from "react";
+import { FC, Fragment } from "react";
 import { cx } from "../../libs/cx";
 import { pick } from "../../libs/pick";
 import { useGlobal } from "../../libs/use-global";
 import { state_app } from "../../state/app";
-import { state_bar } from "../../state/bar";
+import { BarItem, state_bar } from "../../state/bar";
 import { bg } from "../../state/unit/bg";
 
 export const Bar = () => {
@@ -27,82 +27,58 @@ export const Bar = () => {
         css`
           flex-basis: ${bar.size};
         `,
-        bg.render(bar.bg)
+        bg.render(bar.bg),
+        css`
+          ${bar.css}
+        `
       )}
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();
       }}
     >
-      <div className="bar-start">
-        {bar.items.start.map((item) => {
-          return (
-            <iframe
-              key={item.id}
-              src={`/app/${item.name}?bar`}
-              onLoad={(e) => {
-                const data = { ...item };
-                delete data.iframe;
-                
-                item.iframe = e.currentTarget;
-                e.currentTarget.contentWindow.postMessage({
-                  type: "APP_DATA",
-                  result: { type: "bar", ...data },
-                });
-              }}
-              className={cx(
-                pick(dir, {
-                  horizontal: css`
-                    width: ${item.size};
-                    height: ${bar.size};
-                  `,
-                  vertical: css`
-                    width: ${bar.size};
-                    height: ${item.size};
-                  `,
-                }),
-                css`
-                  overflow: hidden;
-                `
-              )}
-            />
-          );
+      <div className="bar">
+        {bar.items.map((item) => {
+          return <BarItem key={item.id} item={item} dir={dir} bar={bar} />;
         })}
       </div>
-      <div className="bar-center"></div>
-      <div className="bar-end"></div>
-      {/* {bar.app.map((item) => {
-        return (
-          <iframe
-            className={cx(
-              pick(bar.position, {
-                top: css`
-                  width: ${item.size};
-                  height: ${bar.size};
-                `,
-                left: css`
-                  width: ${bar.size};
-                  height: ${item.size};
-                `,
-                bottom: css`
-                  width: ${item.size};
-                  height: ${bar.size};
-                `,
-                right: css`
-                  width: ${bar.size};
-                  height: ${item.size};
-                `,
-              }),
-              css`
-                overflow: hidden;
-              `
-            )}
-            src={`/app/${item.name}/index?bar`}
-            key={item.name}
-            ref={(e) => (item.iframe = e)}
-          />
-        );
-      })} */}
     </div>
+  );
+};
+
+const BarItem: FC<{
+  item: BarItem;
+  dir: "horizontal" | "vertical";
+  bar: typeof state_bar;
+}> = ({ item, dir, bar }) => {
+  return (
+    <iframe
+      src={`/app/${item.appName}?bar`}
+      onLoad={(e) => {
+        const data = { ...item };
+        delete data.iframe;
+
+        item.iframe = e.currentTarget;
+        e.currentTarget.contentWindow.postMessage({
+          type: "APP_DATA",
+          result: { type: "bar", ...data },
+        });
+      }}
+      className={cx(
+        pick(dir, {
+          horizontal: css`
+            width: ${item.size};
+            height: ${bar.size};
+          `,
+          vertical: css`
+            width: ${bar.size};
+            height: ${item.size};
+          `,
+        }),
+        css`
+          overflow: hidden;
+        `
+      )}
+    />
   );
 };

@@ -3,6 +3,10 @@
   "main": "index.tsx",
   "module": "index.tsx",
   "dependencies": {
-    "frontend": "../frontend"
+    "@qiwi/deep-proxy": "2.0.3",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "frontend": "../frontend",
+    "tailwindcss": "^3.2.4"
   }
 }

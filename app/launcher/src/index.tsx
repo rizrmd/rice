@@ -1,6 +1,6 @@
 import { css } from "goober";
 import { createRoot } from "react-dom/client";
-import { bar, cx, app } from "rice";
+import { bar, cx, app, frame, readState } from "rice";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
@@ -9,11 +9,18 @@ const root = createRoot(container);
   switch (app.mode) {
     case "init":
       {
-        const mybar = await bar.create({ position: "start", size: "100px" });
+        await bar.create({
+          position: "start",
+          size: "100px",
+          data: { hello: "world" },
+        });
+        // console.log(await readState((state) => state.bar.items[0]));
+
+        await frame.create({ width: "640px", height: "480px", title: "Halo" });
       }
       break;
     case "bar": {
-      const bar = await app.data;
+      const bar = await app.modeInfo;
       root.render(
         <div
           onContextMenu={(e) => {
@@ -28,7 +35,7 @@ const root = createRoot(container);
             `
           )}
         >
-          <div>New Rice Bar</div>
+          <div>New {bar.data.hello}</div>
         </div>
       );
       break;
@@ -37,12 +44,16 @@ const root = createRoot(container);
       {
         root.render(
           <div
-            className={css`
-              color: white;
-              font-size: 9px;
-            `}
+            className={cx(
+              "flex-1",
+              css`
+                background: #6e89ff2e;
+                color: white;
+                font-size: 9px;
+              `
+            )}
           >
-            New Rice App
+            New Rice
           </div>
         );
       }

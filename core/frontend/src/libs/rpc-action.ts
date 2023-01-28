@@ -1,37 +1,71 @@
 import { ClientQueue } from "backend";
 import cuid from "cuid";
+import get from "lodash.get";
 import {
   createJsonRpcClient,
   Handlers,
   JsonRpcRequest,
   JsonRpcResponse,
 } from "rpc";
+import { state_app } from "../state/app";
 import { AppBarData, state_bar } from "../state/bar";
+import { state_desktop } from "../state/desktop";
+import { state_frame } from "../state/frame";
 
 export const rpcAction = {
+  create_frame(arg: {
+    appName: string;
+    title: string;
+    width: string;
+    height: string;
+    data?: any;
+  }) {
+    const frameID = cuid();
+    state_frame._ref.items.push({
+      id: frameID,
+      iframe: null,
+      appName: arg.appName,
+      width: arg.width,
+      height: arg.height,
+      data: arg.data,
+      title: arg.title,
+    });
+    state_frame._ref.render();
+  },
   create_bar(arg: {
     appName: string;
     size: string;
     position: "start" | "center" | "end";
     data?: any;
   }) {
-    const bar_id = cuid();
-    state_bar._ref.items[arg.position].push({
-      id: bar_id,
+    const barID = cuid();
+    state_bar._ref.items.push({
+      id: barID,
       iframe: null,
-      name: arg.appName,
+      appName: arg.appName,
       size: arg.size,
+      data: arg.data,
     });
     state_bar._ref.render();
 
     const result: AppBarData = {
       type: "bar",
-      id: bar_id,
-      name: arg.appName,
+      id: barID,
+      appName: arg.appName,
       size: arg.size,
       data: arg.data,
     };
     return result;
+  },
+  read_state(arg: { path: string[] }) {
+    const state = arg.path.shift();
+
+    if (state === "bar") return get(state_bar, arg.path.join("."));
+    if (state === "app") return get(state_app, arg.path.join("."));
+    if (state === "desktop") return get(state_desktop, arg.path.join("."));
+    if (state === "frame") return get(state_frame, arg.path.join("."));
+
+    return undefined;
   },
 };
 
