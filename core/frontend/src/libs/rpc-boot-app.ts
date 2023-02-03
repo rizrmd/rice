@@ -16,32 +16,23 @@ export const initRPC = () => {
     w.rpc = client(ws, queue);
 
     await waitUntil(() => state_app._ref);
-
+    const app = state_app._ref;
     const apps = await w.rpc.apps();
 
-    if (Object.keys(state_app.installed).length === 0) {
+    if (Object.keys(app.installed).length === 0) {
       for (const [k, v] of Object.entries(apps)) {
-        state_app.installed[k] = v;
+        app.installed[k] = v;
 
-        if (state_app.startup.includes(k)) {
-          const app: AppRunning = v as any;
-          app.iframe = document.createElement("iframe");
-          app.iframe.src = `/app/${app.name}`;
-          app.iframe.id = `app-${app.name}`;
-          app.iframe.className = "hidden";
-          app.iframe.onload = () => {
-            const w: any = app.iframe.contentWindow;
-            if (w.app_data_resolve) {
-              w.app_data_resolve({ type: "app" });
-            }
-          };
-          document.body.append(app.iframe);
-          state_app._ref.running.push(app);
-        }
+        const current: AppRunning = v as any;
+        current.script = document.createElement("script");
+        current.script.src = `/app/${current.name}/${current.name}-install`;
+        current.script.id = `app-${current.name}`;
+        document.body.append(current.script);
+        app.running.push(current);
       }
     }
-    state_app._ref.boot.appLoaded = true;
-    state_app._ref.render();
+    app.boot.appLoaded = true;
+    app.render();
   };
 
   ws.onmessage = async ({ data }) => {

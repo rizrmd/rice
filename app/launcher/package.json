@@ -1,8 +1,8 @@
 {
   "name": "launcher",
   "scripts": {
-    "dev": "rm -rf build && parcel src/index.html --public-url=/app/launcher --dist-dir build -p 12300",
-    "build": "rm -rf build && parcel build src/index.html --public-url=/app/launcher --dist-dir build"
+    "dev": "rm -rf build && parcel src/index.tsx --public-url=/app/launcher --dist-dir build -p 12300",
+    "build": "rm -rf build && parcel build src/index.tsx --public-url=/app/launcher --dist-dir build"
   },
   "dependencies": {
     "@types/react": "^18.0.27",

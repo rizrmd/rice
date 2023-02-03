@@ -41,46 +41,24 @@ export const Bar = () => {
     >
       <div className="bar">
         {bar.items.map((item) => {
-          return <BarItem key={item.id} item={item} dir={dir} bar={bar} />;
+          return <RenderBar key={item.id} item={item} dir={dir} bar={bar} />;
         })}
       </div>
     </div>
   );
 };
 
-const BarItem: FC<{
+const RenderBar: FC<{
   item: BarItem;
   dir: "horizontal" | "vertical";
   bar: typeof state_bar;
 }> = ({ item, dir, bar }) => {
   return (
-    <iframe
-      src={`/app/${item.appName}?bar`}
-      onLoad={(e) => {
-        const data = { ...item };
-        delete data.iframe;
-
-        item.iframe = e.currentTarget;
-        e.currentTarget.contentWindow.postMessage({
-          type: "APP_DATA",
-          result: { type: "bar", ...data },
-        });
+    <div
+      id={item.id}
+      ref={(el) => {
+        item.fn(el);
       }}
-      className={cx(
-        pick(dir, {
-          horizontal: css`
-            width: ${item.size};
-            height: ${bar.size};
-          `,
-          vertical: css`
-            width: ${bar.size};
-            height: ${item.size};
-          `,
-        }),
-        css`
-          overflow: hidden;
-        `
-      )}
-    />
+    ></div>
   );
 };

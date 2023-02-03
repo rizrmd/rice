@@ -2929,7 +2929,7 @@ var _react = require("react");
 var _client = require("react-dom/client");
 var _main = require("./element/main");
 var _useLocal = require("./libs/use-local");
-var _rpc = require("./libs/rpc");
+var _rpcBootApp = require("./libs/rpc-boot-app");
 var _waitUntil = require("./libs/wait-until");
 const container = document.getElementById("root");
 if (container) {
@@ -2968,7 +2968,7 @@ if (container) {
         ];
     });
     (0, _waitUntil.waitUntil)(()=>typeof backend_theme !== "undefined").then(()=>{
-        (0, _rpc.initRPC)();
+        (0, _rpcBootApp.initRPC)();
         root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(App, {}, void 0, false, {
             fileName: "src/index.tsx",
             lineNumber: 38,
@@ -2982,7 +2982,7 @@ if (container) {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","./element/main":"hvCjV","./libs/use-local":"2RN4V","./libs/rpc":"j2sUa","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","./libs/wait-until":"2iPoQ"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","./element/main":"hvCjV","./libs/use-local":"2RN4V","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","./libs/wait-until":"2iPoQ","./libs/rpc-boot-app":"bGVRR"}],"iTorj":[function(require,module,exports) {
 "use strict";
 module.exports = require("acd28a00b049a9be");
 
@@ -27662,7 +27662,7 @@ const Bar = ()=>{
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             className: "bar",
             children: bar.items.map((item)=>{
-                return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(BarItem, {
+                return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(RenderBar, {
                     item: item,
                     dir: dir,
                     bar: bar
@@ -27690,45 +27690,22 @@ _s(Bar, "dxoIvpc9ECJNZetUWQcQtKUKLeQ=", false, function() {
     ];
 });
 _c = Bar;
-const BarItem = ({ item , dir , bar  })=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("iframe", {
-        src: `/app/${item.appName}?bar`,
-        onLoad: (e)=>{
-            const data = {
-                ...item
-            };
-            delete data.iframe;
-            item.iframe = e.currentTarget;
-            e.currentTarget.contentWindow.postMessage({
-                type: "APP_DATA",
-                result: {
-                    type: "bar",
-                    ...data
-                }
-            });
-        },
-        className: (0, _cx.cx)((0, _pick.pick)(dir, {
-            horizontal: (0, _goober.css)`
-            width: ${item.size};
-            height: ${bar.size};
-          `,
-            vertical: (0, _goober.css)`
-            width: ${bar.size};
-            height: ${item.size};
-          `
-        }), (0, _goober.css)`
-          overflow: hidden;
-        `)
+const RenderBar = ({ item , dir , bar  })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        id: item.id,
+        ref: (el)=>{
+            item.fn(el);
+        }
     }, void 0, false, {
         fileName: "src/element/bar/bar.tsx",
         lineNumber: 57,
         columnNumber: 5
     }, undefined);
 };
-_c1 = BarItem;
+_c1 = RenderBar;
 var _c, _c1;
 $RefreshReg$(_c, "Bar");
-$RefreshReg$(_c1, "BarItem");
+$RefreshReg$(_c1, "RenderBar");
 
   $parcel$ReactRefreshHelpers$5190.postlude(module);
 } finally {
@@ -27792,10 +27769,7 @@ const Boot = ()=>{
         app.asset.bg.src = backend_theme.bg.img;
     });
     if (app.boot.status === "loading" && app.boot.loadingPercent === 100 && app.boot.appLoaded) {
-        for (const running of app.running)running.iframe.contentWindow.postMessage({
-            type: "APP_DATA",
-            result: undefined
-        });
+        for (const running of app.running);
         app.boot.status = "ready";
         setTimeout(app.render, 500);
     }
@@ -27819,17 +27793,17 @@ const Boot = ()=>{
             `)
             }, void 0, false, {
                 fileName: "src/element/boot.tsx",
-                lineNumber: 55,
+                lineNumber: 53,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/element/boot.tsx",
-            lineNumber: 54,
+            lineNumber: 52,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/element/boot.tsx",
-        lineNumber: 43,
+        lineNumber: 41,
         columnNumber: 5
     }, undefined);
 };
@@ -40053,7 +40027,36 @@ const useLocal = (data, effect, deps)=>{
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"j2sUa":[function(require,module,exports) {
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"2iPoQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "waitUntil", ()=>waitUntil);
+const waitUntil = (condition, timeout)=>{
+    return new Promise(async (resolve)=>{
+        if (typeof condition === "function") {
+            let tout = null;
+            if (timeout) tout = setTimeout(resolve, timeout);
+            if (await condition()) {
+                clearTimeout(tout);
+                resolve();
+                return;
+            }
+            let count = 0;
+            const c = setInterval(async ()=>{
+                if (await condition()) {
+                    if (tout) clearTimeout(tout);
+                    clearInterval(c);
+                    resolve();
+                }
+                if (count > 100) clearInterval(c);
+            }, 100);
+        } else if (typeof condition === "number") setTimeout(()=>{
+            resolve();
+        }, condition);
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"bGVRR":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "initRPC", ()=>initRPC);
@@ -40072,27 +40075,19 @@ const initRPC = ()=>{
     ws.onopen = async ()=>{
         (0, _w.w).rpc = (0, _backend.client)(ws, queue);
         await (0, _waitUntil.waitUntil)(()=>(0, _app.state_app)._ref);
+        const app = (0, _app.state_app)._ref;
         const apps = await (0, _w.w).rpc.apps();
-        if (Object.keys((0, _app.state_app).installed).length === 0) for (const [k, v] of Object.entries(apps)){
-            (0, _app.state_app).installed[k] = v;
-            if ((0, _app.state_app).startup.includes(k)) {
-                const app = v;
-                app.iframe = document.createElement("iframe");
-                app.iframe.src = `/app/${app.name}`;
-                app.iframe.id = `app-${app.name}`;
-                app.iframe.className = "hidden";
-                app.iframe.onload = ()=>{
-                    const w = app.iframe.contentWindow;
-                    if (w.app_data_resolve) w.app_data_resolve({
-                        type: "app"
-                    });
-                };
-                document.body.append(app.iframe);
-                (0, _app.state_app)._ref.running.push(app);
-            }
+        if (Object.keys(app.installed).length === 0) for (const [k, v] of Object.entries(apps)){
+            app.installed[k] = v;
+            const current = v;
+            current.script = document.createElement("script");
+            current.script.src = `/app/${current.name}/${current.name}-install`;
+            current.script.id = `app-${current.name}`;
+            document.body.append(current.script);
+            app.running.push(current);
         }
-        (0, _app.state_app)._ref.boot.appLoaded = true;
-        (0, _app.state_app)._ref.render();
+        app.boot.appLoaded = true;
+        app.render();
     };
     ws.onmessage = async ({ data  })=>{
         let msg = null;
@@ -40122,7 +40117,7 @@ eventer(messageEvent, async function(e) {
     }
 });
 
-},{"backend":"5PGFP","./w":"6jnvI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","rpc":"jNaSg","./rpc-action":"jZBTz","../state/app":"cFz1s","./wait-until":"2iPoQ"}],"5PGFP":[function(require,module,exports) {
+},{"backend":"5PGFP","rpc":"jNaSg","../state/app":"cFz1s","./rpc-action":"jZBTz","./w":"6jnvI","./wait-until":"2iPoQ","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"5PGFP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "schema", ()=>schema);
@@ -43860,12 +43855,6 @@ const createRequestHandler = (handlers, invokeAction)=>{
     };
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"6jnvI":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "w", ()=>w);
-const w = window;
-
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"jZBTz":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -43899,20 +43888,10 @@ const rpcAction = {
         const barID = (0, _cuidDefault.default)();
         (0, _bar.state_bar)._ref.items.push({
             id: barID,
-            iframe: null,
             appName: arg.appName,
-            size: arg.size,
-            data: arg.data
+            fn: arg.fn
         });
         (0, _bar.state_bar)._ref.render();
-        const result = {
-            type: "bar",
-            id: barID,
-            appName: arg.appName,
-            size: arg.size,
-            data: arg.data
-        };
-        return result;
     },
     read_state (arg) {
         const state = arg.path.shift();
@@ -43962,7 +43941,7 @@ const createClient = (appName)=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","cuid":"1NFTW","rpc":"jNaSg","../state/bar":"dPrzi","lodash.get":"80Ipq","../state/app":"cFz1s","../state/desktop":"1yaQI"}],"1NFTW":[function(require,module,exports) {
+},{"cuid":"1NFTW","lodash.get":"80Ipq","rpc":"jNaSg","../state/app":"cFz1s","../state/bar":"dPrzi","../state/desktop":"1yaQI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"1NFTW":[function(require,module,exports) {
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -44780,34 +44759,11 @@ memoize.Cache = MapCache;
 }
 module.exports = get;
 
-},{}],"2iPoQ":[function(require,module,exports) {
+},{}],"6jnvI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "waitUntil", ()=>waitUntil);
-const waitUntil = (condition, timeout)=>{
-    return new Promise(async (resolve)=>{
-        if (typeof condition === "function") {
-            let tout = null;
-            if (timeout) tout = setTimeout(resolve, timeout);
-            if (await condition()) {
-                clearTimeout(tout);
-                resolve();
-                return;
-            }
-            let count = 0;
-            const c = setInterval(async ()=>{
-                if (await condition()) {
-                    if (tout) clearTimeout(tout);
-                    clearInterval(c);
-                    resolve();
-                }
-                if (count > 100) clearInterval(c);
-            }, 100);
-        } else if (typeof condition === "number") setTimeout(()=>{
-            resolve();
-        }, condition);
-    });
-};
+parcelHelpers.export(exports, "w", ()=>w);
+const w = window;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}]},["3kpDH","5d35h","4aBH6"], "4aBH6", "parcelRequire10c2")
 

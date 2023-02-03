@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { createApp } from "rice";
+import { AppInfo } from "rice/types";
 import { action } from "./action";
 
 const root = join(import.meta.dir, "..", "..", "..");
@@ -19,8 +20,8 @@ const default_backend_state = {
   app: {} as Record<
     string,
     {
-      info: ReturnType<typeof createApp>;
-      html: string;
+      info: AppInfo;
+      index: string;
     }
   >,
 };

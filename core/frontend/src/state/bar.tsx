@@ -17,9 +17,5 @@ export type BarID = string;
 export type BarItem = {
   id: BarID;
   appName: string;
-  size: string;
-  iframe: null | HTMLIFrameElement;
-  data?: any;
+  fn: (el: HTMLDivElement) => void;
 };
-
-export type AppBarData = { type: "bar" } & Omit<BarItem, "iframe">;

@@ -3,14 +3,8 @@ export type AppInfo = {
   title: string;
   icon: string;
   desc?: string;
-  src:
-    | {
-        type: "url";
-        url: string;
-      }
-    | {
-        type: "file";
-        basedir: string;
-        index: string;
-      };
+  src: {
+    basedir: string;
+    index: string;
+  };
 };

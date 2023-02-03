@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, statSync } from "fs";
 import { join } from "path";
 import { app } from "rice";
+import { AppInfo } from "rice/types";
 import { backend_state } from "./init-state";
 
 export const initApp = async () => {
@@ -18,10 +19,10 @@ export const initApp = async () => {
       }
 
       try {
-        const info = (await import(appPath)).default as typeof app;
+        const info = (await import(appPath)).default as AppInfo;
         backend_state.app[appName] = {
           info,
-          html: "",
+          index: "",
         };
       } catch (e) {
         console.log(`Error when booting app "${appName}":\n`, e);

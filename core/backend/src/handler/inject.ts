@@ -7,32 +7,27 @@ import { app } from "rice";
 const root = join(import.meta.dir, "..", "..", "..", "..");
 
 const dec = new TextDecoder();
-export const injectIndex = async (
-  appName: string,
-  mode: typeof app["mode"]
-) => {
+export const injectIndex = async (appName: string) => {
   const app = backend_state.app[appName].info;
-  if (app.src.type === "file") {
-    const base = join(root, "app", appName);
-    const path = join(base, app.src.basedir, app.src.index);
-    if (existsSync(path)) {
-      let html = await readFile(path, "utf-8");
+  const base = join(root, "app", appName);
+  const path = join(base, app.src.basedir, app.src.index);
+  if (existsSync(path)) {
+    let src = await readFile(path, "utf-8");
 
-      html = html.replace("</head>", backend_state.rice.style + "</head>");
+    console.log(path)
+    //       html = html.replace("</head>", backend_state.rice.style + "</head>");
+    //       html = html.replace(
+    //         "</body>",
+    //         `\
+    // <script>
+    // $APP_MODE="${mode}";
+    // $APP_NAME="${appName}";
+    // $APP_DATA=new Promise(function (resolve) {
+    //   window.app_data_resolve = resolve;
+    // });
+    // </script></body>`
+    //       );
 
-      html = html.replace(
-        "</body>",
-        `\
-<script>
-$APP_MODE="${mode}"; 
-$APP_NAME="${appName}"; 
-$APP_DATA=new Promise(function (resolve) {
-  window.app_data_resolve = resolve;
-});
-</script></body>`
-      );
-
-      backend_state.app[appName].html = html;
-    }
+    backend_state.app[appName].index = src;
   }
 };

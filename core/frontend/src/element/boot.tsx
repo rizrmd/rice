@@ -30,10 +30,8 @@ export const Boot = () => {
     app.boot.appLoaded
   ) {
     for (const running of app.running) {
-      running.iframe.contentWindow.postMessage({
-        type: "APP_DATA",
-        result: undefined,
-      });
+      // running.start();
+      // console.log(running);
     }
     app.boot.status = "ready";
     setTimeout(app.render, 500);

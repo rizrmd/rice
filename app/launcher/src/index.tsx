@@ -1,54 +1,11 @@
-import { css } from "goober";
 import { createRoot } from "react-dom/client";
-import { app, bar, cx, frame } from "rice";
+import { app, bar } from "rice";
 
-const container = document.getElementById("app");
-const root = createRoot(container);
-
-(async () => {
-  const init = await app.initialize;
-
-  switch (init.type) {
-    case "app":
-      {
-        await bar.create({
-          position: "start",
-          size: "100px",
-          data: { hello: "world" },
-        });
-
-        await frame.create({ width: "640px", height: "480px", title: "Halo" });
-      }
-      break;
-    case "bar": {
-      root.render(
-        <div
-          onContextMenu={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          className={cx("flex items-center px-4 border-r border-r-[#ececeb22]")}
-        >
-          <div>New {init.data.hello}</div>
-        </div>
-      );
-      break;
-    }
-    case "frame":
-      {
-        root.render(
-          <div
-            className={cx(
-              "flex-1",
-              css`
-                background: #6e89ff2e;
-              `
-            )}
-          >
-            New Rice
-          </div>
-        );
-      }
-      break;
-  }
-})();
+console.log(app)
+// app.register("launcher", async () => {
+//   await bar.create((el) => {
+//     const root = createRoot(el);
+//     root.render(<div>ini mantap jiwa sekali</div>);
+//   });
+//   // await frame.create({ width: "640px", height: "480px", title: "Halo" });
+// });

@@ -44,29 +44,19 @@ export const http = async (req: Request, server: Server) => {
         if (existsSync(iconPath)) return new Response(file(iconPath));
       } else {
         const src = app.info.src;
+        const base = join(root, "app", appName);
+        const path = join(base, src.basedir, part || "", ...(pathname || []));
+        try {
+          if (statSync(path).isFile()) {
+            return new Response(file(path));
+          }
+        } catch (e) {}
 
-        let mode: Parameters<typeof injectIndex>[1] = "init";
-        if (q === "?bar") mode = "bar";
-        if (q === "?frame") mode = "frame";
+        await injectIndex(appName);
 
-        if (src.type === "file") {
-          const base = join(root, "app", appName);
-
-          const path = join(base, src.basedir, part, ...pathname);
-          try {
-            if (statSync(path).isFile()) {
-              return new Response(file(path));
-            }
-          } catch (e) {}
-        } else if (src.type === "url") {
-          return proxy([src.url, path].join("/"));
-        }
-
-        await injectIndex(appName, mode);
-
-        return new Response(app.html, {
+        return new Response(app.index, {
           headers: {
-            "content-type": "text/html",
+            "content-type": "text/javascript",
           },
         });
       }

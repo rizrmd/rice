@@ -5,10 +5,10 @@ import {
   createJsonRpcClient,
   Handlers,
   JsonRpcRequest,
-  JsonRpcResponse,
+  JsonRpcResponse
 } from "rpc";
 import { state_app } from "../state/app";
-import { AppBarData, state_bar } from "../state/bar";
+import { BarItem, state_bar } from "../state/bar";
 import { state_desktop } from "../state/desktop";
 
 export const rpcAction = {
@@ -35,31 +35,16 @@ export const rpcAction = {
       console.warn("Failed to create frame, state_desktop is not initialized.");
     }
   },
-  create_bar(arg: {
-    appName: string;
-    size: string;
-    position: "start" | "center" | "end";
-    data?: any;
-  }) {
+  create_bar(arg: { appName: string; fn: BarItem["fn"] }) {
     const barID = cuid();
     state_bar._ref.items.push({
       id: barID,
-      iframe: null,
       appName: arg.appName,
-      size: arg.size,
-      data: arg.data,
+      fn: arg.fn,
     });
     state_bar._ref.render();
-
-    const result: AppBarData = {
-      type: "bar",
-      id: barID,
-      appName: arg.appName,
-      size: arg.size,
-      data: arg.data,
-    };
-    return result;
   },
+
   read_state(arg: { path: string[] }) {
     const state = arg.path.shift();
     if (state === "bar") return get(state_bar, arg.path.join(".")) || state_bar;

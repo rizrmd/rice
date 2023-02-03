@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { createRoot } from "react-dom/client";
 import { Main } from "./element/main";
 import { useLocal } from "./libs/use-local";
-import { initRPC } from "./libs/rpc";
+import { initRPC } from "./libs/rpc-boot-app";
 import { waitUntil } from "./libs/wait-until";
 
 const container = document.getElementById("root");

@@ -1,36 +1,26 @@
 import { DeepProxy, THandlerContext } from "@qiwi/deep-proxy";
 import { defaultTheme } from "backend/src/libs/default-theme";
-import { load } from "ffontsloader";
-import { createClient } from "frontend/src/libs/rpc-action";
+import { rpcAction } from "frontend/src/libs/rpc-action";
 import { state_app } from "frontend/src/state/app";
-import { AppBarData, state_bar } from "frontend/src/state/bar";
-import { AppFrameData, state_desktop } from "frontend/src/state/desktop";
+import { state_bar } from "frontend/src/state/bar";
+import { state_desktop } from "frontend/src/state/desktop";
 import { AppInfo } from "types";
-
 export { cx } from "frontend/src/libs/cx";
 
 export const createApp = (arg: AppInfo) => {
-  return arg;
+  return arg as AppInfo;
 };
-
+ 
 export const app = {
-  // @ts-ignore
-  name: typeof $APP_NAME === "undefined" ? "" : $APP_NAME,
-  // @ts-ignore
-  mode: (typeof $APP_MODE === "undefined" ? "init" : $APP_MODE) as
-    | "init"
-    | "bar"
-    | "frame",
-  initialize: new Promise(async (resolve) => {
-    const app_data: Promise<any> =
-      // @ts-ignore
-      typeof $APP_DATA === "undefined"
-        ? undefined
-        : // @ts-ignore
-          $APP_DATA;
-
-    resolve(await app_data);
-  }) as Promise<AppBarData | AppFrameData | { type: "app" }>,
+  name: "",
+  rpc: rpcAction,
+  register(name: string, fn: () => Promise<void>) {
+    // this.name = name;
+    // const running = state_app._ref.running.find((e) => e.name === name);
+    // if (running) {
+    //   running.start = fn;
+    // }
+  },
 };
 
 export const readState = (
@@ -55,26 +45,22 @@ export const readState = (
         }
       ) as any
     );
-    const result = await rpc.read_state({ path: getter.___READ___ });
+    const result = await app.rpc.read_state({ path: getter.___READ___ });
     resolve(result);
   });
 };
 
-const rpc = createClient(app.name);
-
 export const bar = {
-  create: async (
-    arg: Omit<Parameters<typeof rpc.create_bar>[0], "appName">
-  ) => {
-    return await rpc.create_bar({ ...arg, appName: app.name });
+  create: async (fn: Parameters<typeof app.rpc["create_bar"]>[0]["fn"]) => {
+    return await app.rpc.create_bar({ appName: app.name, fn });
   },
 };
 
 export const frame = {
   create: async (
-    arg: Omit<Parameters<typeof rpc.create_frame>[0], "appName">
+    arg: Omit<Parameters<typeof app.rpc.create_frame>[0], "appName">
   ) => {
-    return await rpc.create_frame({ ...arg, appName: app.name });
+    return await app.rpc.create_frame({ ...arg, appName: app.name });
   },
   close: async (arg: { windowID: string }) => {},
 };
