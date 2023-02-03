@@ -3,11 +3,13 @@ import { FC } from "react";
 import { cx } from "../../libs/cx";
 import { pick } from "../../libs/pick";
 import { useGlobal } from "../../libs/use-global";
+import { state_app } from "../../state/app";
 import { BarItem, state_bar } from "../../state/bar";
 import { bg } from "../../state/unit/bg";
 
 export const Bar = () => {
   const bar = useGlobal(state_bar);
+  const app = useGlobal(state_app);
   bar._ref = bar;
 
   const dir =
@@ -19,6 +21,7 @@ export const Bar = () => {
     <div
       className={cx(
         "flex justify-between",
+        // app.boot.status !== 'ready' && 'opacity-0',
         pick(dir, {
           horizontal: "flex-row",
           vertical: "flex-col",

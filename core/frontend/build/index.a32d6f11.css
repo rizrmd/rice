@@ -263,8 +263,8 @@ html {
   }
 }
 
-.absolute {
-  position: absolute;
+.fixed {
+  position: fixed;
 }
 
 .relative {
@@ -333,13 +333,16 @@ html {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
-.bg-\[\#265058\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 80 88 / var(--tw-bg-opacity));
-}
-
 .p-10 {
   padding: 2.5rem;
+}
+
+.opacity-80 {
+  opacity: .8;
+}
+
+.opacity-0 {
+  opacity: 0;
 }
 
 .blur {

@@ -4,7 +4,7 @@ import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
 
 const core = async () => {
-  const [runtime, _, cmd, appName] = process.argv;
+  const [_runtime, _scriptName, cmd, appName] = process.argv;
   const dec = new TextDecoder();
   const dirs = {
     "": "",

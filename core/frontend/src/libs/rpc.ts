@@ -15,7 +15,7 @@ export const initRPC = () => {
   ws.onopen = async () => {
     w.rpc = client(ws, queue);
 
-    await waitUntil(() => state_app._ref)
+    await waitUntil(() => state_app._ref);
 
     const apps = await w.rpc.apps();
 
@@ -59,8 +59,8 @@ export const initRPC = () => {
       delete queue[msg.id];
     }
   };
-  ws.onclose = () => setTimeout(initRPC, 1000);
-  ws.onerror = () => setTimeout(initRPC, 1000);
+  ws.onclose = () => setTimeout(initRPC, 2000);
+  ws.onerror = () => setTimeout(initRPC, 2000);
 };
 
 const eventMethod = window.addEventListener

@@ -2931,7 +2931,6 @@ var _main = require("./element/main");
 var _useLocal = require("./libs/use-local");
 var _rpc = require("./libs/rpc");
 var _waitUntil = require("./libs/wait-until");
-//@ts-ignore
 const container = document.getElementById("root");
 if (container) {
     var _s = $RefreshSig$();
@@ -2954,12 +2953,12 @@ if (container) {
             },
             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _main.Main), {}, void 0, false, {
                 fileName: "src/index.tsx",
-                lineNumber: 32,
+                lineNumber: 31,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/index.tsx",
-            lineNumber: 24,
+            lineNumber: 23,
             columnNumber: 7
         }, undefined);
     };
@@ -2972,7 +2971,7 @@ if (container) {
         (0, _rpc.initRPC)();
         root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(App, {}, void 0, false, {
             fileName: "src/index.tsx",
-            lineNumber: 39,
+            lineNumber: 38,
             columnNumber: 17
         }, undefined));
     });
@@ -27203,25 +27202,29 @@ const Main = ()=>{
             top: "flex-col"
         }), (0, _bg.bg).render(backend_theme.bg)),
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _bar1.Bar), {}, void 0, false, {
-                fileName: "src/element/main.tsx",
-                lineNumber: 30,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _desktop.Desktop), {}, void 0, false, {
-                fileName: "src/element/main.tsx",
-                lineNumber: 31,
-                columnNumber: 7
-            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _bar1.Bar), {}, void 0, false, {
+                        fileName: "src/element/main.tsx",
+                        lineNumber: 31,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _desktop.Desktop), {}, void 0, false, {
+                        fileName: "src/element/main.tsx",
+                        lineNumber: 32,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.AnimatePresence), {
                 children: app.boot.status === "loading" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _boot.Boot), {}, void 0, false, {
                     fileName: "src/element/main.tsx",
-                    lineNumber: 33,
+                    lineNumber: 35,
                     columnNumber: 43
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/element/main.tsx",
-                lineNumber: 32,
+                lineNumber: 34,
                 columnNumber: 7
             }, undefined)
         ]
@@ -27519,7 +27522,10 @@ const bg = {
         return (0, _goober.css)`
       ${bg.img && `background-image: url(${bg.img});`}
       ${bg.fill && `background-size: ${bg.fill === "stretch" ? "100% 100%" : bg.fill};`}
-      ${bg.blur && `backdrop-filter: blur(${bg.blur});`}
+      ${bg.blur && `
+      backdrop-filter: blur(${bg.blur});
+      -webkit-backdrop-filter: blur(${bg.blur});
+      `}
       ${bg.color && `background-color: ${bg.color};`}
     `;
     }
@@ -27629,16 +27635,19 @@ var _goober = require("goober");
 var _cx = require("../../libs/cx");
 var _pick = require("../../libs/pick");
 var _useGlobal = require("../../libs/use-global");
+var _app = require("../../state/app");
 var _bar = require("../../state/bar");
 var _bg = require("../../state/unit/bg");
 var _s = $RefreshSig$();
 const Bar = ()=>{
     _s();
     const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
+    const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
     bar._ref = bar;
     const dir = bar.position === "bottom" || bar.position === "top" ? "horizontal" : "vertical";
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex justify-between", (0, _pick.pick)(dir, {
+        className: (0, _cx.cx)("flex justify-between", // app.boot.status !== 'ready' && 'opacity-0',
+        (0, _pick.pick)(dir, {
             horizontal: "flex-row",
             vertical: "flex-col"
         }), (0, _goober.css)`
@@ -27659,23 +27668,24 @@ const Bar = ()=>{
                     bar: bar
                 }, item.id, false, {
                     fileName: "src/element/bar/bar.tsx",
-                    lineNumber: 41,
+                    lineNumber: 44,
                     columnNumber: 18
                 }, undefined);
             })
         }, void 0, false, {
             fileName: "src/element/bar/bar.tsx",
-            lineNumber: 39,
+            lineNumber: 42,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/element/bar/bar.tsx",
-        lineNumber: 19,
+        lineNumber: 21,
         columnNumber: 5
     }, undefined);
 };
-_s(Bar, "P96aFOAdc+OL7SygLQqmS3Sx9pE=", false, function() {
+_s(Bar, "dxoIvpc9ECJNZetUWQcQtKUKLeQ=", false, function() {
     return [
+        (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal)
     ];
 });
@@ -27711,7 +27721,7 @@ const BarItem = ({ item , dir , bar  })=>{
         `)
     }, void 0, false, {
         fileName: "src/element/bar/bar.tsx",
-        lineNumber: 54,
+        lineNumber: 57,
         columnNumber: 5
     }, undefined);
 };
@@ -27725,7 +27735,29 @@ $RefreshReg$(_c1, "BarItem");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../state/bar":"dPrzi","../../state/unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"dXGG5":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../state/bar":"dPrzi","../../state/unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../../state/app":"cFz1s"}],"cFz1s":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state_app", ()=>state_app);
+var _useGlobal = require("../libs/use-global");
+const default_app = {
+    startup: [
+        "launcher"
+    ],
+    installed: {},
+    running: [],
+    boot: {
+        appLoaded: false,
+        status: "loading",
+        loadingPercent: 0
+    },
+    asset: {
+        bg: null
+    }
+};
+const state_app = (0, _useGlobal.declareGlobal)(default_app);
+
+},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"dXGG5":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$ccf9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27745,9 +27777,28 @@ var _s = $RefreshSig$();
 const Boot = ()=>{
     _s();
     const app = (0, _useGlobal.useGlobal)((0, _app.state_app), async ()=>{
-        app.boot.loadingPercent = 100;
-        app.render();
+        app.asset.bg = new Image();
+        let ival = setInterval(()=>{
+            if (app.boot.loadingPercent < 95) {
+                app.boot.loadingPercent += 7;
+                app.render();
+            } else clearInterval(ival);
+        }, 1000);
+        app.asset.bg.onload = function() {
+            clearInterval(ival);
+            app.boot.loadingPercent = 100;
+            app.render();
+        };
+        app.asset.bg.src = backend_theme.bg.img;
     });
+    if (app.boot.status === "loading" && app.boot.loadingPercent === 100 && app.boot.appLoaded) {
+        for (const running of app.running)running.iframe.contentWindow.postMessage({
+            type: "APP_DATA",
+            result: undefined
+        });
+        app.boot.status = "ready";
+        setTimeout(app.render, 500);
+    }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
         initial: {
             opacity: 1
@@ -27755,28 +27806,30 @@ const Boot = ()=>{
         exit: {
             opacity: 0
         },
-        className: (0, _cx.cx)("flex absolute inset-0 select-none justify-center items-center", (0, _goober.css)`
+        className: (0, _cx.cx)("flex fixed inset-0 select-none justify-center items-center", (0, _goober.css)`
+          z-index: 99;
           background-color: ${backend_theme.bg.color};
         `),
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             className: "w-[150px] bg-gray-200 h-1",
             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: (0, _cx.cx)("bg-[#265058] h-1 transition-all", (0, _goober.css)`
+                className: (0, _cx.cx)("h-1 transition-all opacity-80", (0, _goober.css)`
+              background-color: ${backend_theme.bg.color};
               width: ${app.boot.loadingPercent}%;
             `)
             }, void 0, false, {
                 fileName: "src/element/boot.tsx",
-                lineNumber: 26,
+                lineNumber: 55,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/element/boot.tsx",
-            lineNumber: 25,
+            lineNumber: 54,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/element/boot.tsx",
-        lineNumber: 15,
+        lineNumber: 43,
         columnNumber: 5
     }, undefined);
 };
@@ -27794,30 +27847,7 @@ $RefreshReg$(_c, "Boot");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../libs/cx":"cO2cu","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../libs/use-global":"bDE6Q","../state/app":"cFz1s","goober":"gILVw","framer-motion":"5bZBB"}],"cFz1s":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state_app", ()=>state_app);
-var _useGlobal = require("../libs/use-global");
-const default_app = {
-    startup: [
-        "launcher"
-    ],
-    installed: {},
-    running: [],
-    boot: {
-        appLoaded: false,
-        status: "loading",
-        loadingPercent: 0
-    },
-    asset: {
-        bg: null,
-        font: null
-    }
-};
-const state_app = (0, _useGlobal.declareGlobal)(default_app);
-
-},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"5bZBB":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","../libs/cx":"cO2cu","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../libs/use-global":"bDE6Q","../state/app":"cFz1s","goober":"gILVw","framer-motion":"5bZBB"}],"5bZBB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createDomMotionComponent", ()=>(0, _motionMjs.createDomMotionComponent));
@@ -39891,16 +39921,8 @@ const Desktop = ()=>{
     const desktop = (0, _useGlobal.useGlobal)((0, _desktop.state_desktop));
     const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
     desktop._ref = desktop;
-    if (app.boot.status === "loading" && app.boot.loadingPercent === 100 && app.boot.appLoaded) {
-        for (const running of app.running)running.iframe.contentWindow.postMessage({
-            type: "APP_DATA",
-            result: undefined
-        });
-        app.boot.status = "ready";
-        setTimeout(app.render, 500);
-    }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex-1 flex p-10"),
+        className: (0, _cx.cx)("flex-1 flex p-10 "),
         onContextMenu: (e)=>{
             e.preventDefault();
             e.stopPropagation();
@@ -39911,13 +39933,13 @@ const Desktop = ()=>{
                 frame: desktop
             }, item.id, false, {
                 fileName: "src/element/desktop/desktop.tsx",
-                lineNumber: 37,
+                lineNumber: 25,
                 columnNumber: 16
             }, undefined);
         })
     }, void 0, false, {
         fileName: "src/element/desktop/desktop.tsx",
-        lineNumber: 29,
+        lineNumber: 14,
         columnNumber: 5
     }, undefined);
 };
@@ -39953,7 +39975,7 @@ const FrameItem = ({ item , frame  })=>{
         `)
     }, void 0, false, {
         fileName: "src/element/desktop/desktop.tsx",
-        lineNumber: 48,
+        lineNumber: 36,
         columnNumber: 5
     }, undefined);
 };
@@ -40085,8 +40107,8 @@ const initRPC = ()=>{
             delete queue[msg.id];
         }
     };
-    ws.onclose = ()=>setTimeout(initRPC, 1000);
-    ws.onerror = ()=>setTimeout(initRPC, 1000);
+    ws.onclose = ()=>setTimeout(initRPC, 2000);
+    ws.onerror = ()=>setTimeout(initRPC, 2000);
 };
 const eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 const eventer = window[eventMethod];

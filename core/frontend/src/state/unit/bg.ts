@@ -19,7 +19,11 @@ export const bg = {
       ${bg.img && `background-image: url(${bg.img});`}
       ${bg.fill &&
       `background-size: ${bg.fill === "stretch" ? "100% 100%" : bg.fill};`}
-      ${bg.blur && `backdrop-filter: blur(${bg.blur});`}
+      ${bg.blur &&
+      `
+      backdrop-filter: blur(${bg.blur});
+      -webkit-backdrop-filter: blur(${bg.blur});
+      `}
       ${bg.color && `background-color: ${bg.color};`}
     `;
   },

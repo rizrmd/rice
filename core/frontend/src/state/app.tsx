@@ -12,8 +12,7 @@ const default_app = {
     loadingPercent: 0,
   },
   asset: {
-    bg: null as typeof Image,
-    font: null as typeof FontFace,
+    bg: null as HTMLImageElement,
   },
 };
 export const state_app = declareGlobal(default_app);

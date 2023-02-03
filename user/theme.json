@@ -2,8 +2,7 @@
   "bg": {
     "img": "/user/pictures/bg.jpg",
     "fill": "cover",
-    "color": "#0a1a20",
-    "blur": ""
+    "color": "#0a1a20"
   },
   "font": {
     "color": "white",

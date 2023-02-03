@@ -158,10 +158,24 @@ const initIndexHtml = () => {
     index.html.split("<!-- app-style:end -->")[1],
   ];
 
-  index.html = html.join("\n").replace(
-    "</body>",
-    `\
+  const theme = action.theme();
+
+  index.html = html
+    .join("\n")
+    .replace(
+      `<!-- base-style -->`,
+      `\
+<style>
+html,
+body{
+  background-color: ${theme.bg.color};
+}
+</style>`
+    )
+    .replace(
+      "</body>",
+      `\
   <script>window.backend_theme = ${JSON.stringify(action.theme())}</script>
 </body>`
-  );
+    );
 };

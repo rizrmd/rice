@@ -27,8 +27,10 @@ export const Main = () => {
         bg.render(backend_theme.bg)
       )}
     >
-      <Bar />
-      <Desktop />
+      <>
+        <Bar />
+        <Desktop />
+      </>
       <AnimatePresence>
         {app.boot.status === "loading" && <Boot />}
       </AnimatePresence>

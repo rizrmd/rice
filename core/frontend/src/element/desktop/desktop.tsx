@@ -10,24 +10,12 @@ export const Desktop = () => {
   const app = useGlobal(state_app);
   desktop._ref = desktop;
 
-  if (
-    app.boot.status === "loading" &&
-    app.boot.loadingPercent === 100 &&
-    app.boot.appLoaded
-  ) {
-    for (const running of app.running) {
-      running.iframe.contentWindow.postMessage({
-        type: "APP_DATA",
-        result: undefined,
-      });
-    }
-    app.boot.status = "ready";
-    setTimeout(app.render, 500);
-  }
-
   return (
     <div
-      className={cx("flex-1 flex p-10")}
+      className={cx(
+        "flex-1 flex p-10 ",
+        // app.boot.status !== "ready" && "opacity-0"
+      )}
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();

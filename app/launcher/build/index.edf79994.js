@@ -29740,7 +29740,10 @@ const bg = {
         return (0, _goober.css)`
       ${bg.img && `background-image: url(${bg.img});`}
       ${bg.fill && `background-size: ${bg.fill === "stretch" ? "100% 100%" : bg.fill};`}
-      ${bg.blur && `backdrop-filter: blur(${bg.blur});`}
+      ${bg.blur && `
+      backdrop-filter: blur(${bg.blur});
+      -webkit-backdrop-filter: blur(${bg.blur});
+      `}
       ${bg.color && `background-color: ${bg.color};`}
     `;
     }
@@ -30588,8 +30591,7 @@ const default_app = {
         loadingPercent: 0
     },
     asset: {
-        bg: null,
-        font: null
+        bg: null
     }
 };
 const state_app = (0, _useGlobal.declareGlobal)(default_app);

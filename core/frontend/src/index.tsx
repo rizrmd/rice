@@ -5,7 +5,6 @@ import { useLocal } from "./libs/use-local";
 import { initRPC } from "./libs/rpc";
 import { waitUntil } from "./libs/wait-until";
 
-//@ts-ignore
 const container = document.getElementById("root");
 
 if (container) {
