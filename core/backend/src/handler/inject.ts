@@ -2,7 +2,7 @@ import { build } from "esbuild";
 import { existsSync } from "fs";
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { backend_state } from "../state";
+import { backend_state } from "../init-state";
 import { app } from "rice";
 const root = join(import.meta.dir, "..", "..", "..", "..");
 

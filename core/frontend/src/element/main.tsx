@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { cx } from "../libs/cx";
 import { pick } from "../libs/pick";
 import { useGlobal } from "../libs/use-global";
@@ -10,9 +11,9 @@ import { Desktop } from "./desktop/desktop";
 
 export const Main = () => {
   const bar = useGlobal(state_bar);
-  const app = useGlobal(state_app); // required to re-render on app change
-
+  const app = useGlobal(state_app);
   app._ref = app;
+
   return (
     <div
       className={cx(
@@ -28,7 +29,9 @@ export const Main = () => {
     >
       <Bar />
       <Desktop />
-      {app.boot.status === "loading" && <Boot />}
+      <AnimatePresence>
+        {app.boot.status === "loading" && <Boot />}
+      </AnimatePresence>
     </div>
   );
 };

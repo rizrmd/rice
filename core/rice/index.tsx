@@ -1,9 +1,10 @@
 import { DeepProxy, THandlerContext } from "@qiwi/deep-proxy";
 import { defaultTheme } from "backend/src/libs/default-theme";
+import { load } from "ffontsloader";
 import { createClient } from "frontend/src/libs/rpc-action";
 import { state_app } from "frontend/src/state/app";
 import { AppBarData, state_bar } from "frontend/src/state/bar";
-import { state_desktop } from "frontend/src/state/desktop";
+import { AppFrameData, state_desktop } from "frontend/src/state/desktop";
 import { AppInfo } from "types";
 
 export { cx } from "frontend/src/libs/cx";
@@ -20,11 +21,16 @@ export const app = {
     | "init"
     | "bar"
     | "frame",
-  // @ts-ignore
-  modeInfo: (typeof $APP_DATA === "undefined"
-    ? undefined
-    : // @ts-ignore
-      $APP_DATA) as Promise<undefined | AppBarData>,
+  initialize: new Promise(async (resolve) => {
+    const app_data: Promise<any> =
+      // @ts-ignore
+      typeof $APP_DATA === "undefined"
+        ? undefined
+        : // @ts-ignore
+          $APP_DATA;
+
+    resolve(await app_data);
+  }) as Promise<AppBarData | AppFrameData | { type: "app" }>,
 };
 
 export const readState = (

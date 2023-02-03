@@ -1,15 +1,15 @@
 import { css } from "goober";
 import { createRoot } from "react-dom/client";
-import { bar, cx, app, frame, readState } from "rice";
+import { app, bar, cx, frame } from "rice";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
 
 (async () => {
-  const info = await app.modeInfo;
+  const init = await app.initialize;
 
-  switch (app.mode) {
-    case "init":
+  switch (init.type) {
+    case "app":
       {
         await bar.create({
           position: "start",
@@ -27,15 +27,9 @@ const root = createRoot(container);
             e.preventDefault();
             e.stopPropagation();
           }}
-          className={cx(
-            "flex items-center px-4 border-r border-r-[#ececeb22]",
-            css`
-              color: white;
-              font-size: 9px;
-            `
-          )}
+          className={cx("flex items-center px-4 border-r border-r-[#ececeb22]")}
         >
-          <div>New {info.data.hello}</div>
+          <div>New {init.data.hello}</div>
         </div>
       );
       break;
@@ -48,8 +42,6 @@ const root = createRoot(container);
               "flex-1",
               css`
                 background: #6e89ff2e;
-                color: white;
-                font-size: 9px;
               `
             )}
           >

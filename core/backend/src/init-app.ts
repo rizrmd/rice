@@ -1,12 +1,12 @@
 import { existsSync, readdirSync, statSync } from "fs";
-import { readFile } from "fs/promises";
 import { join } from "path";
 import { app } from "rice";
-import { backend_state } from "./state";
+import { backend_state } from "./init-state";
 
 export const initApp = async () => {
   const root = join(import.meta.dir, "..", "..", "..");
   const files = readdirSync(join(root, "app"));
+
   for (const appName of files) {
     if (appName === "node_modules") continue;
     const path = join(root, "app", appName);
@@ -18,7 +18,7 @@ export const initApp = async () => {
       }
 
       try {
-        const info = (await import(appPath)).default as ReturnType<typeof app>;
+        const info = (await import(appPath)).default as typeof app;
         backend_state.app[appName] = {
           info,
           html: "",

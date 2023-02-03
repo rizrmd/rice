@@ -10,14 +10,19 @@ export const Desktop = () => {
   const app = useGlobal(state_app);
   desktop._ref = desktop;
 
-  if (app.boot.status === "asset-loaded") {
-    for (const app of state_app.running) {
-      app.iframe.contentWindow.postMessage({
+  if (
+    app.boot.status === "loading" &&
+    app.boot.loadingPercent === 100 &&
+    app.boot.appLoaded
+  ) {
+    for (const running of app.running) {
+      running.iframe.contentWindow.postMessage({
         type: "APP_DATA",
         result: undefined,
       });
     }
     app.boot.status = "ready";
+    setTimeout(app.render, 500);
   }
 
   return (

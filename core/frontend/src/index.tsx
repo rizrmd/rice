@@ -3,11 +3,10 @@ import { createRoot } from "react-dom/client";
 import { Main } from "./element/main";
 import { useLocal } from "./libs/use-local";
 import { initRPC } from "./libs/rpc";
+import { waitUntil } from "./libs/wait-until";
 
 //@ts-ignore
 const container = document.getElementById("root");
-
-initRPC();
 
 if (container) {
   const root = createRoot(container);
@@ -35,5 +34,8 @@ if (container) {
     );
   };
 
-  root.render(<App />);
+  waitUntil(() => typeof backend_theme !== "undefined").then(() => {
+    initRPC();
+    root.render(<App />);
+  });
 }

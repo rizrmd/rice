@@ -2,8 +2,9 @@ import { file, Server } from "bun";
 import { existsSync, readFileSync, statSync, writeFileSync } from "fs";
 import { readFile } from "fs/promises";
 import { join, resolve } from "path";
+import { action } from "../action";
+import { backend_state } from "../init-state";
 import { defaultTheme } from "../libs/default-theme";
-import { backend_state } from "../state";
 import { injectIndex } from "./inject";
 import { proxy } from "./proxy";
 
@@ -151,20 +152,16 @@ const initIndexHtml = () => {
     writeFileSync(themePath, JSON.stringify(defaultTheme, null, 2));
   }
 
-  const theme = JSON.parse(
-    readFileSync(join(root, "user", "theme.json"), "utf-8")
-  );
+  const html = [
+    index.html.split("<!-- app-style:start -->")[0],
+    backend_state.rice.style,
+    index.html.split("<!-- app-style:end -->")[1],
+  ];
 
-  const fn = new Function(
-    "theme",
-    `return \`${index.html.replace(/\[(.*?)\]/g, "${$1}")}\``
-  );
-  index.html = fn(theme);
-
-  index.html = index.html.replace(
+  index.html = html.join("\n").replace(
     "</body>",
     `\
-  <script>window.backend_theme = ${JSON.stringify(theme)}</script>
+  <script>window.backend_theme = ${JSON.stringify(action.theme())}</script>
 </body>`
   );
 };

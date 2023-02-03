@@ -2,15 +2,16 @@ import { AppInfo } from "rice/types";
 import { declareGlobal } from "../libs/use-global";
 
 export type AppRunning = AppInfo & { iframe: HTMLIFrameElement };
-export const default_app = {
+const default_app = {
   startup: ["launcher"],
   installed: {} as Record<string, AppInfo>,
   running: [] as AppRunning[],
   boot: {
-    status: "loading" as "loading" | "asset-loaded" | "ready",
+    appLoaded: false,
+    status: "loading" as "loading" | "ready",
     loadingPercent: 0,
   },
-  cache: {
+  asset: {
     bg: null as typeof Image,
     font: null as typeof FontFace,
   },

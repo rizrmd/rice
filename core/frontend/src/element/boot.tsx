@@ -1,22 +1,20 @@
+import { load } from "ffontsloader";
+import { motion } from "framer-motion";
 import { css } from "goober";
 import { cx } from "../libs/cx";
 import { useGlobal } from "../libs/use-global";
-import { default_app } from "../state/app";
-export const Boot = () => {
-  const app = useGlobal(default_app, async () => {
-    setTimeout(() => {
-      app.boot.loadingPercent = 100;
-      app.render();
-    }, 500);
+import { state_app } from "../state/app";
 
-    setTimeout(() => {
-      app.boot.status = "asset-loaded";
-      app.render();
-    }, 800);
+export const Boot = () => {
+  const app = useGlobal(state_app, async () => {
+    app.boot.loadingPercent = 100;
+    app.render();
   });
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className={cx(
         "flex absolute inset-0 select-none justify-center items-center",
         css`
@@ -34,6 +32,6 @@ export const Boot = () => {
           )}
         ></div>
       </div>
-    </div>
+    </motion.div>
   );
 };

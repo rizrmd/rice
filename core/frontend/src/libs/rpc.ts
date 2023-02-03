@@ -3,6 +3,7 @@ import { createRequestHandler, Handlers } from "rpc";
 import { AppRunning, state_app } from "../state/app";
 import { rpcAction } from "./rpc-action";
 import { w } from "./w";
+import { waitUntil } from "./wait-until";
 
 let retry = 0;
 export const initRPC = () => {
@@ -13,6 +14,8 @@ export const initRPC = () => {
   const queue: ClientQueue = {};
   ws.onopen = async () => {
     w.rpc = client(ws, queue);
+
+    await waitUntil(() => state_app._ref)
 
     const apps = await w.rpc.apps();
 
@@ -26,11 +29,19 @@ export const initRPC = () => {
           app.iframe.src = `/app/${app.name}`;
           app.iframe.id = `app-${app.name}`;
           app.iframe.className = "hidden";
+          app.iframe.onload = () => {
+            const w: any = app.iframe.contentWindow;
+            if (w.app_data_resolve) {
+              w.app_data_resolve({ type: "app" });
+            }
+          };
           document.body.append(app.iframe);
-          state_app.running.push(app);
+          state_app._ref.running.push(app);
         }
       }
     }
+    state_app._ref.boot.appLoaded = true;
+    state_app._ref.render();
   };
 
   ws.onmessage = async ({ data }) => {

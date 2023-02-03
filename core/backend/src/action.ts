@@ -2,8 +2,8 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { AppInfo } from "rice/types";
 import { defaultTheme } from "./libs/default-theme.js";
-import { backend_state } from "./state.js";
-const root = join(import.meta.dir, "..", "..", "..", "..");
+import { backend_state } from "./init-state.js";
+const root = join(import.meta.dir, "..", "..", "..");
 
 export const action = {
   setDevUrl(url: string) {

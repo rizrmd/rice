@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { createApp } from "rice";
+import { action } from "./action";
 
 const root = join(import.meta.dir, "..", "..", "..");
 
@@ -34,7 +35,25 @@ export const initState = async () => {
 
   backend_state.rice.style =
     index
-      .split("<!-- style:start -->")[1]
-      .split("<!-- style:end -->")
+      .split("<!-- app-style:start -->")[1]
+      .split("<!-- app-style:end -->")
       .shift() || "";
+
+  const theme = action.theme();
+  backend_state.rice.style += `
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(
+    theme.font.family
+  )}:wght@${theme.font.weight}&display=block');
+
+html,
+body,
+#root,
+#app {
+  font-family: '${theme.font.family}';
+  font-size: ${theme.font.size};
+  color: ${theme.font.color};
+}
+</style>`;
 };

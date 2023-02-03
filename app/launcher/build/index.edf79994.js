@@ -2931,9 +2931,9 @@ var _rice = require("rice");
 const container = document.getElementById("app");
 const root = (0, _client.createRoot)(container);
 (async ()=>{
-    const info = await (0, _rice.app).modeInfo;
-    switch((0, _rice.app).mode){
-        case "init":
+    const init = await (0, _rice.app).initialize;
+    switch(init.type){
+        case "app":
             await (0, _rice.bar).create({
                 position: "start",
                 size: "100px",
@@ -2953,18 +2953,15 @@ const root = (0, _client.createRoot)(container);
                     e.preventDefault();
                     e.stopPropagation();
                 },
-                className: (0, _rice.cx)("flex items-center px-4 border-r border-r-[#ececeb22]", (0, _goober.css)`
-              color: white;
-              font-size: 9px;
-            `),
+                className: (0, _rice.cx)("flex items-center px-4 border-r border-r-[#ececeb22]"),
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     children: [
                         "New ",
-                        info.data.hello
+                        init.data.hello
                     ]
                 }, void 0, true, {
                     fileName: "src/index.tsx",
-                    lineNumber: 38,
+                    lineNumber: 32,
                     columnNumber: 11
                 }, undefined)
             }, void 0, false, {
@@ -2977,13 +2974,11 @@ const root = (0, _client.createRoot)(container);
             root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: (0, _rice.cx)("flex-1", (0, _goober.css)`
                 background: #6e89ff2e;
-                color: white;
-                font-size: 9px;
               `),
                 children: "New Rice"
             }, void 0, false, {
                 fileName: "src/index.tsx",
-                lineNumber: 46,
+                lineNumber: 40,
                 columnNumber: 11
             }, undefined));
             break;
@@ -27319,8 +27314,11 @@ const app = {
     name: typeof $APP_NAME === "undefined" ? "" : $APP_NAME,
     // @ts-ignore
     mode: typeof $APP_MODE === "undefined" ? "init" : $APP_MODE,
-    // @ts-ignore
-    modeInfo: typeof $APP_DATA === "undefined" ? undefined : $APP_DATA
+    initialize: new Promise(async (resolve)=>{
+        const app_data = // @ts-ignore
+        typeof $APP_DATA === "undefined" ? undefined : $APP_DATA;
+        resolve(await app_data);
+    })
 };
 const readState = (fn)=>{
     return new Promise(async (resolve)=>{
@@ -30576,7 +30574,6 @@ module.exports = get;
 },{}],"faUhg":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default_app", ()=>default_app);
 parcelHelpers.export(exports, "state_app", ()=>state_app);
 var _useGlobal = require("../libs/use-global");
 const default_app = {
@@ -30586,10 +30583,11 @@ const default_app = {
     installed: {},
     running: [],
     boot: {
+        appLoaded: false,
         status: "loading",
         loadingPercent: 0
     },
-    cache: {
+    asset: {
         bg: null,
         font: null
     }
