@@ -1,15 +1,14 @@
 import { css } from "goober";
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import { cx } from "../../libs/cx";
 import { pick } from "../../libs/pick";
 import { useGlobal } from "../../libs/use-global";
-import { state_app } from "../../state/app";
 import { BarItem, state_bar } from "../../state/bar";
 import { bg } from "../../state/unit/bg";
 
 export const Bar = () => {
-  const app = useGlobal(state_app);
   const bar = useGlobal(state_bar);
+  bar._ref = bar;
 
   const dir =
     bar.position === "bottom" || bar.position === "top"

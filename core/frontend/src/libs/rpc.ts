@@ -1,7 +1,6 @@
 import { client, ClientQueue, schema } from "backend";
 import { createRequestHandler, Handlers } from "rpc";
 import { AppRunning, state_app } from "../state/app";
-import { state_desktop } from "../state/desktop";
 import { rpcAction } from "./rpc-action";
 import { w } from "./w";
 
@@ -27,20 +26,11 @@ export const initRPC = () => {
           app.iframe.src = `/app/${app.name}`;
           app.iframe.id = `app-${app.name}`;
           app.iframe.className = "hidden";
-          app.iframe.onload = () => {
-            app.iframe.contentWindow.postMessage({
-              type: "APP_DATA",
-              result: undefined,
-            });
-          };
           document.body.append(app.iframe);
           state_app.running.push(app);
         }
       }
     }
-
-    state_desktop._ref.booting = false;
-    state_desktop._ref.render();
   };
 
   ws.onmessage = async ({ data }) => {

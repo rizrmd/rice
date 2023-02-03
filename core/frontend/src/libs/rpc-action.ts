@@ -10,7 +10,6 @@ import {
 import { state_app } from "../state/app";
 import { AppBarData, state_bar } from "../state/bar";
 import { state_desktop } from "../state/desktop";
-import { state_frame } from "../state/frame";
 
 export const rpcAction = {
   create_frame(arg: {
@@ -21,16 +20,20 @@ export const rpcAction = {
     data?: any;
   }) {
     const frameID = cuid();
-    state_frame._ref.items.push({
-      id: frameID,
-      iframe: null,
-      appName: arg.appName,
-      width: arg.width,
-      height: arg.height,
-      data: arg.data,
-      title: arg.title,
-    });
-    state_frame._ref.render();
+    if (state_desktop._ref) {
+      state_desktop._ref.frame.items.push({
+        id: frameID,
+        iframe: null,
+        appName: arg.appName,
+        width: arg.width,
+        height: arg.height,
+        data: arg.data,
+        title: arg.title,
+      });
+      state_desktop._ref.render();
+    } else {
+      console.warn("Failed to create frame, state_desktop is not initialized.");
+    }
   },
   create_bar(arg: {
     appName: string;
@@ -59,11 +62,12 @@ export const rpcAction = {
   },
   read_state(arg: { path: string[] }) {
     const state = arg.path.shift();
-
-    if (state === "bar") return get(state_bar, arg.path.join("."));
-    if (state === "app") return get(state_app, arg.path.join("."));
-    if (state === "desktop") return get(state_desktop, arg.path.join("."));
-    if (state === "frame") return get(state_frame, arg.path.join("."));
+    if (state === "bar") return get(state_bar, arg.path.join(".")) || state_bar;
+    if (state === "app") return get(state_app, arg.path.join(".")) || state_app;
+    if (state === "desktop")
+      return get(state_desktop, arg.path.join(".")) || state_desktop;
+    if (state === "theme")
+      return get(backend_theme, arg.path.join(".")) || backend_theme;
 
     return undefined;
   },
@@ -83,7 +87,7 @@ export const createClient = (appName: string) => {
     const data = e.data;
 
     if (data.type === "APP_DATA") {
-      (window as any).app_data_resolve(data.result);
+      app_data_resolve(data.result);
       return;
     }
 

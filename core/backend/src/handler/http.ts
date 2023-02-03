@@ -1,14 +1,19 @@
 import { file, Server } from "bun";
-import { existsSync, statSync } from "fs";
+import { existsSync, readFileSync, statSync, writeFileSync } from "fs";
 import { readFile } from "fs/promises";
 import { join, resolve } from "path";
+import { defaultTheme } from "../libs/default-theme";
 import { backend_state } from "../state";
 import { injectIndex } from "./inject";
 import { proxy } from "./proxy";
-const root = join(import.meta.dir, "..", "..", "..", "..");
 
+const root = join(import.meta.dir, "..", "..", "..", "..");
 const exists = new Set<string>();
 const skipCheckContent = new Set<string>();
+const index = {
+  html: "",
+};
+
 export const http = async (req: Request, server: Server) => {
   if (
     server.upgrade(req, {
@@ -22,6 +27,10 @@ export const http = async (req: Request, server: Server) => {
 
   const url = new URL(req.url);
   const path = url.pathname;
+
+  if (!index.html) {
+    initIndexHtml();
+  }
 
   if (path.startsWith("/app/")) {
     const q = url.search;
@@ -82,7 +91,11 @@ export const http = async (req: Request, server: Server) => {
 
   const fedir = join(root, "core", "frontend", "build");
   if (url.pathname === "/") {
-    return new Response(file(join(fedir, "index.html")));
+    return new Response(index.html, {
+      headers: {
+        "content-type": "text/html",
+      },
+    });
   }
 
   const targetPath = join(fedir, url.pathname);
@@ -101,7 +114,11 @@ export const http = async (req: Request, server: Server) => {
       return new Response(file(targetPath));
     }
 
-    return new Response(file(join(fedir, "index.html")));
+    return new Response(index.html, {
+      headers: {
+        "content-type": "text/html",
+      },
+    });
   }
 };
 
@@ -123,4 +140,31 @@ const replaceContent = async (targetPath: string) => {
     }
     skipCheckContent.add(targetPath);
   }
+};
+
+const initIndexHtml = () => {
+  const fedir = join(root, "core", "frontend", "build");
+  index.html = readFileSync(join(fedir, "index.html"), "utf-8");
+
+  const themePath = join(root, "user", "theme.json");
+  if (!existsSync(themePath)) {
+    writeFileSync(themePath, JSON.stringify(defaultTheme, null, 2));
+  }
+
+  const theme = JSON.parse(
+    readFileSync(join(root, "user", "theme.json"), "utf-8")
+  );
+
+  const fn = new Function(
+    "theme",
+    `return \`${index.html.replace(/\[(.*?)\]/g, "${$1}")}\``
+  );
+  index.html = fn(theme);
+
+  index.html = index.html.replace(
+    "</body>",
+    `\
+  <script>window.backend_theme = ${JSON.stringify(theme)}</script>
+</body>`
+  );
 };

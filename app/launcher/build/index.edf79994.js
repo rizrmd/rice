@@ -2931,6 +2931,7 @@ var _rice = require("rice");
 const container = document.getElementById("app");
 const root = (0, _client.createRoot)(container);
 (async ()=>{
+    const info = await (0, _rice.app).modeInfo;
     switch((0, _rice.app).mode){
         case "init":
             await (0, _rice.bar).create({
@@ -2940,7 +2941,6 @@ const root = (0, _client.createRoot)(container);
                     hello: "world"
                 }
             });
-            // console.log(await readState((state) => state.bar.items[0]));
             await (0, _rice.frame).create({
                 width: "640px",
                 height: "480px",
@@ -2948,34 +2948,31 @@ const root = (0, _client.createRoot)(container);
             });
             break;
         case "bar":
-            {
-                const bar = await (0, _rice.app).modeInfo;
-                root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    onContextMenu: (e)=>{
-                        e.preventDefault();
-                        e.stopPropagation();
-                    },
-                    className: (0, _rice.cx)("flex items-center px-4 border-r border-r-[#ececeb22]", (0, _goober.css)`
+            root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                onContextMenu: (e)=>{
+                    e.preventDefault();
+                    e.stopPropagation();
+                },
+                className: (0, _rice.cx)("flex items-center px-4 border-r border-r-[#ececeb22]", (0, _goober.css)`
               color: white;
               font-size: 9px;
             `),
-                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        children: [
-                            "New ",
-                            bar.data.hello
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/index.tsx",
-                        lineNumber: 38,
-                        columnNumber: 11
-                    }, undefined)
-                }, void 0, false, {
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    children: [
+                        "New ",
+                        info.data.hello
+                    ]
+                }, void 0, true, {
                     fileName: "src/index.tsx",
-                    lineNumber: 25,
-                    columnNumber: 9
-                }, undefined));
-                break;
-            }
+                    lineNumber: 38,
+                    columnNumber: 11
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/index.tsx",
+                lineNumber: 25,
+                columnNumber: 9
+            }, undefined));
+            break;
         case "frame":
             root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: (0, _rice.cx)("flex-1", (0, _goober.css)`
@@ -27370,20 +27367,21 @@ var _rpc = require("rpc");
 var _app = require("../state/app");
 var _bar = require("../state/bar");
 var _desktop = require("../state/desktop");
-var _frame = require("../state/frame");
 const rpcAction = {
     create_frame (arg) {
         const frameID = (0, _cuidDefault.default)();
-        (0, _frame.state_frame)._ref.items.push({
-            id: frameID,
-            iframe: null,
-            appName: arg.appName,
-            width: arg.width,
-            height: arg.height,
-            data: arg.data,
-            title: arg.title
-        });
-        (0, _frame.state_frame)._ref.render();
+        if ((0, _desktop.state_desktop)._ref) {
+            (0, _desktop.state_desktop)._ref.frame.items.push({
+                id: frameID,
+                iframe: null,
+                appName: arg.appName,
+                width: arg.width,
+                height: arg.height,
+                data: arg.data,
+                title: arg.title
+            });
+            (0, _desktop.state_desktop)._ref.render();
+        } else console.warn("Failed to create frame, state_desktop is not initialized.");
     },
     create_bar (arg) {
         const barID = (0, _cuidDefault.default)();
@@ -27406,10 +27404,10 @@ const rpcAction = {
     },
     read_state (arg) {
         const state = arg.path.shift();
-        if (state === "bar") return (0, _lodashGetDefault.default)((0, _bar.state_bar), arg.path.join("."));
-        if (state === "app") return (0, _lodashGetDefault.default)((0, _app.state_app), arg.path.join("."));
-        if (state === "desktop") return (0, _lodashGetDefault.default)((0, _desktop.state_desktop), arg.path.join("."));
-        if (state === "frame") return (0, _lodashGetDefault.default)((0, _frame.state_frame), arg.path.join("."));
+        if (state === "bar") return (0, _lodashGetDefault.default)((0, _bar.state_bar), arg.path.join(".")) || (0, _bar.state_bar);
+        if (state === "app") return (0, _lodashGetDefault.default)((0, _app.state_app), arg.path.join(".")) || (0, _app.state_app);
+        if (state === "desktop") return (0, _lodashGetDefault.default)((0, _desktop.state_desktop), arg.path.join(".")) || (0, _desktop.state_desktop);
+        if (state === "theme") return (0, _lodashGetDefault.default)(backend_theme, arg.path.join(".")) || backend_theme;
         return undefined;
     }
 };
@@ -27422,7 +27420,7 @@ const createClient = (appName)=>{
     eventer(messageEvent, function(e) {
         const data = e.data;
         if (data.type === "APP_DATA") {
-            window.app_data_resolve(data.result);
+            app_data_resolve(data.result);
             return;
         }
         if (queue[data.id]) {
@@ -27452,7 +27450,7 @@ const createClient = (appName)=>{
     });
 };
 
-},{"cuid":"bFz4j","rpc":"jNaSg","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","../state/bar":"k6LMg","../state/frame":"cUzcN","lodash.get":"hQNsC","../state/app":"faUhg","../state/desktop":"hDMno"}],"bFz4j":[function(require,module,exports) {
+},{"cuid":"bFz4j","rpc":"jNaSg","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","../state/bar":"k6LMg","lodash.get":"hQNsC","../state/app":"faUhg","../state/desktop":"hDMno"}],"bFz4j":[function(require,module,exports) {
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -29839,17 +29837,7 @@ function j(e, t) {
     };
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"cUzcN":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state_frame", ()=>state_frame);
-var _useGlobal = require("../libs/use-global");
-const state_frame = (0, _useGlobal.declareGlobal)({
-    items: [],
-    css: ""
-});
-
-},{"../libs/use-global":"1WO2m","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hQNsC":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hQNsC":[function(require,module,exports) {
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -30596,7 +30584,15 @@ const default_app = {
         "launcher"
     ],
     installed: {},
-    running: []
+    running: [],
+    boot: {
+        status: "loading",
+        loadingPercent: 0
+    },
+    cache: {
+        bg: null,
+        font: null
+    }
 };
 const state_app = (0, _useGlobal.declareGlobal)(default_app);
 
@@ -30605,16 +30601,15 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state_desktop", ()=>state_desktop);
 var _useGlobal = require("../libs/use-global");
-var _bg = require("./unit/bg");
 const state_desktop = (0, _useGlobal.declareGlobal)({
-    booting: true,
-    bg: (0, _bg.bg).use({
-        img: "/user/pictures/bg.jpg",
-        color: "#0a1a20"
-    })
+    frame: {
+        items: [],
+        css: ""
+    },
+    css: ""
 });
 
-},{"../libs/use-global":"1WO2m","./unit/bg":"9X6nr","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"cKyeX":[function(require,module,exports) {
+},{"../libs/use-global":"1WO2m","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"cKyeX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "cx", ()=>cx);

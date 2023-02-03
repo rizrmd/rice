@@ -6,6 +6,8 @@ const container = document.getElementById("app");
 const root = createRoot(container);
 
 (async () => {
+  const info = await app.modeInfo;
+
   switch (app.mode) {
     case "init":
       {
@@ -14,13 +16,11 @@ const root = createRoot(container);
           size: "100px",
           data: { hello: "world" },
         });
-        // console.log(await readState((state) => state.bar.items[0]));
 
         await frame.create({ width: "640px", height: "480px", title: "Halo" });
       }
       break;
     case "bar": {
-      const bar = await app.modeInfo;
       root.render(
         <div
           onContextMenu={(e) => {
@@ -35,7 +35,7 @@ const root = createRoot(container);
             `
           )}
         >
-          <div>New {bar.data.hello}</div>
+          <div>New {info.data.hello}</div>
         </div>
       );
       break;

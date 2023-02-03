@@ -27181,50 +27181,48 @@ var _pick = require("../libs/pick");
 var _useGlobal = require("../libs/use-global");
 var _app = require("../state/app");
 var _bar = require("../state/bar");
-var _desktop = require("../state/desktop");
 var _bg = require("../state/unit/bg");
 var _bar1 = require("./bar/bar");
 var _boot = require("./boot");
-var _desktop1 = require("./desktop/desktop");
+var _desktop = require("./desktop/desktop");
 var _s = $RefreshSig$();
 const Main = ()=>{
     _s();
     const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
-    const _ = (0, _useGlobal.useGlobal)((0, _app.state_app)); // required to re-render on app change
-    const desktop = (0, _useGlobal.useGlobal)((0, _desktop.state_desktop));
-    if (desktop.booting) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _boot.Boot), {}, void 0, false, {
-        fileName: "src/element/main.tsx",
-        lineNumber: 18,
-        columnNumber: 12
-    }, undefined);
+    const app = (0, _useGlobal.useGlobal)((0, _app.state_app)); // required to re-render on app change
+    app._ref = app;
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex flex-1 select-none", (0, _pick.pick)(bar.position, {
+        className: (0, _cx.cx)("flex flex-1 select-none relative", (0, _pick.pick)(bar.position, {
             bottom: "flex-col-reverse",
             left: "flex-row",
             right: "flex-row-reverse",
             top: "flex-col"
-        }), (0, _bg.bg).render(desktop.bg)),
+        }), (0, _bg.bg).render(backend_theme.bg)),
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _bar1.Bar), {}, void 0, false, {
                 fileName: "src/element/main.tsx",
-                lineNumber: 34,
+                lineNumber: 29,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _desktop1.Desktop), {}, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _desktop.Desktop), {}, void 0, false, {
                 fileName: "src/element/main.tsx",
-                lineNumber: 35,
+                lineNumber: 30,
                 columnNumber: 7
+            }, undefined),
+            app.boot.status === "loading" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _boot.Boot), {}, void 0, false, {
+                fileName: "src/element/main.tsx",
+                lineNumber: 31,
+                columnNumber: 41
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/element/main.tsx",
-        lineNumber: 22,
+        lineNumber: 17,
         columnNumber: 5
     }, undefined);
 };
-_s(Main, "aeydrNcoGeusgdHVIeUH4YPzhKE=", false, function() {
+_s(Main, "dxoIvpc9ECJNZetUWQcQtKUKLeQ=", false, function() {
     return [
-        (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal)
     ];
@@ -27238,7 +27236,7 @@ $RefreshReg$(_c, "Main");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../libs/cx":"cO2cu","../libs/pick":"hkVSb","../libs/use-global":"bDE6Q","../state/bar":"dPrzi","../state/desktop":"1yaQI","../state/unit/bg":"hdyCa","./bar/bar":"4mcZR","./boot":"dXGG5","./desktop/desktop":"6IxNg","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../state/app":"cFz1s"}],"cO2cu":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","../libs/cx":"cO2cu","../libs/pick":"hkVSb","../libs/use-global":"bDE6Q","../state/bar":"dPrzi","./bar/bar":"4mcZR","./boot":"dXGG5","./desktop/desktop":"6IxNg","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../state/app":"cFz1s","../state/unit/bg":"hdyCa"}],"cO2cu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "cx", ()=>cx);
@@ -27606,21 +27604,7 @@ function j(e, t) {
     };
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"1yaQI":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state_desktop", ()=>state_desktop);
-var _useGlobal = require("../libs/use-global");
-var _bg = require("./unit/bg");
-const state_desktop = (0, _useGlobal.declareGlobal)({
-    booting: true,
-    bg: (0, _bg.bg).use({
-        img: "/user/pictures/bg.jpg",
-        color: "#0a1a20"
-    })
-});
-
-},{"../libs/use-global":"bDE6Q","./unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"4mcZR":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"4mcZR":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$5190 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27635,14 +27619,13 @@ var _goober = require("goober");
 var _cx = require("../../libs/cx");
 var _pick = require("../../libs/pick");
 var _useGlobal = require("../../libs/use-global");
-var _app = require("../../state/app");
 var _bar = require("../../state/bar");
 var _bg = require("../../state/unit/bg");
 var _s = $RefreshSig$();
 const Bar = ()=>{
     _s();
-    const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
     const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
+    bar._ref = bar;
     const dir = bar.position === "bottom" || bar.position === "top" ? "horizontal" : "vertical";
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: (0, _cx.cx)("flex justify-between", (0, _pick.pick)(dir, {
@@ -27666,24 +27649,23 @@ const Bar = ()=>{
                     bar: bar
                 }, item.id, false, {
                     fileName: "src/element/bar/bar.tsx",
-                    lineNumber: 42,
+                    lineNumber: 41,
                     columnNumber: 18
                 }, undefined);
             })
         }, void 0, false, {
             fileName: "src/element/bar/bar.tsx",
-            lineNumber: 40,
+            lineNumber: 39,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/element/bar/bar.tsx",
-        lineNumber: 20,
+        lineNumber: 19,
         columnNumber: 5
     }, undefined);
 };
-_s(Bar, "j/R1Qi10WGfjI08HicPTrZ6eKiI=", false, function() {
+_s(Bar, "P96aFOAdc+OL7SygLQqmS3Sx9pE=", false, function() {
     return [
-        (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal)
     ];
 });
@@ -27719,7 +27701,7 @@ const BarItem = ({ item , dir , bar  })=>{
         `)
     }, void 0, false, {
         fileName: "src/element/bar/bar.tsx",
-        lineNumber: 55,
+        lineNumber: 54,
         columnNumber: 5
     }, undefined);
 };
@@ -27733,22 +27715,7 @@ $RefreshReg$(_c1, "BarItem");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../state/bar":"dPrzi","../../state/unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../../state/app":"cFz1s"}],"cFz1s":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default_app", ()=>default_app);
-parcelHelpers.export(exports, "state_app", ()=>state_app);
-var _useGlobal = require("../libs/use-global");
-const default_app = {
-    startup: [
-        "launcher"
-    ],
-    installed: {},
-    running: []
-};
-const state_app = (0, _useGlobal.declareGlobal)(default_app);
-
-},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"dXGG5":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../state/bar":"dPrzi","../../state/unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"dXGG5":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$ccf9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27762,24 +27729,47 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _goober = require("goober");
 var _cx = require("../libs/cx");
 var _useGlobal = require("../libs/use-global");
-var _desktop = require("../state/desktop");
+var _app = require("../state/app");
 var _s = $RefreshSig$();
 const Boot = ()=>{
     _s();
-    const desktop = (0, _useGlobal.useGlobal)((0, _desktop.state_desktop));
+    const app = (0, _useGlobal.useGlobal)((0, _app.default_app), async ()=>{
+        setTimeout(()=>{
+            app.boot.loadingPercent = 100;
+            app.render();
+        }, 500);
+        setTimeout(()=>{
+            app.boot.status = "asset-loaded";
+            app.render();
+        }, 800);
+    });
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex flex-1 select-none justify-center items-center", (0, _goober.css)`
-          color: white;
-          background: ${desktop.bg.color};
+        className: (0, _cx.cx)("flex absolute inset-0 select-none justify-center items-center", (0, _goober.css)`
+          background-color: ${backend_theme.bg.color};
         `),
-        children: "Booting..."
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: "w-[150px] bg-gray-200 h-1",
+            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: (0, _cx.cx)("bg-[#265058] h-1 transition-all", (0, _goober.css)`
+              width: ${app.boot.loadingPercent}%;
+            `)
+            }, void 0, false, {
+                fileName: "src/element/boot.tsx",
+                lineNumber: 28,
+                columnNumber: 9
+            }, undefined)
+        }, void 0, false, {
+            fileName: "src/element/boot.tsx",
+            lineNumber: 27,
+            columnNumber: 7
+        }, undefined)
     }, void 0, false, {
         fileName: "src/element/boot.tsx",
-        lineNumber: 9,
+        lineNumber: 19,
         columnNumber: 5
     }, undefined);
 };
-_s(Boot, "NN5iDA05jjpockIutZPyB3P3vto=", false, function() {
+_s(Boot, "nxVkUQM5J06ZC0Y8hwRoxUoMDMY=", false, function() {
     return [
         (0, _useGlobal.useGlobal)
     ];
@@ -27793,7 +27783,30 @@ $RefreshReg$(_c, "Boot");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../libs/cx":"cO2cu","../libs/use-global":"bDE6Q","../state/desktop":"1yaQI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"6IxNg":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","../libs/cx":"cO2cu","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../libs/use-global":"bDE6Q","../state/app":"cFz1s","goober":"gILVw"}],"cFz1s":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default_app", ()=>default_app);
+parcelHelpers.export(exports, "state_app", ()=>state_app);
+var _useGlobal = require("../libs/use-global");
+const default_app = {
+    startup: [
+        "launcher"
+    ],
+    installed: {},
+    running: [],
+    boot: {
+        status: "loading",
+        loadingPercent: 0
+    },
+    cache: {
+        bg: null,
+        font: null
+    }
+};
+const state_app = (0, _useGlobal.declareGlobal)(default_app);
+
+},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"6IxNg":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$2ade = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27807,36 +27820,46 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _goober = require("goober");
 var _cx = require("../../libs/cx");
 var _useGlobal = require("../../libs/use-global");
-var _frame = require("../../state/frame");
+var _app = require("../../state/app");
+var _desktop = require("../../state/desktop");
 var _s = $RefreshSig$();
 const Desktop = ()=>{
     _s();
-    const frame = (0, _useGlobal.useGlobal)((0, _frame.state_frame));
-    frame._ref = frame;
+    const desktop = (0, _useGlobal.useGlobal)((0, _desktop.state_desktop));
+    const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
+    desktop._ref = desktop;
+    if (app.boot.status === "asset-loaded") {
+        for (const app of (0, _app.state_app).running)app.iframe.contentWindow.postMessage({
+            type: "APP_DATA",
+            result: undefined
+        });
+        app.boot.status = "ready";
+    }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: (0, _cx.cx)("flex-1 flex p-10"),
         onContextMenu: (e)=>{
             e.preventDefault();
             e.stopPropagation();
         },
-        children: frame.items.map((item)=>{
+        children: desktop.frame.items.map((item)=>{
             return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(FrameItem, {
                 item: item,
-                frame: frame
+                frame: desktop
             }, item.id, false, {
                 fileName: "src/element/desktop/desktop.tsx",
-                lineNumber: 21,
+                lineNumber: 32,
                 columnNumber: 16
             }, undefined);
         })
     }, void 0, false, {
         fileName: "src/element/desktop/desktop.tsx",
-        lineNumber: 13,
+        lineNumber: 24,
         columnNumber: 5
     }, undefined);
 };
-_s(Desktop, "0+1/tPuR1oGeQg5aS2iG18Ru0Ko=", false, function() {
+_s(Desktop, "CeFgNzCkEiVdwzONjlTpfH2c4KU=", false, function() {
     return [
+        (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal)
     ];
 });
@@ -27866,7 +27889,7 @@ const FrameItem = ({ item , frame  })=>{
         `)
     }, void 0, false, {
         fileName: "src/element/desktop/desktop.tsx",
-        lineNumber: 32,
+        lineNumber: 43,
         columnNumber: 5
     }, undefined);
 };
@@ -27880,13 +27903,16 @@ $RefreshReg$(_c1, "FrameItem");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../../libs/cx":"cO2cu","../../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../../state/frame":"lCBWy","goober":"gILVw"}],"lCBWy":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","../../libs/cx":"cO2cu","../../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","goober":"gILVw","../../state/desktop":"1yaQI","../../state/app":"cFz1s"}],"1yaQI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state_frame", ()=>state_frame);
+parcelHelpers.export(exports, "state_desktop", ()=>state_desktop);
 var _useGlobal = require("../libs/use-global");
-const state_frame = (0, _useGlobal.declareGlobal)({
-    items: [],
+const state_desktop = (0, _useGlobal.declareGlobal)({
+    frame: {
+        items: [],
+        css: ""
+    },
     css: ""
 });
 
@@ -27948,7 +27974,6 @@ parcelHelpers.export(exports, "initRPC", ()=>initRPC);
 var _backend = require("backend");
 var _rpc = require("rpc");
 var _app = require("../state/app");
-var _desktop = require("../state/desktop");
 var _rpcAction = require("./rpc-action");
 var _w = require("./w");
 let retry = 0;
@@ -27968,18 +27993,10 @@ const initRPC = ()=>{
                 app.iframe.src = `/app/${app.name}`;
                 app.iframe.id = `app-${app.name}`;
                 app.iframe.className = "hidden";
-                app.iframe.onload = ()=>{
-                    app.iframe.contentWindow.postMessage({
-                        type: "APP_DATA",
-                        result: undefined
-                    });
-                };
                 document.body.append(app.iframe);
                 (0, _app.state_app).running.push(app);
             }
         }
-        (0, _desktop.state_desktop)._ref.booting = false;
-        (0, _desktop.state_desktop)._ref.render();
     };
     ws.onmessage = async ({ data  })=>{
         let msg = null;
@@ -28009,7 +28026,7 @@ eventer(messageEvent, async function(e) {
     }
 });
 
-},{"backend":"5PGFP","../state/desktop":"1yaQI","./w":"6jnvI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","rpc":"jNaSg","./rpc-action":"jZBTz","../state/app":"cFz1s"}],"5PGFP":[function(require,module,exports) {
+},{"backend":"5PGFP","./w":"6jnvI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","rpc":"jNaSg","./rpc-action":"jZBTz","../state/app":"cFz1s"}],"5PGFP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "schema", ()=>schema);
@@ -31766,20 +31783,21 @@ var _rpc = require("rpc");
 var _app = require("../state/app");
 var _bar = require("../state/bar");
 var _desktop = require("../state/desktop");
-var _frame = require("../state/frame");
 const rpcAction = {
     create_frame (arg) {
         const frameID = (0, _cuidDefault.default)();
-        (0, _frame.state_frame)._ref.items.push({
-            id: frameID,
-            iframe: null,
-            appName: arg.appName,
-            width: arg.width,
-            height: arg.height,
-            data: arg.data,
-            title: arg.title
-        });
-        (0, _frame.state_frame)._ref.render();
+        if ((0, _desktop.state_desktop)._ref) {
+            (0, _desktop.state_desktop)._ref.frame.items.push({
+                id: frameID,
+                iframe: null,
+                appName: arg.appName,
+                width: arg.width,
+                height: arg.height,
+                data: arg.data,
+                title: arg.title
+            });
+            (0, _desktop.state_desktop)._ref.render();
+        } else console.warn("Failed to create frame, state_desktop is not initialized.");
     },
     create_bar (arg) {
         const barID = (0, _cuidDefault.default)();
@@ -31802,10 +31820,10 @@ const rpcAction = {
     },
     read_state (arg) {
         const state = arg.path.shift();
-        if (state === "bar") return (0, _lodashGetDefault.default)((0, _bar.state_bar), arg.path.join("."));
-        if (state === "app") return (0, _lodashGetDefault.default)((0, _app.state_app), arg.path.join("."));
-        if (state === "desktop") return (0, _lodashGetDefault.default)((0, _desktop.state_desktop), arg.path.join("."));
-        if (state === "frame") return (0, _lodashGetDefault.default)((0, _frame.state_frame), arg.path.join("."));
+        if (state === "bar") return (0, _lodashGetDefault.default)((0, _bar.state_bar), arg.path.join(".")) || (0, _bar.state_bar);
+        if (state === "app") return (0, _lodashGetDefault.default)((0, _app.state_app), arg.path.join(".")) || (0, _app.state_app);
+        if (state === "desktop") return (0, _lodashGetDefault.default)((0, _desktop.state_desktop), arg.path.join(".")) || (0, _desktop.state_desktop);
+        if (state === "theme") return (0, _lodashGetDefault.default)(backend_theme, arg.path.join(".")) || backend_theme;
         return undefined;
     }
 };
@@ -31818,7 +31836,7 @@ const createClient = (appName)=>{
     eventer(messageEvent, function(e) {
         const data = e.data;
         if (data.type === "APP_DATA") {
-            window.app_data_resolve(data.result);
+            app_data_resolve(data.result);
             return;
         }
         if (queue[data.id]) {
@@ -31848,7 +31866,7 @@ const createClient = (appName)=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","cuid":"1NFTW","rpc":"jNaSg","../state/bar":"dPrzi","../state/frame":"lCBWy","lodash.get":"80Ipq","../state/app":"cFz1s","../state/desktop":"1yaQI"}],"1NFTW":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","cuid":"1NFTW","rpc":"jNaSg","../state/bar":"dPrzi","lodash.get":"80Ipq","../state/app":"cFz1s","../state/desktop":"1yaQI"}],"1NFTW":[function(require,module,exports) {
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.

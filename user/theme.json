@@ -1,0 +1,12 @@
+{
+  "text": {
+    "color": "white"
+  },
+  "bg": {
+    "img": "/user/pictures/bg.jpg",
+    "fill": "cover",
+    "color": "#0a1a20",
+    "blur": ""
+  },
+  "font": "Jetbrains Mono"
+}
