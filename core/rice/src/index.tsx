@@ -4,7 +4,7 @@ import { rpcAction } from "front/src/libs/rpc-action";
 import { state_app } from "front/src/state/app";
 import { state_bar } from "front/src/state/bar";
 import { state_desktop } from "front/src/state/desktop";
-import { AppInfo } from "types";
+import { AppInfo } from "./types";
 export { cx } from "front/src/libs/cx";
 
 export const createApp = (arg: AppInfo) => {

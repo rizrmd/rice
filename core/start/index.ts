@@ -8,6 +8,7 @@ const core = async () => {
   const [_runtime, _scriptName, cmd, appName] = process.argv;
   const dec = new TextDecoder();
   const dirs = {
+    start: "index.ts",
     front: "src/main/index.tsx",
     server: "src/index.ts",
     rpc: "src/index.ts",
@@ -29,7 +30,7 @@ const core = async () => {
     process.exit();
   }
 
-  if (cmd === "i" || !existsSync(join(root, "core", "rice", "node_modules"))) {
+  if (cmd === "i" || !existsSync(join(root, "core", "start", "node_modules"))) {
     const appDir = join(root, "app");
     process.stdout.write("Installing App  deps: ");
 
@@ -129,8 +130,8 @@ Done
         if (shouldPrint) process.stdout.write(raw);
       });
     });
+    console.log("");
   }
-  console.log("");
 
   const server = spawn({
     cmd: ["bun", "--hot", "./src/index.ts"],
