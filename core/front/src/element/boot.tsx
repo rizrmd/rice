@@ -22,7 +22,7 @@ export const Boot = () => {
       app.boot.loadingPercent = 100;
       app.render();
     };
-    app.asset.bg.src = backend_theme.bg.img;
+    app.asset.bg.src = server_theme.bg.img;
   });
 
   if (app.boot.status === "loading" && app.boot.loadingPercent === 100) {
@@ -45,7 +45,7 @@ export const Boot = () => {
         "flex fixed inset-0 select-none justify-center items-center",
         css`
           z-index: 99;
-          background-color: ${backend_theme.bg.color};
+          background-color: ${server_theme.bg.color};
         `
       )}
     >
@@ -54,7 +54,7 @@ export const Boot = () => {
           className={cx(
             "h-1 transition-all opacity-80",
             css`
-              background-color: ${backend_theme.bg.color};
+              background-color: ${server_theme.bg.color};
               width: ${app.boot.loadingPercent}%;
             `
           )}

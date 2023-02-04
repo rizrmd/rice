@@ -3,7 +3,7 @@ import { existsSync, readFileSync, statSync, writeFileSync } from "fs";
 import { readFile } from "fs/promises";
 import { join, resolve } from "path";
 import { action } from "../action";
-import { backend_state } from "../init-state";
+import { server_state } from "../init-state";
 import { defaultTheme } from "../libs/default-theme";
 import { injectIndex } from "./inject";
 import { proxy } from "./proxy";
@@ -37,7 +37,7 @@ export const http = async (req: Request, server: Server) => {
     const q = url.search;
     const [_, appName, part, ...pathname] = path.split("/").filter((e) => e);
 
-    const app = backend_state.app[appName];
+    const app = server_state.app[appName];
     if (app) {
       if (part === "icon") {
         const iconPath = join(root, "app", appName, app.info.icon);
@@ -80,7 +80,7 @@ export const http = async (req: Request, server: Server) => {
     });
   }
 
-  const fedir = join(root, "core", "frontend", "build");
+  const fedir = join(root, "core", "front", "build");
   if (url.pathname === "/") {
     return new Response(index.html, {
       headers: {
@@ -117,12 +117,12 @@ const replaceContent = async (targetPath: string) => {
   if (!skipCheckContent.has(targetPath)) {
     const res = await readFile(targetPath, "utf-8");
     if (
-      backend_state.dev.url &&
+      server_state.dev.url &&
       res.includes(
         `new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "")`
       )
     ) {
-      const url = new URL(backend_state.dev.url);
+      const url = new URL(server_state.dev.url);
       const replaced = res.replace(
         `new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "")`,
         `new WebSocket(protocol + "://" + hostname + ":${url.port}"`
@@ -134,7 +134,7 @@ const replaceContent = async (targetPath: string) => {
 };
 
 const initIndexHtml = () => {
-  const fedir = join(root, "core", "frontend", "build");
+  const fedir = join(root, "core", "front", "build");
   index.html = readFileSync(join(fedir, "index.html"), "utf-8");
 
   const themePath = join(root, "user", "theme.json");
@@ -144,7 +144,7 @@ const initIndexHtml = () => {
 
   const html = [
     index.html.split("<!-- app-style:start -->")[0],
-    backend_state.rice.style,
+    server_state.rice.style,
     index.html.split("<!-- app-style:end -->")[1],
   ];
 
@@ -165,7 +165,7 @@ body{
     .replace(
       "</body>",
       `\
-  <script>window.backend_theme = ${JSON.stringify(action.theme())}</script>
+  <script>window.server_theme = ${JSON.stringify(action.theme())}</script>
 </body>`
     );
 };

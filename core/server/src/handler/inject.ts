@@ -2,18 +2,18 @@ import { build } from "esbuild";
 import { existsSync } from "fs";
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { backend_state } from "../init-state";
+import { server_state } from "../init-state";
 import { app } from "rice";
 const root = join(import.meta.dir, "..", "..", "..", "..");
 
 const dec = new TextDecoder();
 export const injectIndex = async (appName: string) => {
-  const app = backend_state.app[appName].info;
+  const app = server_state.app[appName].info;
   const base = join(root, "app", appName);
   const path = join(base, app.src.basedir, app.src.index);
   if (existsSync(path)) {
     let src = await readFile(path, "utf-8");
-    //       html = html.replace("</head>", backend_state.rice.style + "</head>");
+    //       html = html.replace("</head>", server_state.rice.style + "</head>");
     //       html = html.replace(
     //         "</body>",
     //         `\
@@ -26,6 +26,6 @@ export const injectIndex = async (appName: string) => {
     // </script></body>`
     //       );
 
-    backend_state.app[appName].index = src;
+    server_state.app[appName].index = src;
   }
 };

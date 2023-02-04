@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "front",
   "version": "0.1.67",
   "scripts": {
     "tw": "bun x tailwindcss  -i ./src/main/index.css -o ./src/main/index.compiled.css --watch",
@@ -16,7 +16,7 @@
     "msgpackr": "^1.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "backend": "../backend",
+    "server": "../server",
     "rpc": "../rpc"
   },
   "devDependencies": {

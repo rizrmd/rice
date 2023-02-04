@@ -1,5 +1,5 @@
-import { client } from "backend";
-import { defaultTheme } from "backend/src/libs/default-theme";
+import { client } from "server";
+import { defaultTheme } from "server/src/libs/default-theme";
 
 declare module "*.svg" {
   const content: any;
@@ -7,6 +7,6 @@ declare module "*.svg" {
 }
 
 declare global {
-  const backend_theme = defaultTheme;
+  const server_theme = defaultTheme;
   const app_data_resolve = (result: any) => {};
 }

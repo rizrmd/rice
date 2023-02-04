@@ -1,4 +1,4 @@
-import { ClientQueue } from "backend";
+import { ClientQueue } from "server";
 import cuid from "cuid";
 import get from "lodash.get";
 import {
@@ -53,7 +53,7 @@ export const rpcAction = {
     if (state === "desktop")
       return get(state_desktop, arg.path.join(".")) || state_desktop;
     if (state === "theme")
-      return get(backend_theme, arg.path.join(".")) || backend_theme;
+      return get(server_theme, arg.path.join(".")) || server_theme;
 
     return undefined;
   },

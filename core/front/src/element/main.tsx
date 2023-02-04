@@ -24,7 +24,7 @@ export const Main = () => {
           right: "flex-row-reverse",
           top: "flex-col",
         }),
-        bg.render(backend_theme.bg)
+        bg.render(server_theme.bg)
       )}
     >
       <>

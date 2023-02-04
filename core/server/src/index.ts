@@ -1,7 +1,7 @@
 import { serve } from "bun";
 import { initApp } from "./init-app";
 import { handler } from "./handler/handler";
-import { initState, backend_state } from "./init-state";
+import { initState, server_state } from "./init-state";
 
 // Rice Main
 
@@ -9,7 +9,7 @@ await initState();
 await initApp();
 
 serve({
-  port: backend_state.rice.url.port,
+  port: server_state.rice.url.port,
   websocket: {
     open(...args) {
       return handler.ws.open(...args);
@@ -26,4 +26,4 @@ serve({
   },
 });
 
-console.log(backend_state.rice.url + "\n");
+console.log(server_state.rice.url + "\n");

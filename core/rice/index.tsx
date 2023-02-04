@@ -1,11 +1,11 @@
 import { DeepProxy, THandlerContext } from "@qiwi/deep-proxy";
-import { defaultTheme } from "backend/src/libs/default-theme";
-import { rpcAction } from "frontend/src/libs/rpc-action";
-import { state_app } from "frontend/src/state/app";
-import { state_bar } from "frontend/src/state/bar";
-import { state_desktop } from "frontend/src/state/desktop";
+import { defaultTheme } from "server/src/libs/default-theme";
+import { rpcAction } from "front/src/libs/rpc-action";
+import { state_app } from "front/src/state/app";
+import { state_bar } from "front/src/state/bar";
+import { state_desktop } from "front/src/state/desktop";
 import { AppInfo } from "types";
-export { cx } from "frontend/src/libs/cx";
+export { cx } from "front/src/libs/cx";
 
 export const createApp = (arg: AppInfo) => {
   return arg as AppInfo;

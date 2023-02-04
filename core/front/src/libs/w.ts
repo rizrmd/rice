@@ -1,4 +1,4 @@
-import type { client } from "backend";
+import type { client } from "server";
 import { state_app } from "../state/app";
 import { state_bar } from "../state/bar";
 export const w = (typeof window === "undefined" ? {} : window) as unknown as {

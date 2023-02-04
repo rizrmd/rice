@@ -2,17 +2,17 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { AppInfo } from "rice/types";
 import { defaultTheme } from "./libs/default-theme.js";
-import { backend_state } from "./init-state.js";
+import { server_state } from "./init-state.js";
 const root = join(import.meta.dir, "..", "..", "..");
 
 export const action = {
   setDevUrl(url: string) {
-    backend_state.dev.url = url;
+    server_state.dev.url = url;
   },
   apps() {
     const apps: Record<string, AppInfo> = {};
 
-    for (const app of Object.values(backend_state.app)) {
+    for (const app of Object.values(server_state.app)) {
       apps[app.info.name] = app.info;
     }
     return apps;

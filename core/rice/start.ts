@@ -1,4 +1,4 @@
-import type { client, ClientQueue, schema } from "backend";
+import type { client, ClientQueue, schema } from "server";
 import { spawn, spawnSync } from "bun";
 import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
@@ -8,8 +8,8 @@ const core = async () => {
   const dec = new TextDecoder();
   const dirs = {
     "": "",
-    frontend: "src/main/index.tsx",
-    backend: "src/index.ts",
+    front: "src/main/index.tsx",
+    server: "src/index.ts",
     rpc: "src/index.ts",
     rice: "index.ts",
   };
@@ -64,7 +64,7 @@ Done
 
   let parcelURL = "";
 
-  const { client, schema } = await import("backend");
+  const { client, schema } = await import("server");
   if (cmd === "dev") {
     if (appName) {
       const app = spawn({
@@ -97,7 +97,7 @@ Done
     console.log("[Development Mode]");
     const parcel = spawn({
       cmd: ["bun", "run", "dev"],
-      cwd: join(import.meta.dir, "..", "frontend"),
+      cwd: join(import.meta.dir, "..", "front"),
       stdin: "ignore",
       stdout: "pipe",
       stderr: "pipe",
@@ -129,16 +129,16 @@ Done
   }
   console.log("");
 
-  const backend = spawn({
+  const server = spawn({
     cmd: ["bun", "--hot", "./src/index.ts"],
-    cwd: join(import.meta.dir, "..", "backend"),
+    cwd: join(import.meta.dir, "..", "server"),
     stdin: "ignore",
     stdout: "inherit",
     stderr: "inherit",
   });
   initBackend(parcelURL, client, schema);
 
-  await Promise.all([backend.exited]);
+  await Promise.all([server.exited]);
 };
 
 const stream = (

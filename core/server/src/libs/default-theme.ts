@@ -1,4 +1,4 @@
-import { bg } from "frontend/src/state/unit/bg";
+import { bg } from "front/src/state/unit/bg";
 
 export const defaultTheme = {
   bg: bg.use({

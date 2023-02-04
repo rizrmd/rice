@@ -12,8 +12,8 @@
     "bun-types": "^0.4.0"
   },
   "workspaces": [
-    "../backend",
-    "../frontend",
+    "../server",
+    "../front",
     "../rpc"
   ]
 }

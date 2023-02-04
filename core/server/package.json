@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "server",
   "main": "./src/export.ts",
   "module": "./src/export.ts",
   "type": "module",
@@ -17,6 +17,6 @@
   },
   "workspaces": [
     "../rpc",
-    "../frontend"
+    "../front"
   ]
 }

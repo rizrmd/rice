@@ -33,7 +33,7 @@ if (container) {
     );
   };
 
-  waitUntil(() => typeof backend_theme !== "undefined").then(() => {
+  waitUntil(() => typeof server_theme !== "undefined").then(() => {
     initRPC();
     root.render(<App />);
   });
