@@ -2,22 +2,22 @@ import type { client, ClientQueue, schema } from "server";
 import { spawn, spawnSync } from "bun";
 import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
-
+ 
+const root = join(import.meta.dir, "..", "..", "..");
 const core = async () => {
   const [_runtime, _scriptName, cmd, appName] = process.argv;
   const dec = new TextDecoder();
   const dirs = {
-    "": "",
     front: "src/main/index.tsx",
     server: "src/index.ts",
     rpc: "src/index.ts",
-    rice: "index.ts",
+    rice: "src/index.tsx",
   };
 
   if (cmd === "r") {
     for (const [dir, _main] of Object.entries(dirs)) {
       try {
-        rmSync(join(import.meta.dir, "..", dir, "node_modules"), {
+        rmSync(join(root, "core", dir, "node_modules"), {
           recursive: true,
           force: true,
         });
@@ -29,10 +29,10 @@ const core = async () => {
     process.exit();
   }
 
-  if (cmd === "i" || !existsSync(join(import.meta.dir, "node_modules"))) {
+  if (cmd === "i" || !existsSync(join(root, "core", "rice", "node_modules"))) {
     console.log("Installing dependencies...");
 
-    const appDir = join(import.meta.dir, "..", "..", "app");
+    const appDir = join(root, "app");
     for (const dir of readdirSync(appDir)) {
       if (statSync(join(appDir, dir)).isDirectory()) {
         spawnSync({
@@ -48,7 +48,7 @@ const core = async () => {
     for (const [dir, _] of Object.entries(dirs)) {
       spawnSync({
         cmd: ["bun", "i"],
-        cwd: join(import.meta.dir, "..", dir),
+        cwd: join(root, "core", dir),
         stdin: "inherit",
         stdout: "ignore",
         stderr: "ignore",
@@ -69,7 +69,7 @@ Done
     if (appName) {
       const app = spawn({
         cmd: ["bun", "run", "dev"],
-        cwd: join(import.meta.dir, "..", "..", "app", appName),
+        cwd: join(root, "app", appName),
         stdin: "ignore",
         stdout: "pipe",
         stderr: "pipe",
@@ -97,7 +97,7 @@ Done
     console.log("[Development Mode]");
     const parcel = spawn({
       cmd: ["bun", "run", "dev"],
-      cwd: join(import.meta.dir, "..", "front"),
+      cwd: join(root, "core", "front"),
       stdin: "ignore",
       stdout: "pipe",
       stderr: "pipe",
@@ -131,7 +131,7 @@ Done
 
   const server = spawn({
     cmd: ["bun", "--hot", "./src/index.ts"],
-    cwd: join(import.meta.dir, "..", "server"),
+    cwd: join(root, "core", "server"),
     stdin: "ignore",
     stdout: "inherit",
     stderr: "inherit",
