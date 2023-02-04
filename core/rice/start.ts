@@ -17,11 +17,11 @@ const core = async () => {
   if (cmd === "r") {
     for (const [dir, _main] of Object.entries(dirs)) {
       try {
-        rmSync(join(import.meta.dir, dir, "node_modules"), {
+        rmSync(join(import.meta.dir, "..", dir, "node_modules"), {
           recursive: true,
           force: true,
         });
-      } catch (e) { }
+      } catch (e) {}
       // try {
       //   unlinkSync(join(import.meta.dir, dir, "node_modules.bun"));
       // } catch (e) {}
@@ -32,7 +32,7 @@ const core = async () => {
   if (cmd === "i" || !existsSync(join(import.meta.dir, "node_modules"))) {
     console.log("Installing dependencies...");
 
-    const appDir = join(import.meta.dir, "..", "app");
+    const appDir = join(import.meta.dir, "..", "..", "app");
     for (const dir of readdirSync(appDir)) {
       if (statSync(join(appDir, dir)).isDirectory()) {
         spawnSync({
@@ -45,10 +45,10 @@ const core = async () => {
       }
     }
 
-    for (const [dir, main] of Object.entries(dirs)) {
+    for (const [dir, _] of Object.entries(dirs)) {
       spawnSync({
         cmd: ["bun", "i"],
-        cwd: join(import.meta.dir, dir),
+        cwd: join(import.meta.dir, "..", dir),
         stdin: "inherit",
         stdout: "ignore",
         stderr: "ignore",
@@ -63,12 +63,12 @@ Done
   }
 
   let parcelURL = "";
-  const { client, schema } = await import("./backend/src/export");
+  const { client, schema } = await import("backend");
   if (cmd === "dev") {
     if (appName) {
       const app = spawn({
         cmd: ["bun", "run", "dev"],
-        cwd: join(import.meta.dir, "..", "app", appName),
+        cwd: join(import.meta.dir, "..", "..", "app", appName),
         stdin: "ignore",
         stdout: "pipe",
         stderr: "pipe",

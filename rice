@@ -9,4 +9,4 @@ console.log(`
 github.com/rizrmd/rice
 `);
 
-await import("./core/core");
+await import("./core/rice/start");
