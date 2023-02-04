@@ -3,7 +3,7 @@ import { spawn, spawnSync } from "bun";
 import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
 
-const root = join(import.meta.dir, "..", "..", "..");
+const root = join(import.meta.dir, "..", "..");
 const core = async () => {
   const [_runtime, _scriptName, cmd, appName] = process.argv;
   const dec = new TextDecoder();

@@ -4,6 +4,10 @@
     "rpc",
     "front",
     "rice",
-    "server"
-  ]
+    "server",
+    "start"
+  ],
+  "devDependencies": {
+    "bun-types": "^0.5.4"
+  }
 }
