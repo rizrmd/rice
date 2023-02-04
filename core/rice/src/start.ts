@@ -31,30 +31,30 @@ const core = async () => {
 
   if (cmd === "i" || !existsSync(join(root, "core", "rice", "node_modules"))) {
     const appDir = join(root, "app");
+    process.stdout.write("Installing App  deps: ");
+
     for (const dir of readdirSync(appDir)) {
       if (statSync(join(appDir, dir)).isDirectory()) {
-        console.log("Installing dependencies", dir);
-
+        process.stdout.write(dir + " ");
         spawnSync({
           cmd: ["bun", "i"],
           cwd: join(appDir, dir),
           stdin: "inherit",
-          stdout: "inherit",
-          stderr: "inherit",
+          stdout: "ignore",
+          stderr: "ignore",
         });
       }
     }
 
+    process.stdout.write("\nInstalling Rice deps: ");
     for (const [dir, _] of Object.entries(dirs)) {
-
-      console.log("Installing dependencies", dir);
-
+      process.stdout.write(dir + " ");
       spawnSync({
         cmd: ["bun", "i"],
         cwd: join(root, "core", dir),
         stdin: "inherit",
-        stdout: "inherit",
-        stderr: "inherit",
+        stdout: "ignore",
+        stderr: "ignore",
       });
     }
     console.log(`
