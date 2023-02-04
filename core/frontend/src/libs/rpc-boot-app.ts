@@ -16,6 +16,8 @@ export const initRPC = () => {
     w.rpc = client(ws, queue);
 
     await waitUntil(() => state_app._ref);
+    w.app = state_app._ref;
+
     const app = state_app._ref;
     const apps = await w.rpc.apps();
 
@@ -24,14 +26,14 @@ export const initRPC = () => {
         app.installed[k] = v;
 
         const current: AppRunning = v as any;
+        app.running.push(current);
+
         current.script = document.createElement("script");
         current.script.src = `/app/${current.name}/${current.name}-install`;
         current.script.id = `app-${current.name}`;
         document.body.append(current.script);
-        app.running.push(current);
       }
     }
-    app.boot.appLoaded = true;
     app.render();
   };
 

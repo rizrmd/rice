@@ -11,5 +11,5 @@
     "rpc",
     "rice"
   ],
-  "dependencies": {}
+  "dependencies": { "@parcel/watcher": "^2.1.0" }
 }

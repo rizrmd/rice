@@ -1,4 +1,4 @@
-import type { ClientQueue, client, schema } from "backend";
+import type { client, ClientQueue, schema } from "backend";
 import { spawn, spawnSync } from "bun";
 import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
@@ -11,16 +11,17 @@ const core = async () => {
     frontend: "src/main/index.tsx",
     backend: "src/index.ts",
     rpc: "src/index.ts",
+    rice: "index.ts",
   };
 
   if (cmd === "r") {
-    for (const [dir, main] of Object.entries(dirs)) {
+    for (const [dir, _main] of Object.entries(dirs)) {
       try {
         rmSync(join(import.meta.dir, dir, "node_modules"), {
           recursive: true,
           force: true,
         });
-      } catch (e) {}
+      } catch (e) { }
       // try {
       //   unlinkSync(join(import.meta.dir, dir, "node_modules.bun"));
       // } catch (e) {}

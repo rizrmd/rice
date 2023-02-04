@@ -10,16 +10,17 @@ export { cx } from "frontend/src/libs/cx";
 export const createApp = (arg: AppInfo) => {
   return arg as AppInfo;
 };
- 
+
 export const app = {
   name: "",
   rpc: rpcAction,
   register(name: string, fn: () => Promise<void>) {
-    // this.name = name;
-    // const running = state_app._ref.running.find((e) => e.name === name);
-    // if (running) {
-    //   running.start = fn;
-    // }
+    this.name = name;
+    const sapp: typeof state_app = (window as any).app;
+    const running = sapp.running.find((e) => e.name === name);
+    if (running) {
+      running.start = fn;
+    }
   },
 };
 

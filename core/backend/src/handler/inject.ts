@@ -13,8 +13,6 @@ export const injectIndex = async (appName: string) => {
   const path = join(base, app.src.basedir, app.src.index);
   if (existsSync(path)) {
     let src = await readFile(path, "utf-8");
-
-    console.log(path)
     //       html = html.replace("</head>", backend_state.rice.style + "</head>");
     //       html = html.replace(
     //         "</body>",

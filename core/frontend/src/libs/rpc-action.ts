@@ -5,11 +5,12 @@ import {
   createJsonRpcClient,
   Handlers,
   JsonRpcRequest,
-  JsonRpcResponse
+  JsonRpcResponse,
 } from "rpc";
 import { state_app } from "../state/app";
 import { BarItem, state_bar } from "../state/bar";
 import { state_desktop } from "../state/desktop";
+import { w } from "./w";
 
 export const rpcAction = {
   create_frame(arg: {
@@ -35,14 +36,14 @@ export const rpcAction = {
       console.warn("Failed to create frame, state_desktop is not initialized.");
     }
   },
-  create_bar(arg: { appName: string; fn: BarItem["fn"] }) {
-    const barID = cuid();
-    state_bar._ref.items.push({
+  async create_bar(arg: { appName: string; fn: BarItem["fn"] }) {
+    const barID = `bar-${arg.appName}-${cuid()}`;
+    w.bar.items.push({
       id: barID,
       appName: arg.appName,
       fn: arg.fn,
     });
-    state_bar._ref.render();
+    w.bar.render();
   },
 
   read_state(arg: { path: string[] }) {

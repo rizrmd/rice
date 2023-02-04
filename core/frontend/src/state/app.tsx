@@ -11,7 +11,6 @@ const default_app = {
   installed: {} as Record<string, AppInfo>,
   running: [] as AppRunning[],
   boot: {
-    appLoaded: false,
     status: "loading" as "loading" | "ready",
     loadingPercent: 0,
   },

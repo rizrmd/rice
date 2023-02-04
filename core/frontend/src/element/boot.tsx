@@ -1,9 +1,10 @@
-import { load } from "ffontsloader";
 import { motion } from "framer-motion";
 import { css } from "goober";
 import { cx } from "../libs/cx";
 import { useGlobal } from "../libs/use-global";
+import { waitUntil } from "../libs/wait-until";
 import { state_app } from "../state/app";
+import { state_bar } from "../state/bar";
 
 export const Boot = () => {
   const app = useGlobal(state_app, async () => {
@@ -24,17 +25,16 @@ export const Boot = () => {
     app.asset.bg.src = backend_theme.bg.img;
   });
 
-  if (
-    app.boot.status === "loading" &&
-    app.boot.loadingPercent === 100 &&
-    app.boot.appLoaded
-  ) {
-    for (const running of app.running) {
-      // running.start();
-      // console.log(running);
-    }
-    app.boot.status = "ready";
-    setTimeout(app.render, 500);
+  if (app.boot.status === "loading" && app.boot.loadingPercent === 100) {
+    waitUntil(() => state_bar._ref).then(() => {
+      for (const running of app.running) {
+        waitUntil(() => typeof running.start === "function").then(() => {
+          running.start();
+        });
+      }
+      app.boot.status = "ready";
+      setTimeout(app.render, 500);
+    });
   }
 
   return (

@@ -3,14 +3,14 @@ import { FC } from "react";
 import { cx } from "../../libs/cx";
 import { pick } from "../../libs/pick";
 import { useGlobal } from "../../libs/use-global";
-import { state_app } from "../../state/app";
+import { w } from "../../libs/w";
 import { BarItem, state_bar } from "../../state/bar";
 import { bg } from "../../state/unit/bg";
 
 export const Bar = () => {
   const bar = useGlobal(state_bar);
-  const app = useGlobal(state_app);
   bar._ref = bar;
+  w.bar = bar;
 
   const dir =
     bar.position === "bottom" || bar.position === "top"
@@ -57,7 +57,9 @@ const RenderBar: FC<{
     <div
       id={item.id}
       ref={(el) => {
-        item.fn(el);
+        if (el) {
+          item.fn(el);
+        }
       }}
     ></div>
   );

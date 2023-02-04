@@ -2982,7 +2982,7 @@ if (container) {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","./element/main":"hvCjV","./libs/use-local":"2RN4V","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","./libs/wait-until":"2iPoQ","./libs/rpc-boot-app":"bGVRR"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","./element/main":"hvCjV","./libs/use-local":"2RN4V","./libs/rpc-boot-app":"bGVRR","./libs/wait-until":"2iPoQ","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"iTorj":[function(require,module,exports) {
 "use strict";
 module.exports = require("acd28a00b049a9be");
 
@@ -27249,579 +27249,7 @@ $RefreshReg$(_c, "Main");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../libs/cx":"cO2cu","../libs/pick":"hkVSb","../libs/use-global":"bDE6Q","../state/bar":"dPrzi","./bar/bar":"4mcZR","./boot":"dXGG5","./desktop/desktop":"6IxNg","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../state/app":"cFz1s","../state/unit/bg":"hdyCa","framer-motion":"5bZBB"}],"cO2cu":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "cx", ()=>cx);
-const cx = (...value)=>{
-    if (Array.isArray(value)) return value.filter((e)=>!!e).join(" ");
-    return value;
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"beCOK":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"hkVSb":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "pick", ()=>pick);
-const pick = (value, options)=>{
-    return options[value];
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"bDE6Q":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$7b72 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$7b72.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "GlobalContext", ()=>GlobalContext);
-parcelHelpers.export(exports, "useGlobal", ()=>useGlobal);
-parcelHelpers.export(exports, "declareGlobal", ()=>declareGlobal);
-var _react = require("react");
-const GlobalContext = (0, _react.createContext)({
-    global: new WeakMap(),
-    render: new Set()
-});
-const useGlobal = (defaultValue, effect)=>{
-    const ctx = (0, _react.useContext)(GlobalContext);
-    const [_, _render] = (0, _react.useState)({});
-    const { global , render  } = ctx;
-    if (!global.has(defaultValue)) global.set(defaultValue, {
-        ...defaultValue
-    });
-    (0, _react.useEffect)(()=>{
-        let res = null;
-        if (effect) res = effect();
-        if (!render.has(_render)) render.add(_render);
-        return ()=>{
-            if (render.has(_render)) render.delete(_render);
-            if (typeof res === "function") res();
-            else if (res instanceof Promise) res.then((e)=>{
-                if (typeof e === "function") e();
-            });
-        };
-    }, []);
-    const res = global.get(defaultValue);
-    defaultValue._ref = global.get(defaultValue);
-    res.render = ()=>{
-        ctx.render.forEach((render)=>{
-            render({});
-        });
-    };
-    return res;
-};
-const declareGlobal = (arg)=>{
-    return arg;
-};
-
-  $parcel$ReactRefreshHelpers$7b72.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"iWW9B":[function(require,module,exports) {
-"use strict";
-var Refresh = require("57d7857198673997");
-function debounce(func, delay) {
-    {
-        let timeout = undefined;
-        let lastTime = 0;
-        return function(args) {
-            // Call immediately if last call was more than the delay ago.
-            // Otherwise, set a timeout. This means the first call is fast
-            // (for the common case of a single update), and subsequent updates
-            // are batched.
-            let now = Date.now();
-            if (now - lastTime > delay) {
-                lastTime = now;
-                func.call(null, args);
-            } else {
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
-                    timeout = undefined;
-                    lastTime = Date.now();
-                    func.call(null, args);
-                }, delay);
-            }
-        };
-    }
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module1) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module1.id + " " + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module1) {
-    if (isReactRefreshBoundary(module1.exports)) {
-        registerExportsForReactRefresh(module1);
-        if (module1.hot) {
-            module1.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module1.exports;
-            });
-            module1.hot.accept(function(getParents) {
-                var prevExports = module1.hot.data.prevExports;
-                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module1) {
-    var exports = module1.exports, id = module1.id;
-    Refresh.register(exports, id + " %exports%");
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        Refresh.register(exportValue, id + " %exports% " + key);
-    }
-}
-
-},{"57d7857198673997":"5sxsY"}],"dPrzi":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state_bar", ()=>state_bar);
-var _useGlobal = require("../libs/use-global");
-var _bg = require("./unit/bg");
-const state_bar = (0, _useGlobal.declareGlobal)({
-    position: "top",
-    size: "35px",
-    bg: (0, _bg.bg).use({
-        blur: "5px",
-        color: "rgba(0,0,0,.2)"
-    }),
-    css: "",
-    items: []
-});
-
-},{"../libs/use-global":"bDE6Q","./unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hdyCa":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "bg", ()=>bg);
-var _goober = require("goober");
-const bg_default = {
-    img: "",
-    fill: "cover",
-    color: "transparent",
-    blur: ""
-};
-const bg = {
-    default: bg_default,
-    use (value) {
-        return Object.assign({
-            ...bg_default
-        }, value);
-    },
-    render (bg) {
-        return (0, _goober.css)`
-      ${bg.img && `background-image: url(${bg.img});`}
-      ${bg.fill && `background-size: ${bg.fill === "stretch" ? "100% 100%" : bg.fill};`}
-      ${bg.blur && `
-      backdrop-filter: blur(${bg.blur});
-      -webkit-backdrop-filter: blur(${bg.blur});
-      `}
-      ${bg.color && `background-color: ${bg.color};`}
-    `;
-    }
-};
-
-},{"goober":"gILVw","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"gILVw":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "css", ()=>u);
-parcelHelpers.export(exports, "extractCss", ()=>r);
-parcelHelpers.export(exports, "glob", ()=>b);
-parcelHelpers.export(exports, "keyframes", ()=>h);
-parcelHelpers.export(exports, "setup", ()=>m);
-parcelHelpers.export(exports, "styled", ()=>j);
-let e = {
-    data: ""
-}, t = (t)=>"object" == typeof window ? ((t ? t.querySelector("#_goober") : window._goober) || Object.assign((t || document.head).appendChild(document.createElement("style")), {
-        innerHTML: " ",
-        id: "_goober"
-    })).firstChild : t || e, r = (e)=>{
-    let r = t(e), l = r.data;
-    return r.data = "", l;
-}, l = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g, a = /\/\*[^]*?\*\/|  +/g, n = /\n+/g, o = (e, t)=>{
-    let r = "", l = "", a = "";
-    for(let n in e){
-        let c = e[n];
-        "@" == n[0] ? "i" == n[1] ? r = n + " " + c + ";" : l += "f" == n[1] ? o(c, n) : n + "{" + o(c, "k" == n[1] ? "" : t) + "}" : "object" == typeof c ? l += o(c, t ? t.replace(/([^,])+/g, (e)=>n.replace(/(^:.*)|([^,])+/g, (t)=>/&/.test(t) ? t.replace(/&/g, e) : e ? e + " " + t : t)) : n) : null != c && (n = /^--/.test(n) ? n : n.replace(/[A-Z]/g, "-$&").toLowerCase(), a += o.p ? o.p(n, c) : n + ":" + c + ";");
-    }
-    return r + (t && a ? t + "{" + a + "}" : a) + l;
-}, c = {}, s = (e)=>{
-    if ("object" == typeof e) {
-        let t = "";
-        for(let r in e)t += r + s(e[r]);
-        return t;
-    }
-    return e;
-}, i = (e, t, r, i, p)=>{
-    let u = s(e), d = c[u] || (c[u] = ((e)=>{
-        let t = 0, r = 11;
-        for(; t < e.length;)r = 101 * r + e.charCodeAt(t++) >>> 0;
-        return "go" + r;
-    })(u));
-    if (!c[d]) {
-        let t = u !== e ? e : ((e)=>{
-            let t, r, o = [
-                {}
-            ];
-            for(; t = l.exec(e.replace(a, ""));)t[4] ? o.shift() : t[3] ? (r = t[3].replace(n, " ").trim(), o.unshift(o[0][r] = o[0][r] || {})) : o[0][t[1]] = t[2].replace(n, " ").trim();
-            return o[0];
-        })(e);
-        c[d] = o(p ? {
-            ["@keyframes " + d]: t
-        } : t, r ? "" : "." + d);
-    }
-    let f = r && c.g ? c.g : null;
-    return r && (c.g = c[d]), ((e, t, r, l)=>{
-        l ? t.data = t.data.replace(l, e) : -1 === t.data.indexOf(e) && (t.data = r ? e + t.data : t.data + e);
-    })(c[d], t, i, f), d;
-}, p = (e, t, r)=>e.reduce((e, l, a)=>{
-        let n = t[a];
-        if (n && n.call) {
-            let e = n(r), t = e && e.props && e.props.className || /^go/.test(e) && e;
-            n = t ? "." + t : e && "object" == typeof e ? e.props ? "" : o(e, "") : !1 === e ? "" : e;
-        }
-        return e + l + (null == n ? "" : n);
-    }, "");
-function u(e) {
-    let r = this || {}, l = e.call ? e(r.p) : e;
-    return i(l.unshift ? l.raw ? p(l, [].slice.call(arguments, 1), r.p) : l.reduce((e, t)=>Object.assign(e, t && t.call ? t(r.p) : t), {}) : l, t(r.target), r.g, r.o, r.k);
-}
-let d, f, g, b = u.bind({
-    g: 1
-}), h = u.bind({
-    k: 1
-});
-function m(e, t, r, l) {
-    o.p = t, d = e, f = r, g = l;
-}
-function j(e, t) {
-    let r = this || {};
-    return function() {
-        let l = arguments;
-        function a(n, o) {
-            let c = Object.assign({}, n), s = c.className || a.className;
-            r.p = Object.assign({
-                theme: f && f()
-            }, c), r.o = / *go\d+/.test(s), c.className = u.apply(r, l) + (s ? " " + s : ""), t && (c.ref = o);
-            let i = e;
-            return e[0] && (i = c.as || e, delete c.as), g && i[0] && g(c), d(i, c);
-        }
-        return t ? t(a) : a;
-    };
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"4mcZR":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$5190 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$5190.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Bar", ()=>Bar);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _goober = require("goober");
-var _cx = require("../../libs/cx");
-var _pick = require("../../libs/pick");
-var _useGlobal = require("../../libs/use-global");
-var _app = require("../../state/app");
-var _bar = require("../../state/bar");
-var _bg = require("../../state/unit/bg");
-var _s = $RefreshSig$();
-const Bar = ()=>{
-    _s();
-    const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
-    const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
-    bar._ref = bar;
-    const dir = bar.position === "bottom" || bar.position === "top" ? "horizontal" : "vertical";
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex justify-between", // app.boot.status !== 'ready' && 'opacity-0',
-        (0, _pick.pick)(dir, {
-            horizontal: "flex-row",
-            vertical: "flex-col"
-        }), (0, _goober.css)`
-          flex-basis: ${bar.size};
-        `, (0, _bg.bg).render(bar.bg), (0, _goober.css)`
-          ${bar.css}
-        `),
-        onContextMenu: (e)=>{
-            e.preventDefault();
-            e.stopPropagation();
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            className: "bar",
-            children: bar.items.map((item)=>{
-                return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(RenderBar, {
-                    item: item,
-                    dir: dir,
-                    bar: bar
-                }, item.id, false, {
-                    fileName: "src/element/bar/bar.tsx",
-                    lineNumber: 44,
-                    columnNumber: 18
-                }, undefined);
-            })
-        }, void 0, false, {
-            fileName: "src/element/bar/bar.tsx",
-            lineNumber: 42,
-            columnNumber: 7
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/element/bar/bar.tsx",
-        lineNumber: 21,
-        columnNumber: 5
-    }, undefined);
-};
-_s(Bar, "dxoIvpc9ECJNZetUWQcQtKUKLeQ=", false, function() {
-    return [
-        (0, _useGlobal.useGlobal),
-        (0, _useGlobal.useGlobal)
-    ];
-});
-_c = Bar;
-const RenderBar = ({ item , dir , bar  })=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        id: item.id,
-        ref: (el)=>{
-            item.fn(el);
-        }
-    }, void 0, false, {
-        fileName: "src/element/bar/bar.tsx",
-        lineNumber: 57,
-        columnNumber: 5
-    }, undefined);
-};
-_c1 = RenderBar;
-var _c, _c1;
-$RefreshReg$(_c, "Bar");
-$RefreshReg$(_c1, "RenderBar");
-
-  $parcel$ReactRefreshHelpers$5190.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../state/bar":"dPrzi","../../state/unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../../state/app":"cFz1s"}],"cFz1s":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state_app", ()=>state_app);
-var _useGlobal = require("../libs/use-global");
-const default_app = {
-    startup: [
-        "launcher"
-    ],
-    installed: {},
-    running: [],
-    boot: {
-        appLoaded: false,
-        status: "loading",
-        loadingPercent: 0
-    },
-    asset: {
-        bg: null
-    }
-};
-const state_app = (0, _useGlobal.declareGlobal)(default_app);
-
-},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"dXGG5":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$ccf9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$ccf9.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Boot", ()=>Boot);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _framerMotion = require("framer-motion");
-var _goober = require("goober");
-var _cx = require("../libs/cx");
-var _useGlobal = require("../libs/use-global");
-var _app = require("../state/app");
-var _s = $RefreshSig$();
-const Boot = ()=>{
-    _s();
-    const app = (0, _useGlobal.useGlobal)((0, _app.state_app), async ()=>{
-        app.asset.bg = new Image();
-        let ival = setInterval(()=>{
-            if (app.boot.loadingPercent < 95) {
-                app.boot.loadingPercent += 7;
-                app.render();
-            } else clearInterval(ival);
-        }, 1000);
-        app.asset.bg.onload = function() {
-            clearInterval(ival);
-            app.boot.loadingPercent = 100;
-            app.render();
-        };
-        app.asset.bg.src = backend_theme.bg.img;
-    });
-    if (app.boot.status === "loading" && app.boot.loadingPercent === 100 && app.boot.appLoaded) {
-        for (const running of app.running);
-        app.boot.status = "ready";
-        setTimeout(app.render, 500);
-    }
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
-        initial: {
-            opacity: 1
-        },
-        exit: {
-            opacity: 0
-        },
-        className: (0, _cx.cx)("flex fixed inset-0 select-none justify-center items-center", (0, _goober.css)`
-          z-index: 99;
-          background-color: ${backend_theme.bg.color};
-        `),
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            className: "w-[150px] bg-gray-200 h-1",
-            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: (0, _cx.cx)("h-1 transition-all opacity-80", (0, _goober.css)`
-              background-color: ${backend_theme.bg.color};
-              width: ${app.boot.loadingPercent}%;
-            `)
-            }, void 0, false, {
-                fileName: "src/element/boot.tsx",
-                lineNumber: 53,
-                columnNumber: 9
-            }, undefined)
-        }, void 0, false, {
-            fileName: "src/element/boot.tsx",
-            lineNumber: 52,
-            columnNumber: 7
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/element/boot.tsx",
-        lineNumber: 41,
-        columnNumber: 5
-    }, undefined);
-};
-_s(Boot, "nxVkUQM5J06ZC0Y8hwRoxUoMDMY=", false, function() {
-    return [
-        (0, _useGlobal.useGlobal)
-    ];
-});
-_c = Boot;
-var _c;
-$RefreshReg$(_c, "Boot");
-
-  $parcel$ReactRefreshHelpers$ccf9.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","../libs/cx":"cO2cu","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../libs/use-global":"bDE6Q","../state/app":"cFz1s","goober":"gILVw","framer-motion":"5bZBB"}],"5bZBB":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","framer-motion":"5bZBB","../libs/cx":"cO2cu","../libs/pick":"hkVSb","../libs/use-global":"bDE6Q","../state/app":"cFz1s","../state/bar":"dPrzi","../state/unit/bg":"hdyCa","./bar/bar":"4mcZR","./boot":"dXGG5","./desktop/desktop":"6IxNg","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"5bZBB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createDomMotionComponent", ()=>(0, _motionMjs.createDomMotionComponent));
@@ -28155,7 +27583,37 @@ var _react = require("react");
     reducedMotion: "never"
 });
 
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"3aBYo":[function(require,module,exports) {
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"beCOK":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"3aBYo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MotionContext", ()=>MotionContext);
@@ -39873,7 +39331,586 @@ let hasWarned = false;
     };
 }
 
-},{"./use-transform.mjs":"gAMIr","hey-listen":"8yK8Z","./use-motion-value.mjs":"rszYa","../context/MotionContext/index.mjs":"3aBYo","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"6IxNg":[function(require,module,exports) {
+},{"./use-transform.mjs":"gAMIr","hey-listen":"8yK8Z","./use-motion-value.mjs":"rszYa","../context/MotionContext/index.mjs":"3aBYo","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"cO2cu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "cx", ()=>cx);
+const cx = (...value)=>{
+    if (Array.isArray(value)) return value.filter((e)=>!!e).join(" ");
+    return value;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hkVSb":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "pick", ()=>pick);
+const pick = (value, options)=>{
+    return options[value];
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"bDE6Q":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$7b72 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$7b72.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "GlobalContext", ()=>GlobalContext);
+parcelHelpers.export(exports, "useGlobal", ()=>useGlobal);
+parcelHelpers.export(exports, "declareGlobal", ()=>declareGlobal);
+var _react = require("react");
+const GlobalContext = (0, _react.createContext)({
+    global: new WeakMap(),
+    render: new Set()
+});
+const useGlobal = (defaultValue, effect)=>{
+    const ctx = (0, _react.useContext)(GlobalContext);
+    const [_, _render] = (0, _react.useState)({});
+    const { global , render  } = ctx;
+    if (!global.has(defaultValue)) global.set(defaultValue, {
+        ...defaultValue
+    });
+    (0, _react.useEffect)(()=>{
+        let res = null;
+        if (effect) res = effect();
+        if (!render.has(_render)) render.add(_render);
+        return ()=>{
+            if (render.has(_render)) render.delete(_render);
+            if (typeof res === "function") res();
+            else if (res instanceof Promise) res.then((e)=>{
+                if (typeof e === "function") e();
+            });
+        };
+    }, []);
+    const res = global.get(defaultValue);
+    defaultValue._ref = global.get(defaultValue);
+    res.render = ()=>{
+        ctx.render.forEach((render)=>{
+            render({});
+        });
+    };
+    return res;
+};
+const declareGlobal = (arg)=>{
+    return arg;
+};
+
+  $parcel$ReactRefreshHelpers$7b72.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"iWW9B":[function(require,module,exports) {
+"use strict";
+var Refresh = require("57d7857198673997");
+function debounce(func, delay) {
+    {
+        let timeout = undefined;
+        let lastTime = 0;
+        return function(args) {
+            // Call immediately if last call was more than the delay ago.
+            // Otherwise, set a timeout. This means the first call is fast
+            // (for the common case of a single update), and subsequent updates
+            // are batched.
+            let now = Date.now();
+            if (now - lastTime > delay) {
+                lastTime = now;
+                func.call(null, args);
+            } else {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    timeout = undefined;
+                    lastTime = Date.now();
+                    func.call(null, args);
+                }, delay);
+            }
+        };
+    }
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30); // Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module1) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module1.id + " " + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module1) {
+    if (isReactRefreshBoundary(module1.exports)) {
+        registerExportsForReactRefresh(module1);
+        if (module1.hot) {
+            module1.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module1.exports;
+            });
+            module1.hot.accept(function(getParents) {
+                var prevExports = module1.hot.data.prevExports;
+                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+} // When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module1) {
+    var exports = module1.exports, id = module1.id;
+    Refresh.register(exports, id + " %exports%");
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        Refresh.register(exportValue, id + " %exports% " + key);
+    }
+}
+
+},{"57d7857198673997":"5sxsY"}],"cFz1s":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state_app", ()=>state_app);
+var _useGlobal = require("../libs/use-global");
+const default_app = {
+    startup: [
+        "launcher"
+    ],
+    installed: {},
+    running: [],
+    boot: {
+        status: "loading",
+        loadingPercent: 0
+    },
+    asset: {
+        bg: null
+    }
+};
+const state_app = (0, _useGlobal.declareGlobal)(default_app);
+
+},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"dPrzi":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state_bar", ()=>state_bar);
+var _useGlobal = require("../libs/use-global");
+var _bg = require("./unit/bg");
+const state_bar = (0, _useGlobal.declareGlobal)({
+    position: "top",
+    size: "35px",
+    bg: (0, _bg.bg).use({
+        blur: "5px",
+        color: "rgba(0,0,0,.2)"
+    }),
+    css: "",
+    items: []
+});
+
+},{"../libs/use-global":"bDE6Q","./unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hdyCa":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "bg", ()=>bg);
+var _goober = require("goober");
+const bg_default = {
+    img: "",
+    fill: "cover",
+    color: "transparent",
+    blur: ""
+};
+const bg = {
+    default: bg_default,
+    use (value) {
+        return Object.assign({
+            ...bg_default
+        }, value);
+    },
+    render (bg) {
+        return (0, _goober.css)`
+      ${bg.img && `background-image: url(${bg.img});`}
+      ${bg.fill && `background-size: ${bg.fill === "stretch" ? "100% 100%" : bg.fill};`}
+      ${bg.blur && `
+      backdrop-filter: blur(${bg.blur});
+      -webkit-backdrop-filter: blur(${bg.blur});
+      `}
+      ${bg.color && `background-color: ${bg.color};`}
+    `;
+    }
+};
+
+},{"goober":"gILVw","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"gILVw":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "css", ()=>u);
+parcelHelpers.export(exports, "extractCss", ()=>r);
+parcelHelpers.export(exports, "glob", ()=>b);
+parcelHelpers.export(exports, "keyframes", ()=>h);
+parcelHelpers.export(exports, "setup", ()=>m);
+parcelHelpers.export(exports, "styled", ()=>j);
+let e = {
+    data: ""
+}, t = (t)=>"object" == typeof window ? ((t ? t.querySelector("#_goober") : window._goober) || Object.assign((t || document.head).appendChild(document.createElement("style")), {
+        innerHTML: " ",
+        id: "_goober"
+    })).firstChild : t || e, r = (e)=>{
+    let r = t(e), l = r.data;
+    return r.data = "", l;
+}, l = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g, a = /\/\*[^]*?\*\/|  +/g, n = /\n+/g, o = (e, t)=>{
+    let r = "", l = "", a = "";
+    for(let n in e){
+        let c = e[n];
+        "@" == n[0] ? "i" == n[1] ? r = n + " " + c + ";" : l += "f" == n[1] ? o(c, n) : n + "{" + o(c, "k" == n[1] ? "" : t) + "}" : "object" == typeof c ? l += o(c, t ? t.replace(/([^,])+/g, (e)=>n.replace(/(^:.*)|([^,])+/g, (t)=>/&/.test(t) ? t.replace(/&/g, e) : e ? e + " " + t : t)) : n) : null != c && (n = /^--/.test(n) ? n : n.replace(/[A-Z]/g, "-$&").toLowerCase(), a += o.p ? o.p(n, c) : n + ":" + c + ";");
+    }
+    return r + (t && a ? t + "{" + a + "}" : a) + l;
+}, c = {}, s = (e)=>{
+    if ("object" == typeof e) {
+        let t = "";
+        for(let r in e)t += r + s(e[r]);
+        return t;
+    }
+    return e;
+}, i = (e, t, r, i, p)=>{
+    let u = s(e), d = c[u] || (c[u] = ((e)=>{
+        let t = 0, r = 11;
+        for(; t < e.length;)r = 101 * r + e.charCodeAt(t++) >>> 0;
+        return "go" + r;
+    })(u));
+    if (!c[d]) {
+        let t = u !== e ? e : ((e)=>{
+            let t, r, o = [
+                {}
+            ];
+            for(; t = l.exec(e.replace(a, ""));)t[4] ? o.shift() : t[3] ? (r = t[3].replace(n, " ").trim(), o.unshift(o[0][r] = o[0][r] || {})) : o[0][t[1]] = t[2].replace(n, " ").trim();
+            return o[0];
+        })(e);
+        c[d] = o(p ? {
+            ["@keyframes " + d]: t
+        } : t, r ? "" : "." + d);
+    }
+    let f = r && c.g ? c.g : null;
+    return r && (c.g = c[d]), ((e, t, r, l)=>{
+        l ? t.data = t.data.replace(l, e) : -1 === t.data.indexOf(e) && (t.data = r ? e + t.data : t.data + e);
+    })(c[d], t, i, f), d;
+}, p = (e, t, r)=>e.reduce((e, l, a)=>{
+        let n = t[a];
+        if (n && n.call) {
+            let e = n(r), t = e && e.props && e.props.className || /^go/.test(e) && e;
+            n = t ? "." + t : e && "object" == typeof e ? e.props ? "" : o(e, "") : !1 === e ? "" : e;
+        }
+        return e + l + (null == n ? "" : n);
+    }, "");
+function u(e) {
+    let r = this || {}, l = e.call ? e(r.p) : e;
+    return i(l.unshift ? l.raw ? p(l, [].slice.call(arguments, 1), r.p) : l.reduce((e, t)=>Object.assign(e, t && t.call ? t(r.p) : t), {}) : l, t(r.target), r.g, r.o, r.k);
+}
+let d, f, g, b = u.bind({
+    g: 1
+}), h = u.bind({
+    k: 1
+});
+function m(e, t, r, l) {
+    o.p = t, d = e, f = r, g = l;
+}
+function j(e, t) {
+    let r = this || {};
+    return function() {
+        let l = arguments;
+        function a(n, o) {
+            let c = Object.assign({}, n), s = c.className || a.className;
+            r.p = Object.assign({
+                theme: f && f()
+            }, c), r.o = / *go\d+/.test(s), c.className = u.apply(r, l) + (s ? " " + s : ""), t && (c.ref = o);
+            let i = e;
+            return e[0] && (i = c.as || e, delete c.as), g && i[0] && g(c), d(i, c);
+        }
+        return t ? t(a) : a;
+    };
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"4mcZR":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$5190 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$5190.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Bar", ()=>Bar);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _goober = require("goober");
+var _cx = require("../../libs/cx");
+var _pick = require("../../libs/pick");
+var _useGlobal = require("../../libs/use-global");
+var _w = require("../../libs/w");
+var _bar = require("../../state/bar");
+var _bg = require("../../state/unit/bg");
+var _s = $RefreshSig$();
+const Bar = ()=>{
+    _s();
+    const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
+    bar._ref = bar;
+    (0, _w.w).bar = bar;
+    const dir = bar.position === "bottom" || bar.position === "top" ? "horizontal" : "vertical";
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: (0, _cx.cx)("flex justify-between", // app.boot.status !== 'ready' && 'opacity-0',
+        (0, _pick.pick)(dir, {
+            horizontal: "flex-row",
+            vertical: "flex-col"
+        }), (0, _goober.css)`
+          flex-basis: ${bar.size};
+        `, (0, _bg.bg).render(bar.bg), (0, _goober.css)`
+          ${bar.css}
+        `),
+        onContextMenu: (e)=>{
+            e.preventDefault();
+            e.stopPropagation();
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: "bar",
+            children: bar.items.map((item)=>{
+                return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(RenderBar, {
+                    item: item,
+                    dir: dir,
+                    bar: bar
+                }, item.id, false, {
+                    fileName: "src/element/bar/bar.tsx",
+                    lineNumber: 44,
+                    columnNumber: 18
+                }, undefined);
+            })
+        }, void 0, false, {
+            fileName: "src/element/bar/bar.tsx",
+            lineNumber: 42,
+            columnNumber: 7
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/element/bar/bar.tsx",
+        lineNumber: 21,
+        columnNumber: 5
+    }, undefined);
+};
+_s(Bar, "P96aFOAdc+OL7SygLQqmS3Sx9pE=", false, function() {
+    return [
+        (0, _useGlobal.useGlobal)
+    ];
+});
+_c = Bar;
+const RenderBar = ({ item , dir , bar  })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        id: item.id,
+        ref: (el)=>{
+            if (el) item.fn(el);
+        }
+    }, void 0, false, {
+        fileName: "src/element/bar/bar.tsx",
+        lineNumber: 57,
+        columnNumber: 5
+    }, undefined);
+};
+_c1 = RenderBar;
+var _c, _c1;
+$RefreshReg$(_c, "Bar");
+$RefreshReg$(_c1, "RenderBar");
+
+  $parcel$ReactRefreshHelpers$5190.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../libs/w":"6jnvI","../../state/bar":"dPrzi","../../state/unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"6jnvI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "w", ()=>w);
+const w = typeof window === "undefined" ? {} : window;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"dXGG5":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$ccf9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$ccf9.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Boot", ()=>Boot);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _framerMotion = require("framer-motion");
+var _goober = require("goober");
+var _cx = require("../libs/cx");
+var _useGlobal = require("../libs/use-global");
+var _waitUntil = require("../libs/wait-until");
+var _app = require("../state/app");
+var _bar = require("../state/bar");
+var _s = $RefreshSig$();
+const Boot = ()=>{
+    _s();
+    const app = (0, _useGlobal.useGlobal)((0, _app.state_app), async ()=>{
+        app.asset.bg = new Image();
+        let ival = setInterval(()=>{
+            if (app.boot.loadingPercent < 95) {
+                app.boot.loadingPercent += 7;
+                app.render();
+            } else clearInterval(ival);
+        }, 1000);
+        app.asset.bg.onload = function() {
+            clearInterval(ival);
+            app.boot.loadingPercent = 100;
+            app.render();
+        };
+        app.asset.bg.src = backend_theme.bg.img;
+    });
+    if (app.boot.status === "loading" && app.boot.loadingPercent === 100) (0, _waitUntil.waitUntil)(()=>(0, _bar.state_bar)._ref).then(()=>{
+        for (const running of app.running)(0, _waitUntil.waitUntil)(()=>typeof running.start === "function").then(()=>{
+            running.start();
+        });
+        app.boot.status = "ready";
+        setTimeout(app.render, 500);
+    });
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
+        initial: {
+            opacity: 1
+        },
+        exit: {
+            opacity: 0
+        },
+        className: (0, _cx.cx)("flex fixed inset-0 select-none justify-center items-center", (0, _goober.css)`
+          z-index: 99;
+          background-color: ${backend_theme.bg.color};
+        `),
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: "w-[150px] bg-gray-200 h-1",
+            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: (0, _cx.cx)("h-1 transition-all opacity-80", (0, _goober.css)`
+              background-color: ${backend_theme.bg.color};
+              width: ${app.boot.loadingPercent}%;
+            `)
+            }, void 0, false, {
+                fileName: "src/element/boot.tsx",
+                lineNumber: 53,
+                columnNumber: 9
+            }, undefined)
+        }, void 0, false, {
+            fileName: "src/element/boot.tsx",
+            lineNumber: 52,
+            columnNumber: 7
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/element/boot.tsx",
+        lineNumber: 41,
+        columnNumber: 5
+    }, undefined);
+};
+_s(Boot, "nxVkUQM5J06ZC0Y8hwRoxUoMDMY=", false, function() {
+    return [
+        (0, _useGlobal.useGlobal)
+    ];
+});
+_c = Boot;
+var _c;
+$RefreshReg$(_c, "Boot");
+
+  $parcel$ReactRefreshHelpers$ccf9.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","framer-motion":"5bZBB","goober":"gILVw","../libs/cx":"cO2cu","../libs/use-global":"bDE6Q","../libs/wait-until":"2iPoQ","../state/app":"cFz1s","../state/bar":"dPrzi","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"2iPoQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "waitUntil", ()=>waitUntil);
+const waitUntil = (condition, timeout)=>{
+    return new Promise(async (resolve)=>{
+        if (typeof condition === "function") {
+            let tout = null;
+            if (timeout) tout = setTimeout(resolve, timeout);
+            if (await condition()) {
+                clearTimeout(tout);
+                resolve();
+                return;
+            }
+            let count = 0;
+            const c = setInterval(async ()=>{
+                if (await condition()) {
+                    if (tout) clearTimeout(tout);
+                    clearInterval(c);
+                    resolve();
+                }
+                if (count > 100) clearInterval(c);
+            }, 100);
+        } else if (typeof condition === "number") setTimeout(()=>{
+            resolve();
+        }, condition);
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"6IxNg":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$2ade = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -39963,7 +40000,7 @@ $RefreshReg$(_c1, "FrameItem");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../../libs/cx":"cO2cu","../../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","goober":"gILVw","../../state/desktop":"1yaQI","../../state/app":"cFz1s"}],"1yaQI":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/use-global":"bDE6Q","../../state/app":"cFz1s","../../state/desktop":"1yaQI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"1yaQI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state_desktop", ()=>state_desktop);
@@ -40027,36 +40064,7 @@ const useLocal = (data, effect, deps)=>{
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"2iPoQ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "waitUntil", ()=>waitUntil);
-const waitUntil = (condition, timeout)=>{
-    return new Promise(async (resolve)=>{
-        if (typeof condition === "function") {
-            let tout = null;
-            if (timeout) tout = setTimeout(resolve, timeout);
-            if (await condition()) {
-                clearTimeout(tout);
-                resolve();
-                return;
-            }
-            let count = 0;
-            const c = setInterval(async ()=>{
-                if (await condition()) {
-                    if (tout) clearTimeout(tout);
-                    clearInterval(c);
-                    resolve();
-                }
-                if (count > 100) clearInterval(c);
-            }, 100);
-        } else if (typeof condition === "number") setTimeout(()=>{
-            resolve();
-        }, condition);
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"bGVRR":[function(require,module,exports) {
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"bGVRR":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "initRPC", ()=>initRPC);
@@ -40075,18 +40083,18 @@ const initRPC = ()=>{
     ws.onopen = async ()=>{
         (0, _w.w).rpc = (0, _backend.client)(ws, queue);
         await (0, _waitUntil.waitUntil)(()=>(0, _app.state_app)._ref);
+        (0, _w.w).app = (0, _app.state_app)._ref;
         const app = (0, _app.state_app)._ref;
         const apps = await (0, _w.w).rpc.apps();
         if (Object.keys(app.installed).length === 0) for (const [k, v] of Object.entries(apps)){
             app.installed[k] = v;
             const current = v;
+            app.running.push(current);
             current.script = document.createElement("script");
             current.script.src = `/app/${current.name}/${current.name}-install`;
             current.script.id = `app-${current.name}`;
             document.body.append(current.script);
-            app.running.push(current);
         }
-        app.boot.appLoaded = true;
         app.render();
     };
     ws.onmessage = async ({ data  })=>{
@@ -43868,6 +43876,7 @@ var _rpc = require("rpc");
 var _app = require("../state/app");
 var _bar = require("../state/bar");
 var _desktop = require("../state/desktop");
+var _w = require("./w");
 const rpcAction = {
     create_frame (arg) {
         const frameID = (0, _cuidDefault.default)();
@@ -43884,14 +43893,14 @@ const rpcAction = {
             (0, _desktop.state_desktop)._ref.render();
         } else console.warn("Failed to create frame, state_desktop is not initialized.");
     },
-    create_bar (arg) {
-        const barID = (0, _cuidDefault.default)();
-        (0, _bar.state_bar)._ref.items.push({
+    async create_bar (arg) {
+        const barID = `bar-${arg.appName}-${(0, _cuidDefault.default)()}`;
+        (0, _w.w).bar.items.push({
             id: barID,
             appName: arg.appName,
             fn: arg.fn
         });
-        (0, _bar.state_bar)._ref.render();
+        (0, _w.w).bar.render();
     },
     read_state (arg) {
         const state = arg.path.shift();
@@ -43941,7 +43950,7 @@ const createClient = (appName)=>{
     });
 };
 
-},{"cuid":"1NFTW","lodash.get":"80Ipq","rpc":"jNaSg","../state/app":"cFz1s","../state/bar":"dPrzi","../state/desktop":"1yaQI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"1NFTW":[function(require,module,exports) {
+},{"cuid":"1NFTW","lodash.get":"80Ipq","rpc":"jNaSg","../state/app":"cFz1s","../state/bar":"dPrzi","../state/desktop":"1yaQI","./w":"6jnvI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"1NFTW":[function(require,module,exports) {
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -44759,12 +44768,6 @@ memoize.Cache = MapCache;
 }
 module.exports = get;
 
-},{}],"6jnvI":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "w", ()=>w);
-const w = window;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}]},["3kpDH","5d35h","4aBH6"], "4aBH6", "parcelRequire10c2")
+},{}]},["3kpDH","5d35h","4aBH6"], "4aBH6", "parcelRequire10c2")
 
 //# sourceMappingURL=index.b0a2d388.js.map
