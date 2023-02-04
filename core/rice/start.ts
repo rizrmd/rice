@@ -63,6 +63,7 @@ Done
   }
 
   let parcelURL = "";
+
   const { client, schema } = await import("backend");
   if (cmd === "dev") {
     if (appName) {
@@ -96,7 +97,7 @@ Done
     console.log("[Development Mode]");
     const parcel = spawn({
       cmd: ["bun", "run", "dev"],
-      cwd: join(import.meta.dir, "frontend"),
+      cwd: join(import.meta.dir, "..", "frontend"),
       stdin: "ignore",
       stdout: "pipe",
       stderr: "pipe",
@@ -130,7 +131,7 @@ Done
 
   const backend = spawn({
     cmd: ["bun", "--hot", "./src/index.ts"],
-    cwd: join(import.meta.dir, "backend"),
+    cwd: join(import.meta.dir, "..", "backend"),
     stdin: "ignore",
     stdout: "inherit",
     stderr: "inherit",

@@ -1,23 +1,11 @@
 {
-  "typescript.preferences.importModuleSpecifier": "relative",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/bun.lockb": true,
-    "**/go.sum": true,
-    "**/pnpm-lock.yaml": true,
-    "**/.gitignore": true,
-    "**/.postcssrc": true,
-    "**/.htmlnanorc": true,
-    "**/tailwind.config.*": true,
-    "**/node_modules": true,
-    "**/build": true,
-    "**/.parcel-cache": true,
-    ".vscode": true
+    "**/Thumbs.db": true
   },
   "hide-files.files": []
 }
