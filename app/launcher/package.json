@@ -10,13 +10,15 @@
     "csstype": "^3.1.1",
     "goober": "^2.1.11",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rice": "../../core/rice"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "process": "^0.11.10",
     "bun-types": "^0.4.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
-  }
+  },
+  "workspaces": [
+    "../../core/rice"
+  ]
 }

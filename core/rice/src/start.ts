@@ -2,7 +2,7 @@ import type { client, ClientQueue, schema } from "server";
 import { spawn, spawnSync } from "bun";
 import { existsSync, readdirSync, rmSync, statSync } from "fs";
 import { join } from "path";
- 
+
 const root = join(import.meta.dir, "..", "..", "..");
 const core = async () => {
   const [_runtime, _scriptName, cmd, appName] = process.argv;
@@ -30,28 +30,31 @@ const core = async () => {
   }
 
   if (cmd === "i" || !existsSync(join(root, "core", "rice", "node_modules"))) {
-    console.log("Installing dependencies...");
-
     const appDir = join(root, "app");
     for (const dir of readdirSync(appDir)) {
       if (statSync(join(appDir, dir)).isDirectory()) {
+        console.log("Installing dependencies", dir);
+
         spawnSync({
           cmd: ["bun", "i"],
           cwd: join(appDir, dir),
           stdin: "inherit",
-          stdout: "ignore",
-          stderr: "ignore",
+          stdout: "inherit",
+          stderr: "inherit",
         });
       }
     }
 
     for (const [dir, _] of Object.entries(dirs)) {
+
+      console.log("Installing dependencies", dir);
+
       spawnSync({
         cmd: ["bun", "i"],
         cwd: join(root, "core", dir),
         stdin: "inherit",
-        stdout: "ignore",
-        stderr: "ignore",
+        stdout: "inherit",
+        stderr: "inherit",
       });
     }
     console.log(`
