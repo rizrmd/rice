@@ -1,7 +1,7 @@
 import { createRequestHandler, Handlers } from "rpc";
 import { client, ClientQueue, schema } from "server";
 import { AppRunning, state_app } from "../state/app";
-import { rpcAction } from "./rpc-action";
+import { rpcAction } from "./app-action";
 import { w } from "./w";
 import { waitUntil } from "./wait-until";
 
@@ -29,10 +29,16 @@ export const initRPC = () => {
         const current: AppRunning = { ...info } as any;
         app.running.push(current);
 
-        const name = current.name;
-        const src = await fetch(`/app/${name}/${name}-install`);
-        const fn = new Function(await src.text());
-        fn();
+        current.iframe = document.createElement("iframe");
+        current.iframe.src = `/app/${current.name}/index`;
+        current.iframe.id = `app-${current.name}`;
+        current.iframe.style.display = "none";
+        current.iframe.onload = () => {
+          current.iframe.contentWindow.postMessage({
+            type: "app-start",
+          });
+        };
+        document.body.append(current.iframe);
       }
     }
     app.render();
@@ -40,13 +46,6 @@ export const initRPC = () => {
 
   ws.onmessage = async ({ data }) => {
     let msg = null as any;
-    if (typeof data === "string") {
-      try {
-        const json = JSON.parse(data);
-        console.log(json);
-      } catch (e) {}
-      return;
-    }
 
     if (data instanceof ArrayBuffer) {
       msg = schema.res.unpack(new Uint8Array(data));
@@ -73,13 +72,15 @@ export const initRPC = () => {
 const eventMethod = window.addEventListener
   ? "addEventListener"
   : "attachEvent";
-const eventer = window[eventMethod];
-const messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
+const listenEvent = window[eventMethod];
+const onMessage = eventMethod === "attachEvent" ? "onmessage" : "message";
 const handler = createRequestHandler<Handlers<typeof rpcAction>>(rpcAction);
-eventer(messageEvent, async function (e: MessageEvent<any>) {
+listenEvent(onMessage, async function (e: MessageEvent<any>) {
   const data = e.data;
-  if (typeof data === "object" && data.type === "action") {
-    const result = await handler.handleRequest(data);
-    e.source.postMessage(result);
+  if (typeof data === "object") {
+    if (data.type === "app-register") {
+      const result = await handler.handleRequest(data);
+      e.source.postMessage(result);
+    }
   }
 });

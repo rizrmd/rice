@@ -23,8 +23,8 @@ export const Bar = () => {
         "flex justify-between",
         // app.boot.status !== 'ready' && 'opacity-0',
         pick(dir, {
-          horizontal: "flex-row",
-          vertical: "flex-col",
+          horizontal: "flex-row items-stretch",
+          vertical: "flex-col items-stretch",
         }),
         css`
           flex-basis: ${bar.size};
@@ -39,11 +39,9 @@ export const Bar = () => {
         e.stopPropagation();
       }}
     >
-      <div className="bar">
-        {bar.items.map((item) => {
-          return <RenderBar key={item.id} item={item} dir={dir} bar={bar} />;
-        })}
-      </div>
+      {bar.items.map((item) => {
+        return <RenderBar key={item.id} item={item} dir={dir} bar={bar} />;
+      })}
     </div>
   );
 };
@@ -56,10 +54,9 @@ const RenderBar: FC<{
   return (
     <div
       id={item.id}
+      className="flex"
       ref={(el) => {
-        if (el) {
-          item.fn(el);
-        }
+        if (el) item.setBarEl(el);
       }}
     ></div>
   );

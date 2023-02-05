@@ -40,6 +40,33 @@ export const http = async (req: Request, server: Server) => {
       if (part === "icon") {
         const iconPath = join(root, "app", appName, app.icon);
         if (existsSync(iconPath)) return new Response(file(iconPath));
+      } else if (part === "index") {
+        return new Response(
+          `\
+<script src="/app/${appName}/js"></script>
+<script>
+(() => {
+function getHostname() {
+    return (location.protocol.indexOf("http") === 0 ? location.hostname : "localhost");
+}
+function getPort() {
+    return location.port;
+} 
+var hostname = getHostname();
+var port = getPort();
+var protocol =  location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
+var ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
+ws.onmessage = async function(event) {
+  location.reload()
+} 
+})()
+</script>`,
+          {
+            headers: {
+              "content-type": "text/html",
+            },
+          }
+        );
       } else {
         const src = app.app;
         const base = join(root, "app", appName);

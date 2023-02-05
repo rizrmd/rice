@@ -3,6 +3,7 @@ import { AppInfo } from "rice/types";
 import { declareGlobal } from "../libs/use-global";
 
 export type AppRunning = AppInfo & {
+  iframe: HTMLIFrameElement;
   start: Parameters<typeof app["register"]>[1];
 };
 const default_app = {

@@ -17,5 +17,5 @@ export type BarID = string;
 export type BarItem = {
   id: BarID;
   appName: string;
-  fn: (el: HTMLDivElement) => void;
+  setBarEl: (el: HTMLDivElement) => void;
 };
