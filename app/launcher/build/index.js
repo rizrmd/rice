@@ -2933,8 +2933,7 @@ var _rice = require("rice");
         renderRoot(el, /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             className: (0, _goober.css)`
           height: 100%;  
-        `,
-            children: "ini"
+        `
         }, void 0, false, {
             fileName: "src/index.tsx",
             lineNumber: 10,

@@ -39805,12 +39805,21 @@ var _framerMotion = require("framer-motion");
 var _goober = require("goober");
 var _cx = require("../libs/cx");
 var _useGlobal = require("../libs/use-global");
+var _useLocal = require("../libs/use-local");
 var _waitUntil = require("../libs/wait-until");
 var _app = require("../state/app");
 var _bar = require("../state/bar");
 var _s = $RefreshSig$();
 const Boot = ()=>{
     _s();
+    const local = (0, _useLocal.useLocal)({
+        show: false
+    }, ()=>{
+        setTimeout(()=>{
+            local.show = true;
+            local.render();
+        }, 1000);
+    });
     const app = (0, _useGlobal.useGlobal)((0, _app.state_app), async ()=>{
         app.asset.bg = new Image();
         let ival = setInterval(()=>{
@@ -39845,7 +39854,7 @@ const Boot = ()=>{
           background-color: ${server_theme.bg.color};
         `),
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            className: "w-[150px] bg-gray-200 h-1",
+            className: (0, _cx.cx)("w-[150px] bg-gray-200 h-1 transition-all", local.show ? "opacity-1" : "opacity-0"),
             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: (0, _cx.cx)("h-1 transition-all opacity-80", (0, _goober.css)`
               background-color: ${server_theme.bg.color};
@@ -39853,22 +39862,23 @@ const Boot = ()=>{
             `)
             }, void 0, false, {
                 fileName: "src/element/boot.tsx",
-                lineNumber: 53,
+                lineNumber: 65,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/element/boot.tsx",
-            lineNumber: 52,
+            lineNumber: 59,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/element/boot.tsx",
-        lineNumber: 41,
+        lineNumber: 48,
         columnNumber: 5
     }, undefined);
 };
-_s(Boot, "nxVkUQM5J06ZC0Y8hwRoxUoMDMY=", false, function() {
+_s(Boot, "qjyZFjOEkMKjxvp+mAkj4vYt0SE=", false, function() {
     return [
+        (0, _useLocal.useLocal),
         (0, _useGlobal.useGlobal)
     ];
 });
@@ -39881,7 +39891,7 @@ $RefreshReg$(_c, "Boot");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","framer-motion":"5bZBB","goober":"gILVw","../libs/cx":"cO2cu","../libs/use-global":"bDE6Q","../libs/wait-until":"2iPoQ","../state/app":"cFz1s","../state/bar":"dPrzi","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"2iPoQ":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","framer-motion":"5bZBB","goober":"gILVw","../libs/cx":"cO2cu","../libs/use-global":"bDE6Q","../libs/wait-until":"2iPoQ","../state/app":"cFz1s","../state/bar":"dPrzi","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","../libs/use-local":"2RN4V"}],"2iPoQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "waitUntil", ()=>waitUntil);
@@ -39910,7 +39920,58 @@ const waitUntil = (condition, timeout)=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"6IxNg":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"2RN4V":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$0736 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$0736.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useLocal", ()=>useLocal);
+var _react = require("react");
+const useLocal = (data, effect, deps)=>{
+    const [, _render] = (0, _react.useState)({});
+    const _ = (0, _react.useRef)({
+        data: null,
+        deps: deps || [],
+        init: false
+    });
+    const local = _.current;
+    if (local.init === false) {
+        local.data = {
+            ...data
+        };
+        local.data.render = ()=>{
+            (0, _react.startTransition)(()=>_render({}));
+        };
+        local.init = true;
+        if (effect) setTimeout(()=>{
+            effect({
+                init: true
+            });
+        });
+    } else if (local.deps.length > 0 && deps) {
+        for (const [k, dep] of Object.entries(deps))if (local.deps[k] !== dep) {
+            local.deps[k] = dep;
+            if (effect) setTimeout(()=>{
+                effect({
+                    init: false
+                });
+            });
+            break;
+        }
+    }
+    return local.data;
+};
+
+  $parcel$ReactRefreshHelpers$0736.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"6IxNg":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$2ade = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -40013,58 +40074,7 @@ const state_desktop = (0, _useGlobal.declareGlobal)({
     css: ""
 });
 
-},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"2RN4V":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$0736 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$0736.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useLocal", ()=>useLocal);
-var _react = require("react");
-const useLocal = (data, effect, deps)=>{
-    const [, _render] = (0, _react.useState)({});
-    const _ = (0, _react.useRef)({
-        data: null,
-        deps: deps || [],
-        init: false
-    });
-    const local = _.current;
-    if (local.init === false) {
-        local.data = {
-            ...data
-        };
-        local.data.render = ()=>{
-            (0, _react.startTransition)(()=>_render({}));
-        };
-        local.init = true;
-        if (effect) setTimeout(()=>{
-            effect({
-                init: true
-            });
-        });
-    } else if (local.deps.length > 0 && deps) {
-        for (const [k, dep] of Object.entries(deps))if (local.deps[k] !== dep) {
-            local.deps[k] = dep;
-            if (effect) setTimeout(()=>{
-                effect({
-                    init: false
-                });
-            });
-            break;
-        }
-    }
-    return local.data;
-};
-
-  $parcel$ReactRefreshHelpers$0736.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"bGVRR":[function(require,module,exports) {
+},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"bGVRR":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "initRPC", ()=>initRPC);

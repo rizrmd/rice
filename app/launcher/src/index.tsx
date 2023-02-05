@@ -12,7 +12,6 @@ app.register("launcher", async () => {
           height: 100%;  
         `}
       >
-        ini
       </div>
     );
   });

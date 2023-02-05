@@ -2,11 +2,18 @@ import { motion } from "framer-motion";
 import { css } from "goober";
 import { cx } from "../libs/cx";
 import { useGlobal } from "../libs/use-global";
+import { useLocal } from "../libs/use-local";
 import { waitUntil } from "../libs/wait-until";
 import { state_app } from "../state/app";
 import { state_bar } from "../state/bar";
 
 export const Boot = () => {
+  const local = useLocal({ show: false }, () => {
+    setTimeout(() => {
+      local.show = true;
+      local.render();
+    }, 1000);
+  });
   const app = useGlobal(state_app, async () => {
     app.asset.bg = new Image();
     let ival = setInterval(() => {
@@ -49,7 +56,12 @@ export const Boot = () => {
         `
       )}
     >
-      <div className="w-[150px] bg-gray-200 h-1">
+      <div
+        className={cx(
+          "w-[150px] bg-gray-200 h-1 transition-all",
+          local.show ? "opacity-1" : "opacity-0"
+        )}
+      >
         <div
           className={cx(
             "h-1 transition-all opacity-80",
