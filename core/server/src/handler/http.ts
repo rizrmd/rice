@@ -5,8 +5,6 @@ import { join, resolve } from "path";
 import { action } from "../action";
 import { server_state } from "../init-state";
 import { defaultTheme } from "../libs/default-theme";
-import { injectIndex } from "./inject";
-import { proxy } from "./proxy";
 
 const root = join(import.meta.dir, "..", "..", "..", "..");
 const exists = new Set<string>();
@@ -40,10 +38,10 @@ export const http = async (req: Request, server: Server) => {
     const app = server_state.app[appName];
     if (app) {
       if (part === "icon") {
-        const iconPath = join(root, "app", appName, app.info.icon);
+        const iconPath = join(root, "app", appName, app.icon);
         if (existsSync(iconPath)) return new Response(file(iconPath));
       } else {
-        const src = app.info.src;
+        const src = app.app;
         const base = join(root, "app", appName);
         const path = join(base, src.basedir, part || "", ...(pathname || []));
         try {
@@ -52,13 +50,14 @@ export const http = async (req: Request, server: Server) => {
           }
         } catch (e) {}
 
-        await injectIndex(appName);
-
-        return new Response(app.index, {
-          headers: {
-            "content-type": "text/javascript",
-          },
-        });
+        return new Response(
+          file(join(app.app.absdir || "", app.app.basedir, app.app.index)),
+          {
+            headers: {
+              "content-type": "text/javascript",
+            },
+          }
+        );
       }
     }
     return new Response(`App "${appName}" Not Found`, {

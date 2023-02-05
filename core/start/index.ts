@@ -5,7 +5,7 @@ import { join } from "path";
 
 const root = join(import.meta.dir, "..", "..");
 const core = async () => {
-  const [_runtime, _scriptName, cmd] = process.argv;
+  const [_runtime, _scriptName, cmd, devPath] = process.argv;
   const dec = new TextDecoder();
   const dirs = {
     start: "index.ts",
@@ -23,30 +23,11 @@ const core = async () => {
           force: true,
         });
       } catch (e) {}
-      // try {
-      //   unlinkSync(join(import.meta.dir, dir, "node_modules.bun"));
-      // } catch (e) {}
     }
     process.exit();
   }
 
   if (cmd === "i" || !existsSync(join(root, "core", "start", "node_modules"))) {
-    const appDir = join(root, "app");
-    process.stdout.write("Installing App  deps: ");
-
-    for (const dir of readdirSync(appDir)) {
-      if (statSync(join(appDir, dir)).isDirectory()) {
-        process.stdout.write(dir + " ");
-        spawnSync({
-          cmd: ["bun", "i"],
-          cwd: join(appDir, dir),
-          stdin: "inherit",
-          stdout: "ignore",
-          stderr: "ignore",
-        });
-      }
-    }
-
     process.stdout.write("\nInstalling Rice deps: ");
     for (const [dir, _] of Object.entries(dirs)) {
       process.stdout.write(dir + " ");
@@ -54,8 +35,8 @@ const core = async () => {
         cmd: ["bun", "i"],
         cwd: join(root, "core", dir),
         stdin: "inherit",
-        stdout: "ignore",
-        stderr: "ignore",
+        stdout: "inherit",
+        stderr: "inherit",
       });
     }
     console.log(`
@@ -68,7 +49,7 @@ Done
 
   let parcelURL = "";
 
-  const { client, schema } = await import("server");
+  const { client, schema, startAppDev } = await import("server");
   if (cmd === "dev") {
     console.log("[Development Mode]");
     const parcel = spawn({
@@ -102,19 +83,31 @@ Done
         if (shouldPrint) process.stdout.write(raw);
       });
     });
+
+    if (devPath) {
+      await startAppDev(devPath);
+    }
+
     console.log("");
+
+    const server = spawn({
+      cmd: ["bun", "--hot", "./src/index.ts"],
+      cwd: join(root, "core", "server"),
+      stdin: "ignore",
+      stdout: "inherit",
+      stderr: "inherit",
+    });
+
+    initBackend(parcelURL, client, schema);
+
+    await Promise.all([server.exited]);
+  } else {
+    setTimeout(() => {
+      initBackend(parcelURL, client, schema);
+    }, 1000);
+
+    await import("../server/src/index");
   }
-
-  const server = spawn({
-    cmd: ["bun", "--hot", "./src/index.ts"],
-    cwd: join(root, "core", "server"),
-    stdin: "ignore",
-    stdout: "inherit",
-    stderr: "inherit",
-  });
-  initBackend(parcelURL, client, schema);
-
-  await Promise.all([server.exited]);
 };
 
 const stream = (

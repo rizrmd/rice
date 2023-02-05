@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { action } from "./action";
-import {} from "rice"
+import { AppInfo } from "../../rice/src/types";
 
 const root = join(import.meta.dir, "..", "..", "..");
 
@@ -16,13 +16,7 @@ const default_server_state = {
   dev: {
     url: "",
   },
-  app: {} as Record<
-    string,
-    {
-      info: AppInfo;
-      index: string;
-    }
-  >,
+  app: {} as Record<string, AppInfo>,
 };
 
 export const initState = async () => {

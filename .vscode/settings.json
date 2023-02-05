@@ -14,8 +14,6 @@
     "**/.postcssrc": true,
     "**/.htmlnanorc": true,
     "**/tailwind.config.*": true,
-    "**/node_modules": true,
-    "**/build": true,
     "**/.parcel-cache": true,
     ".vscode": true
   },

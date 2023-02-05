@@ -64,7 +64,7 @@ export const Boot = () => {
       >
         <div
           className={cx(
-            "h-1 transition-all opacity-80",
+            "h-1 transition-all opacity-80 duration-700",
             css`
               background-color: ${server_theme.bg.color};
               width: ${app.boot.loadingPercent}%;

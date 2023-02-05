@@ -3,8 +3,9 @@
   "main": "src/index.tsx",
   "module": "src/index.tsx",
   "dependencies": {
+    "@parcel/watcher": "^2.1.0",
+    "front": "../front",
     "rpc": "../rpc",
-    "server": "../server",
-    "front": "../front"
+    "server": "../server"
   }
 }

@@ -39542,7 +39542,7 @@ parcelHelpers.export(exports, "state_app", ()=>state_app);
 var _useGlobal = require("../libs/use-global");
 const default_app = {
     startup: [
-        "launcher"
+        "https://github.com/rizrmd/rice-launcher"
     ],
     installed: {},
     running: [],
@@ -39856,7 +39856,7 @@ const Boot = ()=>{
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             className: (0, _cx.cx)("w-[150px] bg-gray-200 h-1 transition-all", local.show ? "opacity-1" : "opacity-0"),
             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: (0, _cx.cx)("h-1 transition-all opacity-80", (0, _goober.css)`
+                className: (0, _cx.cx)("h-1 transition-all opacity-80 duration-700", (0, _goober.css)`
               background-color: ${server_theme.bg.color};
               width: ${app.boot.loadingPercent}%;
             `)
@@ -40078,8 +40078,8 @@ const state_desktop = (0, _useGlobal.declareGlobal)({
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "initRPC", ()=>initRPC);
-var _server = require("server");
 var _rpc = require("rpc");
+var _server = require("server");
 var _app = require("../state/app");
 var _rpcAction = require("./rpc-action");
 var _w = require("./w");
@@ -40095,10 +40095,12 @@ const initRPC = ()=>{
         await (0, _waitUntil.waitUntil)(()=>(0, _app.state_app)._ref);
         (0, _w.w).app = (0, _app.state_app)._ref;
         const app = (0, _app.state_app)._ref;
-        const apps = await (0, _w.w).rpc.apps();
-        if (Object.keys(app.installed).length === 0) for (const [k, v] of Object.entries(apps)){
-            app.installed[k] = v;
-            const current = v;
+        if (Object.keys(app.installed).length === 0) for (const giturl of Object.values(app.startup)){
+            const info = await (0, _w.w).rpc.installApp(giturl);
+            app.installed[giturl] = info;
+            const current = {
+                ...info
+            };
             app.running.push(current);
             current.script = document.createElement("script");
             current.script.src = `/app/${current.name}/${current.name}-install`;
@@ -40116,7 +40118,7 @@ const initRPC = ()=>{
         }
         if (msg) {
             if (msg.result) queue[msg.id].resolve(msg.result);
-            else if (msg.error) queue[msg.id].reject(msg.error);
+            else if (msg.error) queue[msg.id].reject(`\n\nRPC ERROR (calling ${queue[msg.id].method}), ${msg.error.name}: \n${msg.error.message}: \n\n${msg.error.stack}`);
             delete queue[msg.id];
         }
     };

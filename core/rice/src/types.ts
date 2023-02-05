@@ -3,8 +3,9 @@ export type AppInfo = {
   title: string;
   icon: string;
   desc?: string;
-  src: {
+  app: {
     basedir: string;
     index: string;
+    absdir?: string;
   };
 };

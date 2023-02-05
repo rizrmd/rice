@@ -275,16 +275,8 @@ html {
   inset: 0;
 }
 
-.block {
-  display: block;
-}
-
 .flex {
   display: flex;
-}
-
-.hidden {
-  display: none;
 }
 
 .h-1 {
@@ -341,12 +333,12 @@ html {
   padding: 2.5rem;
 }
 
-.opacity-80 {
-  opacity: .8;
-}
-
 .opacity-0 {
   opacity: 0;
+}
+
+.opacity-80 {
+  opacity: .8;
 }
 
 .blur {
@@ -358,6 +350,18 @@ html {
   transition-property: all;
   transition-duration: .15s;
   transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+
+.duration-700 {
+  transition-duration: .7s;
+}
+
+.duration-1000 {
+  transition-duration: 1s;
+}
+
+.duration-500 {
+  transition-duration: .5s;
 }
 
 /*# sourceMappingURL=index.a32d6f11.css.map */

@@ -1,5 +1,5 @@
-import { client, ClientQueue, schema } from "server";
 import { createRequestHandler, Handlers } from "rpc";
+import { client, ClientQueue, schema } from "server";
 import { AppRunning, state_app } from "../state/app";
 import { rpcAction } from "./rpc-action";
 import { w } from "./w";
@@ -19,13 +19,13 @@ export const initRPC = () => {
     w.app = state_app._ref;
 
     const app = state_app._ref;
-    const apps = await w.rpc.apps();
-
     if (Object.keys(app.installed).length === 0) {
-      for (const [k, v] of Object.entries(apps)) {
-        app.installed[k] = v;
+      for (const giturl of Object.values(app.startup)) {
+        const info = await w.rpc.installApp(giturl);
 
-        const current: AppRunning = v as any;
+        app.installed[giturl] = info;
+
+        const current: AppRunning = { ...info } as any;
         app.running.push(current);
 
         current.script = document.createElement("script");
@@ -48,7 +48,12 @@ export const initRPC = () => {
 
     if (msg) {
       if (msg.result) queue[msg.id].resolve(msg.result);
-      else if (msg.error) queue[msg.id].reject(msg.error);
+      else if (msg.error)
+        queue[msg.id].reject(
+          `\n\nRPC ERROR (calling ${queue[msg.id].method}), ${
+            msg.error.name
+          }: \n${msg.error.message}: \n\n${msg.error.stack}`
+        );
       delete queue[msg.id];
     }
   };

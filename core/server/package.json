@@ -4,15 +4,18 @@
   "module": "./src/export.ts",
   "type": "module",
   "dependencies": {
+    "@types/nodegit": "^0.28.2",
     "binaryextensions": "^4.18.0",
     "cors": "^2.8.5",
     "cuid": "^2.1.8",
     "esbuild": "^0.17.4",
     "msgpackr": "^1.8.1",
+    "nodegit": "^0.27.0",
     "open": "^8.4.0",
-    "textextensions": "^5.14.0",
-    "rice": "../rice",
-    "front": "../front",
-    "rpc": "../rpc"
-  }
+    "textextensions": "^5.14.0"
+  },
+  "workspaces": [
+    "../rpc",
+    "../front"
+  ]
 }
