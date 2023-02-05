@@ -3,10 +3,12 @@ import { createClient, rpcAction } from "front/src/libs/app-action";
 import { state_app } from "front/src/state/app";
 import { state_bar } from "front/src/state/bar";
 import { state_desktop } from "front/src/state/desktop";
+import { extractCss } from "goober";
 import { Handlers, JsonRpcClient } from "rpc";
 import { defaultTheme } from "server/src/libs/default-theme";
 import { AppInfo } from "./types";
 export { cx } from "front/src/libs/cx";
+export { css } from "goober";
 
 export const createApp = (arg: AppInfo) => {
   return arg as AppInfo;
@@ -59,8 +61,12 @@ export const bar = {
     ) as HTMLDivElement;
     if (divEl) {
       fn(divEl);
+      app.rpc.appendStyle("_goober", extractCss());
     }
   },
+};
+export const importCSS = (appName: string, path: string) => {
+  app.rpc.importCSS(appName, path);
 };
 
 // export const frame = {

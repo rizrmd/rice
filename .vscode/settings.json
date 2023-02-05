@@ -13,7 +13,7 @@
     "**/.gitignore": true,
     "**/.postcssrc": true,
     "**/.htmlnanorc": true,
-    "**/tailwind.config.*": true,
+    // "**/tailwind.config.*": true,
     "**/.parcel-cache": true,
     ".vscode": true
   },

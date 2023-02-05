@@ -43915,6 +43915,20 @@ const rpcAction = {
         (0, _w.w).bar.items = (0, _w.w).bar.items.filter((e)=>e.appName !== arg.appName);
         (0, _w.w).bar.render();
     },
+    appendStyle (id, css) {
+        const goob = document.getElementById(id);
+        if (goob) goob.appendChild(document.createTextNode(css));
+    },
+    importCSS (appName, path) {
+        let cssLink = document.getElementById(`${appName}-${path}`);
+        if (cssLink === null) {
+            cssLink = document.createElement("link");
+            cssLink.id = `${appName}-${path}`;
+            cssLink.rel = "stylesheet";
+            document.getElementsByTagName("head")[0].appendChild(cssLink);
+        }
+        cssLink.href = `/app/${appName}/${path}?t=${Date.now()}`;
+    },
     createBarElement (arg) {
         return new Promise((resolve)=>{
             const barID = `bar-${arg.appName}-${(0, _cuidDefault.default)()}`;

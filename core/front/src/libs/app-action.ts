@@ -41,6 +41,24 @@ export const rpcAction = {
     w.bar.items = w.bar.items.filter((e) => e.appName !== arg.appName);
     w.bar.render();
   },
+  appendStyle(id: string, css: string) {
+    const goob = document.getElementById(id);
+    if (goob) {
+      goob.appendChild(document.createTextNode(css));
+    }
+  },
+  importCSS(appName: string, path: string) {
+    let cssLink: HTMLLinkElement = document.getElementById(
+      `${appName}-${path}`
+    ) as any;
+    if (cssLink === null) {
+      cssLink = document.createElement("link");
+      cssLink.id = `${appName}-${path}`;
+      cssLink.rel = "stylesheet";
+      document.getElementsByTagName("head")[0].appendChild(cssLink);
+    }
+    cssLink.href = `/app/${appName}/${path}?t=${Date.now()}`;
+  },
   createBarElement(arg: { appName: string }) {
     return new Promise<string>((resolve) => {
       const barID = `bar-${arg.appName}-${cuid()}`;

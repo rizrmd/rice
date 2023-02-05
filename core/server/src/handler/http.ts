@@ -70,7 +70,12 @@ ws.onmessage = async function(event) {
       } else {
         const src = app.app;
         const base = join(root, "app", appName);
-        const path = join(base, src.basedir, part || "", ...(pathname || []));
+        const path = join(
+          app.app.absdir || "",
+          app.app.basedir,
+          part || "",
+          ...(pathname || [])
+        );
         try {
           if (statSync(path).isFile()) {
             return new Response(file(path));
