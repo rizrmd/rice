@@ -1,12 +1,10 @@
 import { serve } from "bun";
-import { initApp } from "./init-app";
 import { handler } from "./handler/handler";
 import { initState, server_state } from "./init-state";
 
 // Rice Main
 
 await initState();
-await initApp();
 
 serve({
   port: server_state.rice.url.port,

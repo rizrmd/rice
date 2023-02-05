@@ -10,10 +10,9 @@
     "esbuild": "^0.17.4",
     "msgpackr": "^1.8.1",
     "open": "^8.4.0",
-    "textextensions": "^5.14.0"
-  },
-  "workspaces": [
-    "../rpc",
-    "../front"
-  ]
+    "textextensions": "^5.14.0",
+    "rice": "../rice",
+    "front": "../front",
+    "rpc": "../rpc"
+  }
 }

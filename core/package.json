@@ -1,11 +1,11 @@
 {
   "name": "core",
   "workspaces": [
-    "rpc",
-    "front",
-    "rice",
-    "server",
-    "start"
+    "./rpc",
+    "./front",
+    "./rice",
+    "./server",
+    "./start"
   ],
   "devDependencies": {
     "bun-types": "^0.5.4"

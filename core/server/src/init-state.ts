@@ -1,8 +1,7 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { createApp } from "rice";
-import { AppInfo } from "rice/types";
 import { action } from "./action";
+import {} from "rice"
 
 const root = join(import.meta.dir, "..", "..", "..");
 

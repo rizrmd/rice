@@ -5,7 +5,7 @@ import { join } from "path";
 
 const root = join(import.meta.dir, "..", "..");
 const core = async () => {
-  const [_runtime, _scriptName, cmd, appName] = process.argv;
+  const [_runtime, _scriptName, cmd] = process.argv;
   const dec = new TextDecoder();
   const dirs = {
     start: "index.ts",
@@ -70,34 +70,6 @@ Done
 
   const { client, schema } = await import("server");
   if (cmd === "dev") {
-    if (appName) {
-      const app = spawn({
-        cmd: ["bun", "run", "dev"],
-        cwd: join(root, "app", appName),
-        stdin: "ignore",
-        stdout: "pipe",
-        stderr: "pipe",
-      });
-      let printStdout = false;
-      stream(app.stdout, (raw) => {
-        const text = dec.decode(raw);
-        if (text.includes("Built in ")) {
-          printStdout = true;
-        }
-        if (
-          printStdout &&
-          !text.includes("Bundling") &&
-          !text.includes("Packaging & Optimizing")
-        )
-          process.stdout.write(`[${appName}] ` + text);
-      });
-      stream(app.stderr, (raw) => {
-        if (printStdout) {
-          process.stdout.write(raw);
-        }
-      });
-    }
-
     console.log("[Development Mode]");
     const parcel = spawn({
       cmd: ["bun", "run", "dev"],
