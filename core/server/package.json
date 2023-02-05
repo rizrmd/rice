@@ -17,5 +17,8 @@
   "workspaces": [
     "../rpc",
     "../front"
-  ]
+  ],
+  "devDependencies": {
+    "bun-types": "^0.5.4"
+  }
 }

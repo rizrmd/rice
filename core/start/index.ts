@@ -57,8 +57,8 @@ Done
       cmd: ["bun", "run", "dev"],
       cwd: join(root, "core", "front"),
       stdin: "ignore",
-      stdout: "inherit",
-      stderr: "inherit",
+      stdout: "pipe",
+      stderr: "pipe",
     });
 
     let shouldPrint = false;
@@ -161,12 +161,10 @@ const initBackend = (
           ws.onmessage = async ({ data }) => {
             if (data instanceof ArrayBuffer) {
               const msg = _schema.res.unpack(new Uint8Array(data));
-              try {
+              if (typeof msg === "object") {
                 if (msg.result) queue[msg.id].resolve(msg.result);
                 else if (msg.error) queue[msg.id].reject(msg.reject);
                 delete queue[msg.id];
-              } catch (e) {
-                console.log(msg, e);
               }
             }
           };

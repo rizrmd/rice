@@ -15,7 +15,6 @@ export const app = {
   name: "",
   rpc: rpcAction,
   register(name: string, fn: () => Promise<void>) {
-    console.log('haloha')
     this.name = name;
     const sapp: typeof state_app = (window as any).app;
     const running = sapp.running.find((e) => e.name === name);

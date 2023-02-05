@@ -3,7 +3,6 @@ import { AppInfo } from "rice/types";
 import { declareGlobal } from "../libs/use-global";
 
 export type AppRunning = AppInfo & {
-  script: HTMLScriptElement;
   start: Parameters<typeof app["register"]>[1];
 };
 const default_app = {

@@ -6,5 +6,8 @@
     "front": "../front",
     "rpc": "../rpc",
     "server": "../server"
+  },
+  "devDependencies": {
+    "bun-types": "^0.5.4"
   }
 }

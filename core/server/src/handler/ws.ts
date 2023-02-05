@@ -6,6 +6,10 @@ import { g } from "../init-state";
 
 type SWS = ServerWebSocket<{ url: string }>;
 const clients = new WeakMap<SWS, RequestHandler>();
+const appParcel = {
+  ws: null as null | WebSocket,
+  client: null as null | ServerWebSocket<{ url: string }>,
+};
 export const ws: WebSocketHandler<{ url: string }> = {
   open(ws) {
     const { url } = ws.data;
@@ -18,11 +22,20 @@ export const ws: WebSocketHandler<{ url: string }> = {
 
     if (url.includes("rice:rpc")) {
       clients.set(ws, createRequestHandler<Handlers<Action>>(action));
+    } else {
+      appParcel.client = ws;
+      appParcel.ws = new WebSocket("ws://localhost:12300");
+      appParcel.ws.onmessage = ({ data }) => {
+        appParcel.client?.send(data);
+      };
     }
   },
   async message(ws, raw) {
     const { url } = ws.data;
-    if (url.includes("rice:rpc")) {
+
+    if (appParcel.client === ws) {
+      appParcel.ws?.send(raw);
+    } else if (url.includes("rice:rpc")) {
       if (raw instanceof Uint8Array) {
         const msg = schema.req.unpack(raw);
 
