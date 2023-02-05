@@ -12,7 +12,6 @@ const structures = {
   req: [["type", "method", "params", "id"]],
   res: [["id", "result", "error"]],
 };
-export { startAppDev } from "./app-dev";
 export const schema = {
   req: new Packr({
     bundleStrings: true,

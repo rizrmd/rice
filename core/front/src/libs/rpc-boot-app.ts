@@ -12,13 +12,14 @@ export const initRPC = () => {
   if (retry > 5) return;
   const ws = new WebSocket("ws://localhost:12345/rice:rpc");
   const queue: ClientQueue = {};
+
   ws.onopen = async () => {
     w.rpc = client(ws, queue);
 
     await waitUntil(() => state_app._ref);
     w.app = state_app._ref;
-
     const app = state_app._ref;
+
     if (Object.keys(app.installed).length === 0) {
       for (const giturl of Object.values(app.startup)) {
         const info = await w.rpc.installApp(giturl);
@@ -39,6 +40,28 @@ export const initRPC = () => {
 
   ws.onmessage = async ({ data }) => {
     let msg = null as any;
+    const app = state_app._ref;
+    if (typeof data === "string") {
+      try {
+        const json = JSON.parse(data);
+        if (json.type === "hmr-app") {
+          for (const current of Object.values(app.running)) {
+            if (current.name === json.name) {
+              const now = Date.now();
+              current.script.remove();
+              current.script = document.createElement("script");
+              current.script.type = "text/javascript";
+              // current.script.src = `/app/${current.name}/${current.name}-install?t=${now}`;
+              // current.script.innerHTML = 'console.log("wowowoi")';
+              current.script.id = `app-${current.name}-${now}`;
+              document.body.append(current.script);
+            }
+          }
+        }
+      } catch (e) {}
+      return;
+    }
+
     if (data instanceof ArrayBuffer) {
       msg = schema.res.unpack(new Uint8Array(data));
     } else if (data instanceof Blob) {

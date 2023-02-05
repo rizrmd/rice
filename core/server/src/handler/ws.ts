@@ -2,6 +2,7 @@ import { ServerWebSocket, WebSocketHandler } from "bun";
 import { createRequestHandler, Handlers, RequestHandler } from "rpc";
 import { Action, action } from "../action";
 import { schema } from "../export";
+import { g } from "../init-state";
 
 type SWS = ServerWebSocket<{ url: string }>;
 const clients = new WeakMap<SWS, RequestHandler>();
@@ -9,6 +10,11 @@ export const ws: WebSocketHandler<{ url: string }> = {
   open(ws) {
     const { url } = ws.data;
     ws.subscribe("all");
+
+    if (!g.wsClients) {
+      g.wsClients = new Set();
+    }
+    g.wsClients.add(ws);
 
     if (url.includes("rice:rpc")) {
       clients.set(ws, createRequestHandler<Handlers<Action>>(action));
@@ -29,6 +35,10 @@ export const ws: WebSocketHandler<{ url: string }> = {
   },
   close(ws) {
     const { url } = ws.data;
+
+    if (g.wsClients.has(ws)) {
+      g.wsClients.delete(ws);
+    }
 
     if (url.includes("rice:rpc")) {
       clients.delete(ws);

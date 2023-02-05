@@ -2,8 +2,16 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import { action } from "./action";
 import { AppInfo } from "../../rice/src/types";
+import { ServerWebSocket } from "bun";
 
 const root = join(import.meta.dir, "..", "..", "..");
+export const g = globalThis as unknown as {
+  wsClients: Set<
+    ServerWebSocket<{
+      url: string;
+    }>
+  >;
+};
 
 export const server_state =
   globalThis as unknown as typeof default_server_state;

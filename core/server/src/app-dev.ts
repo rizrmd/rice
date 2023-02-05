@@ -7,7 +7,7 @@ const dec = new TextDecoder();
 const root = join(import.meta.dir, "..", "..", "..");
 export const startAppDev = (
   path: string,
-  stdout?: (output: string) => void
+  stdout?: (app: AppInfo, output: string) => void
 ) => {
   return new Promise<void>(async (resolve) => {
     const appDir = join(root, "app", path);
@@ -22,12 +22,14 @@ export const startAppDev = (
       }
 
       const info: AppInfo = (await import(join(appDir, "app.ts"))).default;
+
       const app = spawn({
         cmd: ["bun", "run", "dev"],
         cwd: appDir,
         stdout: "pipe",
         stderr: "pipe",
       });
+
       let printStdout = false;
       stream(app.stdout, (raw) => {
         const text = dec.decode(raw);
@@ -40,8 +42,10 @@ export const startAppDev = (
           !text.includes("Packaging & Optimizing")
         ) {
           resolve();
-          process.stdout.write(`[${info.name}] ` + text);
-          if (stdout) stdout(text);
+          if (stdout) stdout(info, text);
+          else {
+            process.stdout.write(`[${info.name}] ` + text);
+          }
         }
       });
       stream(app.stderr, (raw) => {

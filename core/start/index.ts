@@ -49,15 +49,16 @@ Done
 
   let parcelURL = "";
 
-  const { client, schema, startAppDev } = await import("server");
+  const { client, schema } = await import("server");
+  const { startAppDev } = await import("server/src/app-dev");
   if (cmd === "dev") {
     console.log("[Development Mode]");
     const parcel = spawn({
       cmd: ["bun", "run", "dev"],
       cwd: join(root, "core", "front"),
       stdin: "ignore",
-      stdout: "pipe",
-      stderr: "pipe",
+      stdout: "inherit",
+      stderr: "inherit",
     });
 
     let shouldPrint = false;
@@ -84,10 +85,6 @@ Done
       });
     });
 
-    if (devPath) {
-      await startAppDev(devPath);
-    }
-
     console.log("");
 
     const server = spawn({
@@ -98,11 +95,20 @@ Done
       stderr: "inherit",
     });
 
-    initBackend(parcelURL, client, schema);
+    const rpc = await initBackend(parcelURL, client, schema);
+
+    if (devPath) {
+      await startAppDev(devPath, (app, text) => {
+        if (text.includes("Built in")) {
+          rpc.hmrApp(app.name);
+        }
+        process.stdout.write(`[${app.name}] ${text}`);
+      });
+    }
 
     await Promise.all([server.exited]);
   } else {
-    setTimeout(() => {
+    setTimeout(async () => {
       initBackend(parcelURL, client, schema);
     }, 1000);
 
@@ -134,39 +140,46 @@ const initBackend = (
   _client: typeof client,
   _schema: typeof schema
 ) => {
-  let retry = 0;
-  const connect = () => {
-    setTimeout(() => {
-      if (retry > 0) {
-        console.log("Retrying connection: ", retry);
-      }
-      if (retry > 4) {
-        return;
-      }
-      try {
-        const ws = new WebSocket("ws://localhost:12345/rice:rpc");
-        const queue: ClientQueue = {};
-        ws.onopen = async () => {
-          const c = _client(ws, queue);
-          c.setDevUrl(parcelURL);
-        };
-        ws.onmessage = async ({ data }) => {
-          if (data instanceof ArrayBuffer) {
-            const msg = _schema.res.unpack(new Uint8Array(data));
-            if (msg.result) queue[msg.id].resolve(msg.result);
-            else if (msg.error) queue[msg.id].reject(msg.reject);
-            delete queue[msg.id];
-          }
-        };
-        ws.onclose = connect;
-        ws.onerror = connect;
-      } catch (e: any) {
-        connect();
-      }
-      retry++;
-    }, 300);
-  };
-  connect();
+  return new Promise<ReturnType<typeof client>>((resolve) => {
+    let retry = 0;
+    const connect = () => {
+      setTimeout(() => {
+        if (retry > 0) {
+          console.log("Retrying connection: ", retry);
+        }
+        if (retry > 4) {
+          return;
+        }
+        try {
+          const ws = new WebSocket("ws://localhost:12345/rice:rpc");
+          const queue: ClientQueue = {};
+          ws.onopen = async () => {
+            const c = _client(ws, queue);
+            c.setDevUrl(parcelURL);
+            resolve(c);
+          };
+          ws.onmessage = async ({ data }) => {
+            if (data instanceof ArrayBuffer) {
+              const msg = _schema.res.unpack(new Uint8Array(data));
+              try {
+                if (msg.result) queue[msg.id].resolve(msg.result);
+                else if (msg.error) queue[msg.id].reject(msg.reject);
+                delete queue[msg.id];
+              } catch (e) {
+                console.log(msg, e);
+              }
+            }
+          };
+          ws.onclose = connect;
+          ws.onerror = connect;
+        } catch (e: any) {
+          connect();
+        }
+        retry++;
+      }, 300);
+    };
+    connect();
+  });
 };
 
 core();
