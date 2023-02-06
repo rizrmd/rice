@@ -15,7 +15,7 @@ export type AppInfo = {
 declare global {
   const app: typeof rice.app;
   const asset: typeof rice.asset;
-  const bar: typeof rice.bar;
+  const ui: typeof rice.ui;
   const createApp: typeof rice.createApp;
   const cx: typeof rice.cx;
   const css: typeof rice.css;

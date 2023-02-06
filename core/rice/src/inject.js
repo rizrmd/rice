@@ -142,11 +142,11 @@
   __export(src_exports, {
     app: () => app,
     asset: () => asset,
-    bar: () => bar,
     createApp: () => createApp,
     css: () => u,
     cx: () => cx,
-    state: () => state
+    state: () => state,
+    ui: () => ui
   });
 
   // core/rice/node_modules/@qiwi/deep-proxy/target/es6/cache.js
@@ -293,10 +293,6 @@
         delete queue[data.id];
       }
     });
-    setTimeout(() => {
-      app.rpc.closeApp({ appName: app.name });
-      app.start();
-    });
     return createJsonRpcClient({
       sendRequest(req) {
         const id = (0, import_cuid.default)();
@@ -391,12 +387,13 @@
   var app = {
     name: "",
     rpc: null,
-    start: () => __async(void 0, null, function* () {
-    }),
-    register(name, fn) {
+    register(name, start) {
       this.name = name;
       this.rpc = createClient(name);
-      this.start = fn;
+      this.rpc.closeApp({ appName: app.name });
+      setTimeout(() => {
+        start();
+      });
     }
   };
   var state = {
@@ -418,17 +415,41 @@
       }));
     }
   };
-  var bar = {
-    create: (fn) => __async(void 0, null, function* () {
-      const barID = yield app.rpc.createBarElement({ appName: app.name });
-      const divEl = parent.window.document.getElementById(
-        barID
-      );
-      if (divEl) {
-        fn(divEl);
-        app.rpc.appendStyle("_goober", r());
-      }
-    })
+  var ui = {
+    bar: {
+      create: (arg) => __async(void 0, null, function* () {
+        const barID = yield app.rpc.createBarElement({
+          appName: app.name,
+          barName: arg.name,
+          placement: arg.placement
+        });
+        const divEl = parent.window.document.getElementById(
+          barID
+        );
+        if (divEl) {
+          arg.render(divEl);
+          const goobcss = r();
+          app.rpc.appendStyle("_goober", goobcss);
+        }
+      })
+    },
+    frame: {
+      create: (arg) => __async(void 0, null, function* () {
+        const frameID = yield app.rpc.createFrameElement({
+          appName: app.name,
+          frameName: arg.name,
+          title: arg.title
+        });
+        const divEl = parent.window.document.getElementById(
+          frameID
+        );
+        if (divEl) {
+          arg.render(divEl);
+          const goobcss = r();
+          app.rpc.appendStyle("_goober", goobcss);
+        }
+      })
+    }
   };
   var asset = {
     injectCSS: (path) => {

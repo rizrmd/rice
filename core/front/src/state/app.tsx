@@ -7,7 +7,7 @@ export type AppRunning = AppInfo & {
   start: Parameters<typeof app["register"]>[1];
 };
 const default_app = {
-  startup: ["launcher"],
+  startup: ["launcher", "coba"],
   installed: {} as Record<string, AppInfo>,
   running: [] as AppRunning[],
   boot: {

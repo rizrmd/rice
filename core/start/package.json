@@ -9,6 +9,7 @@
     "server": "../server"
   },
   "devDependencies": {
-    "bun-types": "^0.5.4"
+    "bun-types": "^0.5.4",
+    "@parcel/watcher": "2.1.0"
   }
 }

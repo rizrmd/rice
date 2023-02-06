@@ -4,14 +4,16 @@ import { pick } from "../libs/pick";
 import { useGlobal } from "../libs/use-global";
 import { state_app } from "../state/app";
 import { state_bar } from "../state/bar";
+import { state_frame } from "../state/frame";
 import { bg } from "../state/unit/bg";
 import { Bar } from "./bar/bar";
 import { Boot } from "./boot";
-import { Desktop } from "./desktop/desktop";
+import { Frame } from "./desktop/frame";
 
 export const Main = () => {
   const bar = useGlobal(state_bar);
   const app = useGlobal(state_app);
+  const frame = useGlobal(state_frame);
   app._ref = app;
 
   return (
@@ -26,10 +28,14 @@ export const Main = () => {
         }),
         bg.render(server_theme.bg)
       )}
+      onPointerDown={() => {
+        frame.focus = null;
+        frame.render();
+      }}
     >
       <>
         <Bar />
-        <Desktop />
+        <Frame />
       </>
       <AnimatePresence>
         {app.boot.status === "loading" && <Boot />}

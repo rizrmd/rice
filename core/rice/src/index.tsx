@@ -2,7 +2,7 @@ import { DeepProxy, THandlerContext } from "@qiwi/deep-proxy";
 import { createClient, rpcAction } from "front/src/libs/app-action";
 import { state_app } from "front/src/state/app";
 import { state_bar } from "front/src/state/bar";
-import { state_desktop } from "front/src/state/desktop";
+import { state_frame } from "front/src/state/frame";
 import { extractCss } from "goober";
 import { Handlers, JsonRpcClient } from "rpc";
 import { defaultTheme } from "server/src/libs/default-theme";
@@ -17,11 +17,13 @@ export const createApp = (arg: AppInfo) => {
 export const app = {
   name: "",
   rpc: null as JsonRpcClient<Handlers<typeof rpcAction>>,
-  start: async () => {},
-  register(name: string, fn: () => Promise<void>) {
+  register(name: string, start: () => Promise<void>) {
     this.name = name;
     this.rpc = createClient(name);
-    this.start = fn;
+    this.rpc.closeApp({ appName: app.name });
+    setTimeout(() => {
+      start();
+    });
   },
 };
 
@@ -30,7 +32,7 @@ export const state = {
     fn: (state: {
       bar: typeof state_bar;
       app: typeof state_app;
-      desktop: typeof state_desktop;
+      frame: typeof state_frame;
       theme: typeof defaultTheme;
     }) => any
   ): Promise<any> => {
@@ -54,17 +56,48 @@ export const state = {
   },
 };
 
-export const bar = {
-  create: async (fn: (el: HTMLDivElement) => void) => {
-    const barID = await app.rpc.createBarElement({ appName: app.name });
-
-    const divEl = parent.window.document.getElementById(
-      barID
-    ) as HTMLDivElement;
-    if (divEl) {
-      fn(divEl);
-      app.rpc.appendStyle("_goober", extractCss());
-    }
+export const ui = {
+  bar: {
+    create: async (arg: {
+      name: string;
+      placement: "start" | "center" | "end";
+      render: (el: HTMLDivElement) => void;
+    }) => {
+      const barID = await app.rpc.createBarElement({
+        appName: app.name,
+        barName: arg.name,
+        placement: arg.placement,
+      });
+      const divEl = parent.window.document.getElementById(
+        barID
+      ) as HTMLDivElement;
+      if (divEl) {
+        arg.render(divEl);
+        const goobcss = extractCss();
+        app.rpc.appendStyle("_goober", goobcss);
+      }
+    },
+  },
+  frame: {
+    create: async (arg: {
+      name: string;
+      title?: string;
+      render: (el: HTMLDivElement) => void;
+    }) => {
+      const frameID = await app.rpc.createFrameElement({
+        appName: app.name,
+        frameName: arg.name,
+        title: arg.title,
+      });
+      const divEl = parent.window.document.getElementById(
+        frameID
+      ) as HTMLDivElement;
+      if (divEl) {
+        arg.render(divEl);
+        const goobcss = extractCss();
+        app.rpc.appendStyle("_goober", goobcss);
+      }
+    },
   },
 };
 

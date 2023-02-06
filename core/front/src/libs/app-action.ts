@@ -1,17 +1,12 @@
-import { ClientQueue } from "server";
 import cuid from "cuid";
-import get from "lodash.get";
 import {
   createJsonRpcClient,
   Handlers,
   JsonRpcRequest,
   JsonRpcResponse,
 } from "rpc";
-import { state_app } from "../state/app";
-import { BarItem, state_bar } from "../state/bar";
-import { state_desktop } from "../state/desktop";
+import { ClientQueue } from "server";
 import { w } from "./w";
-import { app } from "../../../rice/src";
 
 export const rpcAction = {
   // create_frame(arg: {
@@ -59,17 +54,42 @@ export const rpcAction = {
     }
     cssLink.href = `/app/${appName}/${path}?t=${Date.now()}`;
   },
-  createBarElement(arg: { appName: string }) {
+  createBarElement(arg: {
+    appName: string;
+    placement: "start" | "center" | "end";
+    barName: string;
+  }) {
     return new Promise<string>((resolve) => {
-      const barID = `bar-${arg.appName}-${cuid()}`;
+      const barID = `bar-${arg.appName}-${arg.barName}`;
       w.bar.items.push({
         id: barID,
+        placement: arg.placement,
+        barName: arg.barName,
         appName: arg.appName,
         setBarEl: () => {
           resolve(barID);
         },
       });
       w.bar.render();
+    });
+  },
+  createFrameElement(arg: {
+    appName: string;
+    frameName: string;
+    title?: string;
+  }) {
+    return new Promise<string>((resolve) => {
+      const frameID = `frame-${arg.appName}-${arg.frameName}`;
+      w.frame.items.push({
+        id: frameID,
+        appName: arg.appName,
+        title: arg.title,
+        frameName: arg.frameName,
+        setFrameEl: () => {
+          resolve(frameID);
+        },
+      });
+      w.frame.render();
     });
   },
 
@@ -118,11 +138,6 @@ export const createClient = (appName: string) => {
       }
       delete queue[data.id];
     }
-  });
-
-  setTimeout(() => {
-    app.rpc.closeApp({ appName: app.name });
-    app.start();
   });
 
   return createJsonRpcClient<Handlers<typeof rpcAction>>({

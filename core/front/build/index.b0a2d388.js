@@ -2928,8 +2928,8 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _client = require("react-dom/client");
 var _main = require("./element/main");
-var _useLocal = require("./libs/use-local");
 var _rpcBootApp = require("./libs/rpc-boot-app");
+var _useLocal = require("./libs/use-local");
 var _waitUntil = require("./libs/wait-until");
 const container = document.getElementById("root");
 if (container) {
@@ -27184,15 +27184,17 @@ var _pick = require("../libs/pick");
 var _useGlobal = require("../libs/use-global");
 var _app = require("../state/app");
 var _bar = require("../state/bar");
+var _frame = require("../state/frame");
 var _bg = require("../state/unit/bg");
 var _bar1 = require("./bar/bar");
 var _boot = require("./boot");
-var _desktop = require("./desktop/desktop");
+var _frame1 = require("./desktop/frame");
 var _s = $RefreshSig$();
 const Main = ()=>{
     _s();
     const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
     const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
+    const frame = (0, _useGlobal.useGlobal)((0, _frame.state_frame));
     app._ref = app;
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: (0, _cx.cx)("flex flex-1 select-none relative", (0, _pick.pick)(bar.position, {
@@ -27201,17 +27203,21 @@ const Main = ()=>{
             right: "flex-row-reverse",
             top: "flex-col"
         }), (0, _bg.bg).render(server_theme.bg)),
+        onPointerDown: ()=>{
+            frame.focus = null;
+            frame.render();
+        },
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _bar1.Bar), {}, void 0, false, {
                         fileName: "src/element/main.tsx",
-                        lineNumber: 31,
+                        lineNumber: 37,
                         columnNumber: 9
                     }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _desktop.Desktop), {}, void 0, false, {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _frame1.Frame), {}, void 0, false, {
                         fileName: "src/element/main.tsx",
-                        lineNumber: 32,
+                        lineNumber: 38,
                         columnNumber: 9
                     }, undefined)
                 ]
@@ -27219,23 +27225,24 @@ const Main = ()=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.AnimatePresence), {
                 children: app.boot.status === "loading" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _boot.Boot), {}, void 0, false, {
                     fileName: "src/element/main.tsx",
-                    lineNumber: 35,
+                    lineNumber: 41,
                     columnNumber: 43
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/element/main.tsx",
-                lineNumber: 34,
+                lineNumber: 40,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/element/main.tsx",
-        lineNumber: 18,
+        lineNumber: 20,
         columnNumber: 5
     }, undefined);
 };
-_s(Main, "dxoIvpc9ECJNZetUWQcQtKUKLeQ=", false, function() {
+_s(Main, "hN2EvTjDVJvVELoHPHeYJis25uU=", false, function() {
     return [
+        (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal)
     ];
@@ -27249,7 +27256,7 @@ $RefreshReg$(_c, "Main");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","framer-motion":"5bZBB","../libs/cx":"cO2cu","../libs/pick":"hkVSb","../libs/use-global":"bDE6Q","../state/app":"cFz1s","../state/bar":"dPrzi","../state/unit/bg":"hdyCa","./bar/bar":"4mcZR","./boot":"dXGG5","./desktop/desktop":"6IxNg","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"5bZBB":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","framer-motion":"5bZBB","../libs/cx":"cO2cu","../libs/pick":"hkVSb","../libs/use-global":"bDE6Q","../state/app":"cFz1s","../state/bar":"dPrzi","../state/unit/bg":"hdyCa","./bar/bar":"4mcZR","./boot":"dXGG5","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","./desktop/frame":"dRcHX","../state/frame":"lCBWy"}],"5bZBB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createDomMotionComponent", ()=>(0, _motionMjs.createDomMotionComponent));
@@ -39542,7 +39549,8 @@ parcelHelpers.export(exports, "state_app", ()=>state_app);
 var _useGlobal = require("../libs/use-global");
 const default_app = {
     startup: [
-        "launcher"
+        "launcher",
+        "coba"
     ],
     installed: {},
     running: [],
@@ -39561,50 +39569,26 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state_bar", ()=>state_bar);
 var _useGlobal = require("../libs/use-global");
-var _bg = require("./unit/bg");
+var _goober = require("goober");
+var _w = require("../libs/w");
+(0, _w.w).css = (0, _goober.css);
 const state_bar = (0, _useGlobal.declareGlobal)({
     position: "top",
-    size: "35px",
-    bg: (0, _bg.bg).use({
-        blur: "5px",
-        color: "rgba(0,0,0,.2)"
-    }),
-    css: "",
+    css: (0, _goober.css)`
+    height: 35px;
+    position: absolute;
+    z-index: 20;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  `,
     items: []
 });
 
-},{"../libs/use-global":"bDE6Q","./unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hdyCa":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "bg", ()=>bg);
-var _goober = require("goober");
-const bg_default = {
-    img: "",
-    fill: "cover",
-    color: "transparent",
-    blur: ""
-};
-const bg = {
-    default: bg_default,
-    use (value) {
-        return Object.assign({
-            ...bg_default
-        }, value);
-    },
-    render (bg) {
-        return (0, _goober.css)`
-      ${bg.img && `background-image: url(${bg.img});`}
-      ${bg.fill && `background-size: ${bg.fill === "stretch" ? "100% 100%" : bg.fill};`}
-      ${bg.blur && `
-      backdrop-filter: blur(${bg.blur});
-      -webkit-backdrop-filter: blur(${bg.blur});
-      `}
-      ${bg.color && `background-color: ${bg.color};`}
-    `;
-    }
-};
-
-},{"goober":"gILVw","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"gILVw":[function(require,module,exports) {
+},{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","goober":"gILVw","../libs/w":"6jnvI"}],"gILVw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "css", ()=>u);
@@ -39693,7 +39677,44 @@ function j(e, t) {
     };
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"4mcZR":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"6jnvI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "w", ()=>w);
+const w = typeof window === "undefined" ? {} : window;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"hdyCa":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "bg", ()=>bg);
+var _goober = require("goober");
+const bg_default = {
+    img: "",
+    fill: "cover",
+    color: "transparent",
+    blur: ""
+};
+const bg = {
+    default: bg_default,
+    use (value) {
+        return Object.assign({
+            ...bg_default
+        }, value);
+    },
+    render (bg) {
+        return (0, _goober.css)`
+      ${bg.img && `background-image: url(${bg.img});`}
+      ${bg.fill && `background-size: ${bg.fill === "stretch" ? "100% 100%" : bg.fill};`}
+      ${bg.blur && `
+      backdrop-filter: blur(${bg.blur});
+      -webkit-backdrop-filter: blur(${bg.blur});
+      `}
+      ${bg.color && `background-color: ${bg.color};`}
+    `;
+    }
+};
+
+},{"goober":"gILVw","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"4mcZR":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$5190 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -39704,67 +39725,124 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Bar", ()=>Bar);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _goober = require("goober");
+var _react = require("react");
 var _cx = require("../../libs/cx");
 var _pick = require("../../libs/pick");
 var _useGlobal = require("../../libs/use-global");
 var _w = require("../../libs/w");
 var _bar = require("../../state/bar");
-var _bg = require("../../state/unit/bg");
 var _s = $RefreshSig$();
 const Bar = ()=>{
     _s();
     const bar = (0, _useGlobal.useGlobal)((0, _bar.state_bar));
+    const containerEl = (0, _react.useRef)(null);
     bar._ref = bar;
     (0, _w.w).bar = bar;
     const dir = bar.position === "bottom" || bar.position === "top" ? "horizontal" : "vertical";
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex justify-between", // app.boot.status !== 'ready' && 'opacity-0',
-        (0, _pick.pick)(dir, {
-            horizontal: "flex-row items-stretch",
-            vertical: "flex-col items-stretch"
-        }), (0, _goober.css)`
-          flex-basis: ${bar.size};
-        `, (0, _bg.bg).render(bar.bg), (0, _goober.css)`
-          ${bar.css}
-        `),
-        onContextMenu: (e)=>{
-            e.preventDefault();
-            e.stopPropagation();
-        },
-        children: bar.items.map((item)=>{
-            return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(RenderBar, {
-                item: item,
-                dir: dir,
-                bar: bar
-            }, item.id, false, {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                ref: containerEl,
+                className: (0, _cx.cx)(bar.css, "flex justify-between", (0, _pick.pick)(dir, {
+                    horizontal: "flex-row items-stretch",
+                    vertical: "flex-col items-stretch"
+                })),
+                onContextMenu: (e)=>{
+                    e.preventDefault();
+                    e.stopPropagation();
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex",
+                        children: bar.items.filter((e)=>e.placement === "start").map((item)=>{
+                            return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(RenderBar, {
+                                item: item,
+                                dir: dir,
+                                bar: bar,
+                                containerEl: containerEl
+                            }, item.id, false, {
+                                fileName: "src/element/bar/bar.tsx",
+                                lineNumber: 42,
+                                columnNumber: 17
+                            }, undefined);
+                        })
+                    }, void 0, false, {
+                        fileName: "src/element/bar/bar.tsx",
+                        lineNumber: 37,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex",
+                        children: bar.items.filter((e)=>e.placement === "center").map((item)=>{
+                            return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(RenderBar, {
+                                item: item,
+                                dir: dir,
+                                bar: bar,
+                                containerEl: containerEl
+                            }, item.id, false, {
+                                fileName: "src/element/bar/bar.tsx",
+                                lineNumber: 57,
+                                columnNumber: 17
+                            }, undefined);
+                        })
+                    }, void 0, false, {
+                        fileName: "src/element/bar/bar.tsx",
+                        lineNumber: 52,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex flex-reverse",
+                        children: bar.items.filter((e)=>e.placement === "end").map((item)=>{
+                            return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(RenderBar, {
+                                item: item,
+                                dir: dir,
+                                bar: bar,
+                                containerEl: containerEl
+                            }, item.id, false, {
+                                fileName: "src/element/bar/bar.tsx",
+                                lineNumber: 72,
+                                columnNumber: 17
+                            }, undefined);
+                        })
+                    }, void 0, false, {
+                        fileName: "src/element/bar/bar.tsx",
+                        lineNumber: 67,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
                 fileName: "src/element/bar/bar.tsx",
-                lineNumber: 43,
-                columnNumber: 16
-            }, undefined);
-        })
-    }, void 0, false, {
-        fileName: "src/element/bar/bar.tsx",
-        lineNumber: 21,
-        columnNumber: 5
-    }, undefined);
+                lineNumber: 22,
+                columnNumber: 7
+            }, undefined),
+            containerEl.current && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: css`
+            flex-basis: ${containerEl.current.offsetHeight}px;
+          `
+            }, void 0, false, {
+                fileName: "src/element/bar/bar.tsx",
+                lineNumber: 84,
+                columnNumber: 9
+            }, undefined)
+        ]
+    }, void 0, true);
 };
-_s(Bar, "P96aFOAdc+OL7SygLQqmS3Sx9pE=", false, function() {
+_s(Bar, "Qfh/ETUxiJRlHwer97CMy4SSmVE=", false, function() {
     return [
         (0, _useGlobal.useGlobal)
     ];
 });
 _c = Bar;
-const RenderBar = ({ item , dir , bar  })=>{
+const RenderBar = ({ item , dir , bar , containerEl  })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         id: item.id,
-        className: "flex",
+        className: (0, _cx.cx)("flex"),
         ref: (el)=>{
             if (el) item.setBarEl(el);
         }
     }, void 0, false, {
         fileName: "src/element/bar/bar.tsx",
-        lineNumber: 55,
+        lineNumber: 101,
         columnNumber: 5
     }, undefined);
 };
@@ -39778,13 +39856,7 @@ $RefreshReg$(_c1, "RenderBar");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../libs/w":"6jnvI","../../state/bar":"dPrzi","../../state/unit/bg":"hdyCa","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"6jnvI":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "w", ()=>w);
-const w = typeof window === "undefined" ? {} : window;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"dXGG5":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","../../libs/cx":"cO2cu","../../libs/pick":"hkVSb","../../libs/use-global":"bDE6Q","../../libs/w":"6jnvI","../../state/bar":"dPrzi","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B","react":"21dqq"}],"dXGG5":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$ccf9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -39965,107 +40037,391 @@ const waitUntil = (condition, timeout)=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"6IxNg":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$2ade = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"dRcHX":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$0400 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$2ade.prelude(module);
+$parcel$ReactRefreshHelpers$0400.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Desktop", ()=>Desktop);
+parcelHelpers.export(exports, "Frame", ()=>Frame);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _goober = require("goober");
+var _framerMotion = require("framer-motion");
+var _react = require("react");
 var _cx = require("../../libs/cx");
 var _useGlobal = require("../../libs/use-global");
-var _app = require("../../state/app");
-var _desktop = require("../../state/desktop");
-var _s = $RefreshSig$();
-const Desktop = ()=>{
+var _useLocal = require("../../libs/use-local");
+var _w = require("../../libs/w");
+var _frame = require("../../state/frame");
+var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+const Frame = ()=>{
     _s();
-    const desktop = (0, _useGlobal.useGlobal)((0, _desktop.state_desktop));
-    const app = (0, _useGlobal.useGlobal)((0, _app.state_app));
-    desktop._ref = desktop;
+    const frame = (0, _useGlobal.useGlobal)((0, _frame.state_frame));
+    const containerEl = (0, _react.useRef)(null);
+    frame._ref = frame;
+    (0, _w.w).frame = frame;
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _cx.cx)("flex-1 flex p-10 "),
+        className: (0, _cx.cx)("flex-1"),
+        ref: containerEl,
         onContextMenu: (e)=>{
             e.preventDefault();
             e.stopPropagation();
         },
-        children: desktop.frame.items.map((item)=>{
+        children: frame.items.map((item)=>{
             return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(FrameItem, {
                 item: item,
-                frame: desktop
+                frame: frame,
+                containerEl: containerEl
             }, item.id, false, {
-                fileName: "src/element/desktop/desktop.tsx",
-                lineNumber: 25,
-                columnNumber: 16
+                fileName: "src/element/desktop/frame.tsx",
+                lineNumber: 31,
+                columnNumber: 11
             }, undefined);
         })
     }, void 0, false, {
-        fileName: "src/element/desktop/desktop.tsx",
-        lineNumber: 14,
+        fileName: "src/element/desktop/frame.tsx",
+        lineNumber: 21,
         columnNumber: 5
     }, undefined);
 };
-_s(Desktop, "CeFgNzCkEiVdwzONjlTpfH2c4KU=", false, function() {
+_s(Frame, "+9HSQVEnv9yMNSQiDbGl5QyiOJk=", false, function() {
     return [
-        (0, _useGlobal.useGlobal),
         (0, _useGlobal.useGlobal)
     ];
 });
-_c = Desktop;
-const FrameItem = ({ item , frame  })=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("iframe", {
-        src: `/app/${item.appName}?frame`,
-        onLoad: (e)=>{
-            const data = {
-                ...item
-            };
-            delete data.iframe;
-            item.iframe = e.currentTarget;
-            e.currentTarget.contentWindow.postMessage({
-                type: "APP_DATA",
-                result: {
-                    type: "frame",
-                    ...data
-                }
-            });
+_c = Frame;
+const FrameItem = ({ item , containerEl , frame  })=>{
+    _s1();
+    const local = (0, _useLocal.useLocal)({
+        bodyEl: null,
+        resizing: false
+    });
+    const controls = (0, _framerMotion.useDragControls)();
+    const resize = (0, _framerMotion.useDragControls)();
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
+        drag: true,
+        dragConstraints: containerEl,
+        dragMomentum: false,
+        dragControls: controls,
+        dragElastic: false,
+        dragListener: false,
+        initial: {
+            x: item.frameName === "frame" ? 700 : 50,
+            y: 50
         },
-        className: (0, _cx.cx)((0, _goober.css)`
-          width: ${item.width};
-          height: ${item.height};
-        `, (0, _goober.css)`
-          ${frame.css}
-        `)
-    }, void 0, false, {
-        fileName: "src/element/desktop/desktop.tsx",
-        lineNumber: 36,
+        className: (0, _cx.cx)(frame.css(), frame.focus === item ? "z-10" : "z-9"),
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.AnimatePresence), {
+                children: (frame.focus === item || frame.hover === item || local.resizing) && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
+                    className: "frame-control",
+                    initial: {
+                        opacity: 1
+                    },
+                    animate: {
+                        opacity: 1
+                    },
+                    exit: {
+                        opacity: 0
+                    },
+                    transition: {
+                        delay: 0,
+                        duration: 0.1
+                    },
+                    onPointerOver: ()=>{
+                        frame.hover = item;
+                        frame.render();
+                    },
+                    onPointerOut: ()=>{
+                        frame.hover = null;
+                        frame.render();
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "frame-close",
+                            onClick: ()=>{
+                                frame.items = frame.items.filter((e)=>e !== item);
+                                frame.render();
+                            },
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                xmlns: "http://www.w3.org/2000/svg",
+                                fill: "none",
+                                viewBox: "0 0 24 24",
+                                strokeWidth: 1.5,
+                                stroke: "currentColor",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                    strokeLinecap: "round",
+                                    strokeLinejoin: "round",
+                                    d: "M6 18L18 6M6 6l12 12"
+                                }, void 0, false, {
+                                    fileName: "src/element/desktop/frame.tsx",
+                                    lineNumber: 97,
+                                    columnNumber: 17
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/element/desktop/frame.tsx",
+                                lineNumber: 90,
+                                columnNumber: 15
+                            }, undefined)
+                        }, void 0, false, {
+                            fileName: "src/element/desktop/frame.tsx",
+                            lineNumber: 83,
+                            columnNumber: 13
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "frame-title",
+                            onPointerDown: (e)=>{
+                                e.stopPropagation();
+                                controls.start(e);
+                                frame.focus = item;
+                                frame.render();
+                            },
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "frame-title-text whitespace-nowrap",
+                                children: item.title === undefined ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                    className: "capitalize",
+                                    children: item.appName
+                                }, void 0, false, {
+                                    fileName: "src/element/desktop/frame.tsx",
+                                    lineNumber: 115,
+                                    columnNumber: 19
+                                }, undefined) : item.title
+                            }, void 0, false, {
+                                fileName: "src/element/desktop/frame.tsx",
+                                lineNumber: 113,
+                                columnNumber: 15
+                            }, undefined)
+                        }, void 0, false, {
+                            fileName: "src/element/desktop/frame.tsx",
+                            lineNumber: 104,
+                            columnNumber: 13
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/element/desktop/frame.tsx",
+                    lineNumber: 68,
+                    columnNumber: 11
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/element/desktop/frame.tsx",
+                lineNumber: 66,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                id: item.id,
+                className: "frame-body flex min-w-[200px] min-h-[100px]",
+                onPointerOver: ()=>{
+                    frame.hover = item;
+                    frame.render();
+                },
+                onPointerOut: ()=>{
+                    frame.hover = null;
+                    frame.render();
+                },
+                onPointerDown: (e)=>{
+                    e.stopPropagation();
+                    controls.start(e);
+                    frame.focus = item;
+                    frame.render();
+                },
+                ref: (el)=>{
+                    if (el) {
+                        local.bodyEl = el;
+                        local.render();
+                        item.setFrameEl(el);
+                    }
+                }
+            }, void 0, false, {
+                fileName: "src/element/desktop/frame.tsx",
+                lineNumber: 124,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: (0, _cx.cx)("absolute right-0 bottom-0 w-[15px] h-[15px] z-10 border-r border-b cursor-nwse-resize frame-resizer", local.resizing && "resizing"),
+                onPointerDown: (e)=>{
+                    e.stopPropagation();
+                    local.resizing = true;
+                    local.render();
+                    setTimeout(()=>{
+                        resize.start(e);
+                    });
+                },
+                onPointerUp: ()=>{
+                    local.resizing = false;
+                    local.render();
+                }
+            }, void 0, false, {
+                fileName: "src/element/desktop/frame.tsx",
+                lineNumber: 150,
+                columnNumber: 7
+            }, undefined),
+            local.resizing && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "cursor-nwse-resize absolute inset-0 bg-white bg-opacity-20"
+                    }, void 0, false, {
+                        fileName: "src/element/desktop/frame.tsx",
+                        lineNumber: 170,
+                        columnNumber: 11
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
+                        drag: true,
+                        dragControls: resize,
+                        dragElastic: false,
+                        dragMomentum: false,
+                        onDragStart: ()=>{
+                            document.body.style.cursor = "nwse-resize";
+                        },
+                        onDragEnd: ()=>{
+                            document.body.style.cursor = "";
+                            local.resizing = false;
+                            local.render();
+                        },
+                        onDrag: (e, info)=>{
+                            const el = local.bodyEl;
+                            el.style.width = el.offsetWidth + info.delta.x + "px";
+                            el.style.height = el.offsetHeight + info.delta.y + "px";
+                        }
+                    }, void 0, false, {
+                        fileName: "src/element/desktop/frame.tsx",
+                        lineNumber: 171,
+                        columnNumber: 11
+                    }, undefined)
+                ]
+            }, void 0, true)
+        ]
+    }, void 0, true, {
+        fileName: "src/element/desktop/frame.tsx",
+        lineNumber: 56,
         columnNumber: 5
     }, undefined);
 };
+_s1(FrameItem, "IwSlb0jvFmWu12odUW35AgLkB2I=", false, function() {
+    return [
+        (0, _useLocal.useLocal),
+        (0, _framerMotion.useDragControls),
+        (0, _framerMotion.useDragControls)
+    ];
+});
 _c1 = FrameItem;
 var _c, _c1;
-$RefreshReg$(_c, "Desktop");
+$RefreshReg$(_c, "Frame");
 $RefreshReg$(_c1, "FrameItem");
 
-  $parcel$ReactRefreshHelpers$2ade.postlude(module);
+  $parcel$ReactRefreshHelpers$0400.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","goober":"gILVw","../../libs/cx":"cO2cu","../../libs/use-global":"bDE6Q","../../state/app":"cFz1s","../../state/desktop":"1yaQI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"1yaQI":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","framer-motion":"5bZBB","react":"21dqq","../../libs/cx":"cO2cu","../../libs/use-global":"bDE6Q","../../libs/use-local":"2RN4V","../../libs/w":"6jnvI","../../state/frame":"lCBWy","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iWW9B"}],"lCBWy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state_desktop", ()=>state_desktop);
+parcelHelpers.export(exports, "state_frame", ()=>state_frame);
 var _useGlobal = require("../libs/use-global");
-const state_desktop = (0, _useGlobal.declareGlobal)({
-    frame: {
-        items: [],
-        css: ""
+const state_frame = (0, _useGlobal.declareGlobal)({
+    css: ()=>{
+        return css`
+      position: absolute;
+
+      .frame-control {
+        position: absolute;
+        z-index: 1;
+
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        .frame-close {
+          width: 22px;
+          height: 22px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-right: 0px;
+          position: relative;
+          z-index: 1;
+
+          svg {
+            width: 14px;
+            height: 15px;
+          }
+
+          &::before {
+            background-color: ${server_theme.bg.color};
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+          }
+
+          &:active {
+            &::before {
+              background-color: rgba(255, 255, 255, 0.1);
+            }
+          }
+        }
+
+        .frame-title {
+          position: relative;
+
+          .frame-title-text {
+            position: absolute;
+            writing-mode: vertical-lr;
+            width: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 0px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%) scale(var(--s, 1));
+          }
+        }
+      }
+
+      .frame-body {
+        position: relative;
+        margin-left: 22px;
+        z-index: 1;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        &::before {
+          background-color: ${server_theme.bg.color};
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0.9;
+          z-index: -1;
+        }
+      }
+
+      .frame-resizer {
+        border-color: rgba(255, 255, 255, 0.2);
+        &.resizing,
+        &:hover {
+          border-bottom-width: 2px;
+          border-right-width: 2px;
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+      }
+    `;
     },
-    css: ""
+    focus: null,
+    hover: null,
+    items: []
 });
 
 },{"../libs/use-global":"bDE6Q","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"bGVRR":[function(require,module,exports) {
@@ -43892,7 +44248,6 @@ var _cuid = require("cuid");
 var _cuidDefault = parcelHelpers.interopDefault(_cuid);
 var _rpc = require("rpc");
 var _w = require("./w");
-var _src = require("../../../rice/src");
 const rpcAction = {
     // create_frame(arg: {
     //   appName: string;
@@ -43937,15 +44292,32 @@ const rpcAction = {
     },
     createBarElement (arg) {
         return new Promise((resolve)=>{
-            const barID = `bar-${arg.appName}-${(0, _cuidDefault.default)()}`;
+            const barID = `bar-${arg.appName}-${arg.barName}`;
             (0, _w.w).bar.items.push({
                 id: barID,
+                placement: arg.placement,
+                barName: arg.barName,
                 appName: arg.appName,
                 setBarEl: ()=>{
                     resolve(barID);
                 }
             });
             (0, _w.w).bar.render();
+        });
+    },
+    createFrameElement (arg) {
+        return new Promise((resolve)=>{
+            const frameID = `frame-${arg.appName}-${arg.frameName}`;
+            (0, _w.w).frame.items.push({
+                id: frameID,
+                appName: arg.appName,
+                title: arg.title,
+                frameName: arg.frameName,
+                setFrameEl: ()=>{
+                    resolve(frameID);
+                }
+            });
+            (0, _w.w).frame.render();
         });
     }
 };
@@ -43962,12 +44334,6 @@ const createClient = (appName)=>{
             else queue[data.id].reject(data.error ? data.error.message : `Error when calling rpc.${queue[data.id].method} from app ${queue[data.id].appName}. Rice cannot get detailed error. \n\n(${JSON.stringify(data.error, null, 2)})`);
             delete queue[data.id];
         }
-    });
-    setTimeout(()=>{
-        (0, _src.app).rpc.closeApp({
-            appName: (0, _src.app).name
-        });
-        (0, _src.app).start();
     });
     return (0, _rpc.createJsonRpcClient)({
         sendRequest (req) {
@@ -43990,7 +44356,7 @@ const createClient = (appName)=>{
     });
 };
 
-},{"cuid":"1NFTW","rpc":"jNaSg","./w":"6jnvI","../../../rice/src":"bcsV3","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"1NFTW":[function(require,module,exports) {
+},{"cuid":"1NFTW","rpc":"jNaSg","./w":"6jnvI","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"1NFTW":[function(require,module,exports) {
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -44072,297 +44438,6 @@ if (crypto) {
 } else getRandomValue = Math.random;
 module.exports = getRandomValue;
 
-},{}],"bcsV3":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "cx", ()=>(0, _cx.cx));
-parcelHelpers.export(exports, "css", ()=>(0, _goober.css));
-parcelHelpers.export(exports, "createApp", ()=>createApp);
-parcelHelpers.export(exports, "app", ()=>app);
-parcelHelpers.export(exports, "readState", ()=>readState);
-parcelHelpers.export(exports, "bar", ()=>bar);
-parcelHelpers.export(exports, "injectCSS", ()=>injectCSS);
-parcelHelpers.export(exports, "publicURL", ()=>publicURL);
-parcelHelpers.export(exports, "preload", ()=>preload);
-var _deepProxy = require("@qiwi/deep-proxy");
-var _appAction = require("front/src/libs/app-action");
-var _goober = require("goober");
-var _cx = require("front/src/libs/cx");
-const createApp = (arg)=>{
-    return arg;
-};
-const app = {
-    name: "",
-    rpc: null,
-    start: async ()=>{},
-    register (name, fn) {
-        this.name = name;
-        this.rpc = (0, _appAction.createClient)(name);
-        this.start = fn;
-    }
-};
-const readState = (fn)=>{
-    return new Promise(async (resolve)=>{
-        const getter = fn(new (0, _deepProxy.DeepProxy)({}, ({ trapName , PROXY , path , key  })=>{
-            if (trapName === "set") throw new TypeError("target is immutable");
-            if (key === "___READ___") return path;
-            return PROXY({});
-        }));
-    // const result = await app.rpc.read_state({ path: getter.___READ___ });
-    // resolve(result);
-    });
-};
-const bar = {
-    create: async (fn)=>{
-        const barID = await app.rpc.createBarElement({
-            appName: app.name
-        });
-        const divEl = parent.window.document.getElementById(barID);
-        if (divEl) {
-            fn(divEl);
-            app.rpc.appendStyle("_goober", (0, _goober.extractCss)());
-        }
-    }
-};
-const injectCSS = (path)=>{
-    app.rpc.importCSS(app.name, path);
-};
-const publicURL = (path)=>{
-    return `/app/${app.name}/${path}`;
-};
-const preload = (arg)=>{}; // export const frame = {
- //   create: async (
- //     arg: Omit<Parameters<typeof app.rpc.create_frame>[0], "appName">
- //   ) => {
- //     return await app.rpc.create_frame({ ...arg, appName: app.name });
- //   },
- //   close: async (arg: { windowID: string }) => {},
- // };
-
-},{"@qiwi/deep-proxy":"g8MxE","front/src/libs/app-action":"763eE","goober":"936sQ","front/src/libs/cx":"cO2cu","@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"g8MxE":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "DEFAULT", ()=>o);
-parcelHelpers.export(exports, "DeepProxy", ()=>y);
-parcelHelpers.export(exports, "createDeepProxy", ()=>f);
-parcelHelpers.export(exports, "defaultProxyHandler", ()=>l);
-function e() {
-    return e = Object.assign || function(e) {
-        for(var t = 1; t < arguments.length; t++){
-            var r = arguments[t];
-            for(var a in r)Object.prototype.hasOwnProperty.call(r, a) && (e[a] = r[a]);
-        }
-        return e;
-    }, e.apply(this, arguments);
-}
-var t = {
-    proxies: new WeakMap,
-    traps: new WeakMap
-}, r = function(e, t, r) {
-    return e.get(t) || e.set(t, new r).get(t);
-}, a = function(e) {
-    return e.join();
-}, n = function(e, r, n) {
-    var o, p;
-    return t.proxies.get(null == (o = t.traps.get(e)) || null == (p = o.get(r)) ? void 0 : p.get(a(n)));
-}, o = Symbol("default"), p = Object.keys(Object.getOwnPropertyDescriptors(Reflect)), s = [
-    "get",
-    "has",
-    "set",
-    "defineProperty",
-    "deleteProperty",
-    "getOwnPropertyDescriptor"
-], c = function(e, t) {
-    var r = e.trapName, a = e.handler, p = e.traps, c = e.root, i = e.path, u = function(e, t) {
-        var r, a, n, o, p, s, c, i;
-        switch(e){
-            case "get":
-                r = t[0], a = t[1], o = t[2];
-                break;
-            case "set":
-                r = t[0], a = t[1], n = t[2], o = t[3];
-                break;
-            case "deleteProperty":
-            case "defineProperty":
-                r = t[0], s = t[1];
-                break;
-            case "has":
-            case "getOwnPropertyDescriptor":
-                r = t[0], a = t[1];
-                break;
-            case "apply":
-                r = t[0], c = t[1], p = t[2];
-                break;
-            case "construct":
-                r = t[0], p = t[1];
-                break;
-            case "setPrototypeOf":
-                r = t[0], i = t[1];
-                break;
-            default:
-                r = t[0];
-        }
-        return {
-            target: r,
-            name: a,
-            receiver: o,
-            val: n,
-            args: p,
-            descriptor: s,
-            thisValue: c,
-            prototype: i
-        };
-    }(r, t), l = u.target, y = u.name, d = u.val, h = u.receiver, g = u.args, v = u.descriptor, b = u.thisValue, k = u.prototype, w = s.includes(r) ? y : void 0;
-    return {
-        parameters: t,
-        target: l,
-        name: y,
-        val: d,
-        args: g,
-        descriptor: v,
-        receiver: h,
-        thisValue: b,
-        prototype: k,
-        trapName: r,
-        traps: p,
-        path: i,
-        handler: a,
-        key: w,
-        newValue: "set" === r ? d : void 0,
-        root: c,
-        get proxy () {
-            return n(c, l, i);
-        },
-        get value () {
-            return w && l[w];
-        },
-        DEFAULT: o,
-        PROXY: f.bind({
-            root: c,
-            handler: a,
-            path: [].concat(i, [
-                w
-            ])
-        })
-    };
-}, i = function() {
-    var e = [].slice.call(arguments), t = this.trapName, r = this.handler, a = c(this, e), n = a.PROXY, o = a.DEFAULT, p = r(a);
-    return p === n ? n(a.value) : p === o ? Reflect[t].apply(Reflect, e) : p;
-}, u = function(e, t, r) {
-    return p.reduce(function(a, n) {
-        return a[n] = i.bind({
-            trapName: n,
-            handler: e,
-            traps: a,
-            root: t,
-            path: r
-        }), a;
-    }, {});
-}, l = function(e) {
-    return e.DEFAULT;
-}, f = function(o, p, s, c) {
-    !function(e) {
-        if (null === e || "object" != typeof e && "function" != typeof e) throw new TypeError("Deep proxy could be applied to objects and functions only");
-    }(o);
-    var i = e({}, this), f = p || i.handler || l, y = s || i.path || [], d = i.root || c || o, h = n(d, o, y);
-    if (h) return h;
-    var g = u(f, d, y), v = new Proxy(o, g);
-    return function(e, n, o, p, s) {
-        r(r(t.traps, e, WeakMap), n, Map).set(a(o), p), t.proxies.set(p, s);
-    }(d, o, y, g, v), v;
-}, y = function(e, t, r, a) {
-    return f(e, t, r, a);
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}],"936sQ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "css", ()=>u);
-parcelHelpers.export(exports, "extractCss", ()=>r);
-parcelHelpers.export(exports, "glob", ()=>b);
-parcelHelpers.export(exports, "keyframes", ()=>h);
-parcelHelpers.export(exports, "setup", ()=>m);
-parcelHelpers.export(exports, "styled", ()=>j);
-let e = {
-    data: ""
-}, t = (t)=>"object" == typeof window ? ((t ? t.querySelector("#_goober") : window._goober) || Object.assign((t || document.head).appendChild(document.createElement("style")), {
-        innerHTML: " ",
-        id: "_goober"
-    })).firstChild : t || e, r = (e)=>{
-    let r = t(e), l = r.data;
-    return r.data = "", l;
-}, l = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g, a = /\/\*[^]*?\*\/|  +/g, n = /\n+/g, o = (e, t)=>{
-    let r = "", l = "", a = "";
-    for(let n in e){
-        let c = e[n];
-        "@" == n[0] ? "i" == n[1] ? r = n + " " + c + ";" : l += "f" == n[1] ? o(c, n) : n + "{" + o(c, "k" == n[1] ? "" : t) + "}" : "object" == typeof c ? l += o(c, t ? t.replace(/([^,])+/g, (e)=>n.replace(/(^:.*)|([^,])+/g, (t)=>/&/.test(t) ? t.replace(/&/g, e) : e ? e + " " + t : t)) : n) : null != c && (n = /^--/.test(n) ? n : n.replace(/[A-Z]/g, "-$&").toLowerCase(), a += o.p ? o.p(n, c) : n + ":" + c + ";");
-    }
-    return r + (t && a ? t + "{" + a + "}" : a) + l;
-}, c = {}, s = (e)=>{
-    if ("object" == typeof e) {
-        let t = "";
-        for(let r in e)t += r + s(e[r]);
-        return t;
-    }
-    return e;
-}, i = (e, t, r, i, p)=>{
-    let u = s(e), d = c[u] || (c[u] = ((e)=>{
-        let t = 0, r = 11;
-        for(; t < e.length;)r = 101 * r + e.charCodeAt(t++) >>> 0;
-        return "go" + r;
-    })(u));
-    if (!c[d]) {
-        let t = u !== e ? e : ((e)=>{
-            let t, r, o = [
-                {}
-            ];
-            for(; t = l.exec(e.replace(a, ""));)t[4] ? o.shift() : t[3] ? (r = t[3].replace(n, " ").trim(), o.unshift(o[0][r] = o[0][r] || {})) : o[0][t[1]] = t[2].replace(n, " ").trim();
-            return o[0];
-        })(e);
-        c[d] = o(p ? {
-            ["@keyframes " + d]: t
-        } : t, r ? "" : "." + d);
-    }
-    let f = r && c.g ? c.g : null;
-    return r && (c.g = c[d]), ((e, t, r, l)=>{
-        l ? t.data = t.data.replace(l, e) : -1 === t.data.indexOf(e) && (t.data = r ? e + t.data : t.data + e);
-    })(c[d], t, i, f), d;
-}, p = (e, t, r)=>e.reduce((e, l, a)=>{
-        let n = t[a];
-        if (n && n.call) {
-            let e = n(r), t = e && e.props && e.props.className || /^go/.test(e) && e;
-            n = t ? "." + t : e && "object" == typeof e ? e.props ? "" : o(e, "") : !1 === e ? "" : e;
-        }
-        return e + l + (null == n ? "" : n);
-    }, "");
-function u(e) {
-    let r = this || {}, l = e.call ? e(r.p) : e;
-    return i(l.unshift ? l.raw ? p(l, [].slice.call(arguments, 1), r.p) : l.reduce((e, t)=>Object.assign(e, t && t.call ? t(r.p) : t), {}) : l, t(r.target), r.g, r.o, r.k);
-}
-let d, f, g, b = u.bind({
-    g: 1
-}), h = u.bind({
-    k: 1
-});
-function m(e, t, r, l) {
-    o.p = t, d = e, f = r, g = l;
-}
-function j(e, t) {
-    let r = this || {};
-    return function() {
-        let l = arguments;
-        function a(n, o) {
-            let c = Object.assign({}, n), s = c.className || a.className;
-            r.p = Object.assign({
-                theme: f && f()
-            }, c), r.o = / *go\d+/.test(s), c.className = u.apply(r, l) + (s ? " " + s : ""), t && (c.ref = o);
-            let i = e;
-            return e[0] && (i = c.as || e, delete c.as), g && i[0] && g(c), d(i, c);
-        }
-        return t ? t(a) : a;
-    };
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"beCOK"}]},["3kpDH","5d35h","4aBH6"], "4aBH6", "parcelRequire1ea1")
+},{}]},["3kpDH","5d35h","4aBH6"], "4aBH6", "parcelRequire1ea1")
 
 //# sourceMappingURL=index.b0a2d388.js.map

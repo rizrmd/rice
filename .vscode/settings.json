@@ -12,6 +12,9 @@
     "**/pnpm-lock.yaml": true,
     "**/.gitignore": true,
     "**/.postcssrc": true,
+    "**/.vscode": true,
+    "**/build": true,
+    "**/node_modules": true,
     "**/.htmlnanorc": true,
     "**/.parcel-cache": true,
     ".vscode": true
