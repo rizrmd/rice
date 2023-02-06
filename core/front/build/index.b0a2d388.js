@@ -40076,13 +40076,13 @@ const Frame = ()=>{
                 containerEl: containerEl
             }, item.id, false, {
                 fileName: "src/element/desktop/frame.tsx",
-                lineNumber: 31,
+                lineNumber: 26,
                 columnNumber: 11
             }, undefined);
         })
     }, void 0, false, {
         fileName: "src/element/desktop/frame.tsx",
-        lineNumber: 21,
+        lineNumber: 16,
         columnNumber: 5
     }, undefined);
 };
@@ -40114,7 +40114,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
         className: (0, _cx.cx)(frame.css(), frame.focus === item ? "z-10" : "z-9"),
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.AnimatePresence), {
-                children: (frame.focus === item || frame.hover === item || local.resizing) && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
+                children: (frame.focus === item || frame.hover === item) && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
                     className: "frame-control",
                     initial: {
                         opacity: 1
@@ -40127,7 +40127,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                     },
                     transition: {
                         delay: 0,
-                        duration: 0.1
+                        duration: 0.2
                     },
                     onPointerOver: ()=>{
                         frame.hover = item;
@@ -40156,17 +40156,17 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                                     d: "M6 18L18 6M6 6l12 12"
                                 }, void 0, false, {
                                     fileName: "src/element/desktop/frame.tsx",
-                                    lineNumber: 97,
+                                    lineNumber: 92,
                                     columnNumber: 17
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/element/desktop/frame.tsx",
-                                lineNumber: 90,
+                                lineNumber: 85,
                                 columnNumber: 15
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/element/desktop/frame.tsx",
-                            lineNumber: 83,
+                            lineNumber: 78,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -40184,33 +40184,33 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                                     children: item.appName
                                 }, void 0, false, {
                                     fileName: "src/element/desktop/frame.tsx",
-                                    lineNumber: 115,
+                                    lineNumber: 110,
                                     columnNumber: 19
                                 }, undefined) : item.title
                             }, void 0, false, {
                                 fileName: "src/element/desktop/frame.tsx",
-                                lineNumber: 113,
+                                lineNumber: 108,
                                 columnNumber: 15
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/element/desktop/frame.tsx",
-                            lineNumber: 104,
+                            lineNumber: 99,
                             columnNumber: 13
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/element/desktop/frame.tsx",
-                    lineNumber: 68,
+                    lineNumber: 63,
                     columnNumber: 11
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/element/desktop/frame.tsx",
-                lineNumber: 66,
+                lineNumber: 61,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 id: item.id,
-                className: "frame-body flex min-w-[200px] min-h-[100px]",
+                className: "frame-body flex min-w-[200px] min-h-[40px]",
                 onPointerOver: ()=>{
                     frame.hover = item;
                     frame.render();
@@ -40234,7 +40234,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                 }
             }, void 0, false, {
                 fileName: "src/element/desktop/frame.tsx",
-                lineNumber: 124,
+                lineNumber: 119,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -40242,7 +40242,8 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                 onPointerDown: (e)=>{
                     e.stopPropagation();
                     local.resizing = true;
-                    local.render();
+                    frame.focus = item;
+                    frame.render();
                     setTimeout(()=>{
                         resize.start(e);
                     });
@@ -40253,7 +40254,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                 }
             }, void 0, false, {
                 fileName: "src/element/desktop/frame.tsx",
-                lineNumber: 150,
+                lineNumber: 145,
                 columnNumber: 7
             }, undefined),
             local.resizing && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
@@ -40262,7 +40263,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                         className: "cursor-nwse-resize absolute inset-0 bg-white bg-opacity-20"
                     }, void 0, false, {
                         fileName: "src/element/desktop/frame.tsx",
-                        lineNumber: 170,
+                        lineNumber: 166,
                         columnNumber: 11
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
@@ -40285,7 +40286,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                         }
                     }, void 0, false, {
                         fileName: "src/element/desktop/frame.tsx",
-                        lineNumber: 171,
+                        lineNumber: 167,
                         columnNumber: 11
                     }, undefined)
                 ]
@@ -40293,7 +40294,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
         ]
     }, void 0, true, {
         fileName: "src/element/desktop/frame.tsx",
-        lineNumber: 56,
+        lineNumber: 51,
         columnNumber: 5
     }, undefined);
 };

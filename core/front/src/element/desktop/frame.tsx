@@ -1,9 +1,4 @@
-import {
-  AnimatePresence,
-  FlatTree,
-  motion,
-  useDragControls,
-} from "framer-motion";
+import { AnimatePresence, motion, useDragControls } from "framer-motion";
 import { FC, RefObject, useRef } from "react";
 import { cx } from "../../libs/cx";
 import { useGlobal } from "../../libs/use-global";
@@ -64,13 +59,13 @@ const FrameItem: FC<{
       className={cx(frame.css(), frame.focus === item ? "z-10" : "z-9")}
     >
       <AnimatePresence>
-        {(frame.focus === item || frame.hover === item || local.resizing) && (
+        {(frame.focus === item || frame.hover === item) && (
           <motion.div
             className="frame-control"
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ delay: 0, duration: 0.1 }}
+            transition={{ delay: 0, duration: 0.2 }}
             onPointerOver={() => {
               frame.hover = item;
               frame.render();
@@ -123,7 +118,7 @@ const FrameItem: FC<{
       </AnimatePresence>
       <div
         id={item.id}
-        className="frame-body flex min-w-[200px] min-h-[100px]"
+        className="frame-body flex min-w-[200px] min-h-[40px]"
         onPointerOver={() => {
           frame.hover = item;
           frame.render();
@@ -155,7 +150,8 @@ const FrameItem: FC<{
         onPointerDown={(e) => {
           e.stopPropagation();
           local.resizing = true;
-          local.render();
+          frame.focus = item;
+          frame.render();
           setTimeout(() => {
             resize.start(e);
           });
