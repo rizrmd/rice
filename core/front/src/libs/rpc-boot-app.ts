@@ -33,10 +33,10 @@ export const initRPC = () => {
     const app = state_app._ref;
 
     if (Object.keys(app.installed).length === 0) {
-      for (const giturl of Object.values(app.startup)) {
-        const info = await w.rpc.installApp(giturl);
+      for (const appName of Object.values(app.startup)) {
+        const info = await w.rpc.appInfo(appName);
 
-        app.installed[giturl] = info;
+        app.installed[appName] = info;
 
         const current: AppRunning = { ...info } as any;
         app.running.push(current);

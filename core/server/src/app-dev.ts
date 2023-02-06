@@ -2,6 +2,7 @@ import { spawn } from "bun";
 import { existsSync } from "fs";
 import { join } from "path";
 import { AppInfo } from "../../rice/src/types";
+import * as rice from "../../rice/src/index";
 
 const dec = new TextDecoder();
 const root = join(import.meta.dir, "..", "..", "..");
@@ -21,6 +22,7 @@ export const startAppDev = (
         }).exited;
       }
 
+      (globalThis as any).createApp = rice.createApp;
       const info: AppInfo = (await import(join(appDir, "app.ts"))).default;
 
       const app = spawn({

@@ -39542,7 +39542,7 @@ parcelHelpers.export(exports, "state_app", ()=>state_app);
 var _useGlobal = require("../libs/use-global");
 const default_app = {
     startup: [
-        "https://github.com/rizrmd/rice-launcher"
+        ""
     ],
     installed: {},
     running: [],
@@ -40096,7 +40096,7 @@ const initRPC = ()=>{
         (0, _w.w).app = (0, _app.state_app)._ref;
         const app = (0, _app.state_app)._ref;
         if (Object.keys(app.installed).length === 0) for (const giturl of Object.values(app.startup)){
-            const info = await (0, _w.w).rpc.installApp(giturl);
+            const info = await (0, _w.w).rpc.installAppViaGitURL(giturl);
             app.installed[giturl] = info;
             const current = {
                 ...info

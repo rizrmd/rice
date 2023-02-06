@@ -1,7 +1,8 @@
-import type { client, ClientQueue, schema } from "server";
 import { spawn, spawnSync } from "bun";
-import { existsSync, readdirSync, rmSync, statSync } from "fs";
+import { build, context } from "esbuild";
+import { existsSync, rmSync } from "fs";
 import { join } from "path";
+import type { client, ClientQueue, schema } from "server";
 
 const root = join(import.meta.dir, "..", "..");
 const core = async () => {
@@ -53,6 +54,7 @@ Done
   const { startAppDev } = await import("server/src/app-dev");
   if (cmd === "dev") {
     console.log("[Development Mode]");
+
     const parcel = spawn({
       cmd: ["bun", "run", "dev"],
       cwd: join(root, "core", "front"),
@@ -84,6 +86,16 @@ Done
         if (shouldPrint) process.stdout.write(raw);
       });
     });
+
+    const build = await context({
+      entryPoints: [join(root, "core", "rice", "src", "inject.ts")],
+      outfile: join(root, "core", "rice", "src", "inject.js"),
+      format: "iife",
+      bundle: true,
+      allowOverwrite: true,
+    });
+
+    await build.watch();
 
     console.log("");
 

@@ -3,6 +3,7 @@
   "main": "src/index.tsx",
   "module": "src/index.tsx",
   "dependencies": {
+    "esbuild": "^0.17.5",
     "front": "../front",
     "rpc": "../rpc",
     "server": "../server"
