@@ -40078,11 +40078,17 @@ var _app = require("../state/app");
 var _appAction = require("./app-action");
 var _w = require("./w");
 var _waitUntil = require("./wait-until");
+const wsURL = ()=>{
+    const hostname = location.protocol.indexOf("http") === 0 ? location.hostname : "localhost";
+    const port = location.port;
+    const protocol = location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
+    return protocol + "://" + hostname + (port ? ":" + port : "");
+};
 let retry = 0;
 const initRPC = ()=>{
     retry++;
     if (retry > 5) return;
-    const ws = new WebSocket("ws://localhost:12345/rice:rpc");
+    const ws = new WebSocket(`${wsURL()}/rice:rpc`);
     const queue = {};
     ws.onopen = async ()=>{
         (0, _w.w).rpc = (0, _server.client)(ws, queue);
@@ -44075,7 +44081,9 @@ parcelHelpers.export(exports, "createApp", ()=>createApp);
 parcelHelpers.export(exports, "app", ()=>app);
 parcelHelpers.export(exports, "readState", ()=>readState);
 parcelHelpers.export(exports, "bar", ()=>bar);
-parcelHelpers.export(exports, "importCSS", ()=>importCSS);
+parcelHelpers.export(exports, "injectCSS", ()=>injectCSS);
+parcelHelpers.export(exports, "publicURL", ()=>publicURL);
+parcelHelpers.export(exports, "preload", ()=>preload);
 var _deepProxy = require("@qiwi/deep-proxy");
 var _appAction = require("front/src/libs/app-action");
 var _goober = require("goober");
@@ -44116,9 +44124,13 @@ const bar = {
         }
     }
 };
-const importCSS = (appName, path)=>{
-    app.rpc.importCSS(appName, path);
-}; // export const frame = {
+const injectCSS = (path)=>{
+    app.rpc.importCSS(app.name, path);
+};
+const publicURL = (path)=>{
+    return `/app/${app.name}/${path}`;
+};
+const preload = (arg)=>{}; // export const frame = {
  //   create: async (
  //     arg: Omit<Parameters<typeof app.rpc.create_frame>[0], "appName">
  //   ) => {

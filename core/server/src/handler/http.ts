@@ -68,15 +68,25 @@ ws.onmessage = async function(event) {
           }
         );
       } else {
-        const src = app.app;
-        const base = join(root, "app", appName);
-        const path = join(
-          app.app.absdir || "",
-          app.app.basedir,
-          part || "",
-          ...(pathname || [])
-        );
         try {
+          const path = join(
+            app.app.absdir || "",
+            app.app.basedir,
+            part || "",
+            ...(pathname || [])
+          );
+          if (statSync(path).isFile()) {
+            return new Response(file(path));
+          }
+        } catch (e) {}
+
+        try {
+          const path = join(
+            app.app.absdir || "",
+            "public",
+            part || "",
+            ...(pathname || [])
+          );
           if (statSync(path).isFile()) {
             return new Response(file(path));
           }

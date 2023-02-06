@@ -5,12 +5,24 @@ import { rpcAction } from "./app-action";
 import { w } from "./w";
 import { waitUntil } from "./wait-until";
 
+const wsURL = () => {
+  const hostname =
+    location.protocol.indexOf("http") === 0 ? location.hostname : "localhost";
+  const port = location.port;
+  const protocol =
+    location.protocol == "https:" &&
+    !/localhost|127.0.0.1|0.0.0.0/.test(hostname)
+      ? "wss"
+      : "ws";
+  return protocol + "://" + hostname + (port ? ":" + port : "");
+};
+
 let retry = 0;
 export const initRPC = () => {
   retry++;
 
   if (retry > 5) return;
-  const ws = new WebSocket("ws://localhost:12345/rice:rpc");
+  const ws = new WebSocket(`${wsURL()}/rice:rpc`);
   const queue: ClientQueue = {};
 
   ws.onopen = async () => {

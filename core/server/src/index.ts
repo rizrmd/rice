@@ -1,4 +1,4 @@
-import { serve } from "bun";
+import { serve, ServerWebSocket } from "bun";
 import { handler } from "./handler/handler";
 import { initState, server_state } from "./init-state";
 
@@ -9,7 +9,7 @@ await initState();
 serve({
   port: server_state.rice.url.port,
   websocket: {
-    open(...args) {
+    open(...args: [ws: ServerWebSocket<{url:string}>]) {
       return handler.ws.open(...args);
     },
     message(...args) {

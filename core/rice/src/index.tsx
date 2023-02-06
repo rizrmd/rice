@@ -65,9 +65,14 @@ export const bar = {
     }
   },
 };
-export const importCSS = (appName: string, path: string) => {
-  app.rpc.importCSS(appName, path);
+export const injectCSS = (path: string) => {
+  app.rpc.importCSS(app.name, path);
 };
+export const publicURL = (path: string) => {
+  return `/app/${app.name}/${path}`;
+};
+
+export const preload = (arg: { images: [] }) => {};
 
 // export const frame = {
 //   create: async (

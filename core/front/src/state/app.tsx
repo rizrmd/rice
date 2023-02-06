@@ -7,7 +7,7 @@ export type AppRunning = AppInfo & {
   start: Parameters<typeof app["register"]>[1];
 };
 const default_app = {
-  startup: ["https://github.com/rizrmd/rice-launcher"],
+  startup: [""],
   installed: {} as Record<string, AppInfo>,
   running: [] as AppRunning[],
   boot: {

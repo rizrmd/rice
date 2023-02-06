@@ -7,7 +7,7 @@ import { server_state } from "../init-state";
 
 const root = join(import.meta.dir, "..", "..", "..", "..");
 
-export const installApp = async (url: string) => {
+export const installAppViaGitURL = async (url: string) => {
   const appUrl = new URL(url);
   const appDir = join(
     root,

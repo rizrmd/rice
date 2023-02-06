@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import { installApp } from "./action/install-app.js";
+import { installAppViaGitURL } from "./action/install-app.js";
 import { g, server_state } from "./init-state.js";
 import { defaultTheme } from "./libs/default-theme.js";
 
@@ -10,7 +10,7 @@ export const action = {
   setDevUrl(url: string) {
     server_state.dev.url = url;
   },
-  installApp: installApp,
+  installApp: installAppViaGitURL,
   hmrApp: (appName: string) => {
     for (const ws of g.wsClients) {
       ws.send(JSON.stringify({ type: "hmr-app", name: appName }));
