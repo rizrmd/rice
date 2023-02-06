@@ -34,6 +34,7 @@ export const initRPC = () => {
 
     if (Object.keys(app.installed).length === 0) {
       for (const appName of Object.values(app.startup)) {
+
         const info = await w.rpc.appInfo(appName);
 
         app.installed[appName] = info;

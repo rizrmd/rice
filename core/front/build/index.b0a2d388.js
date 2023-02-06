@@ -39542,7 +39542,7 @@ parcelHelpers.export(exports, "state_app", ()=>state_app);
 var _useGlobal = require("../libs/use-global");
 const default_app = {
     startup: [
-        ""
+        "launcher"
     ],
     installed: {},
     running: [],
@@ -40095,9 +40095,9 @@ const initRPC = ()=>{
         await (0, _waitUntil.waitUntil)(()=>(0, _app.state_app)._ref);
         (0, _w.w).app = (0, _app.state_app)._ref;
         const app = (0, _app.state_app)._ref;
-        if (Object.keys(app.installed).length === 0) for (const giturl of Object.values(app.startup)){
-            const info = await (0, _w.w).rpc.installAppViaGitURL(giturl);
-            app.installed[giturl] = info;
+        if (Object.keys(app.installed).length === 0) for (const appName of Object.values(app.startup)){
+            const info = await (0, _w.w).rpc.appInfo(appName);
+            app.installed[appName] = info;
             const current = {
                 ...info
             };

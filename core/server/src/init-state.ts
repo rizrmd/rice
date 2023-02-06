@@ -1,11 +1,13 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { action } from "./action";
+import { createApp } from "../../rice/src/index";
 import { AppInfo } from "../../rice/src/types";
 import { ServerWebSocket } from "bun";
 
 const root = join(import.meta.dir, "..", "..", "..");
 export const g = globalThis as unknown as {
+  createApp: typeof createApp;
   wsClients: Set<
     ServerWebSocket<{
       url: string;
@@ -34,6 +36,8 @@ export const initState = async () => {
 
   const fedir = join(root, "core", "front", "build");
   const index = await readFile(join(fedir, "index.html"), "utf-8");
+
+  g.createApp = createApp;
 
   server_state.rice.style =
     index

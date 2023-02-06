@@ -10,9 +10,11 @@ export const action = {
   setDevUrl(url: string) {
     server_state.dev.url = url;
   },
-  appInfo: (appName: string) => {
-    console.log(appName);
-    return {} as AppInfo;
+  appInfo: async (appName: string) => {
+    const info = (await import(join(root, "app", appName, "app.ts"))).default;
+    info.app.absdir = join(root, "app", appName);
+    server_state.app[info.name] = info;
+    return { name: appName } as AppInfo;
   },
   hmrApp: (appName: string) => {
     for (const ws of g.wsClients) {

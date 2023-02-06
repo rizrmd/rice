@@ -14,10 +14,10 @@ export type AppInfo = {
 
 declare global {
   const app: typeof rice.app;
-  const injectCSS: typeof rice.injectCSS;
+  const asset: typeof rice.asset;
   const bar: typeof rice.bar;
   const createApp: typeof rice.createApp;
   const cx: typeof rice.cx;
   const css: typeof rice.css;
-  const publicURL: typeof rice.publicURL;
+  const state: typeof rice.state;
 }

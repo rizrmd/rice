@@ -25,31 +25,33 @@ export const app = {
   },
 };
 
-export const readState = (
-  fn: (state: {
-    bar: typeof state_bar;
-    app: typeof state_app;
-    desktop: typeof state_desktop;
-    theme: typeof defaultTheme;
-  }) => any
-): Promise<any> => {
-  return new Promise<any>(async (resolve) => {
-    const getter = fn(
-      new DeepProxy(
-        {},
-        ({ trapName, PROXY, path, key }: THandlerContext<any>) => {
-          if (trapName === "set") {
-            throw new TypeError("target is immutable");
-          }
-          if (key === "___READ___") return path;
+export const state = {
+  peek: (
+    fn: (state: {
+      bar: typeof state_bar;
+      app: typeof state_app;
+      desktop: typeof state_desktop;
+      theme: typeof defaultTheme;
+    }) => any
+  ): Promise<any> => {
+    return new Promise<any>(async (resolve) => {
+      const getter = fn(
+        new DeepProxy(
+          {},
+          ({ trapName, PROXY, path, key }: THandlerContext<any>) => {
+            if (trapName === "set") {
+              throw new TypeError("target is immutable");
+            }
+            if (key === "___READ___") return path;
 
-          return PROXY({});
-        }
-      ) as any
-    );
-    // const result = await app.rpc.read_state({ path: getter.___READ___ });
-    // resolve(result);
-  });
+            return PROXY({});
+          }
+        ) as any
+      );
+      // const result = await app.rpc.read_state({ path: getter.___READ___ });
+      // resolve(result);
+    });
+  },
 };
 
 export const bar = {
@@ -65,14 +67,16 @@ export const bar = {
     }
   },
 };
-export const injectCSS = (path: string) => {
-  app.rpc.importCSS(app.name, path);
-};
-export const publicURL = (path: string) => {
-  return `/app/${app.name}/${path}`;
-};
 
-export const preload = (arg: { images: [] }) => {};
+export const asset = {
+  injectCSS: (path: string) => {
+    app.rpc.importCSS(app.name, path);
+  },
+  url: (path: string) => {
+    return `/app/${app.name}/${path}`;
+  },
+  preload: (arg: { images: [] }) => {},
+};
 
 // export const frame = {
 //   create: async (

@@ -41,9 +41,15 @@ export const http = async (req: Request, server: Server) => {
         const iconPath = join(root, "app", appName, app.icon);
         if (existsSync(iconPath)) return new Response(file(iconPath));
       } else if (part === "index") {
+        const inject = await readFile(
+          join(root, "core", "rice", "src", "inject.js"),
+          "utf-8"
+        );
+
         return new Response(
           `\
-<script src="/app/${appName}/js"></script>
+<script>${inject}</script>
+<script src="/app/${appName}/app-${appName}"></script>
 <script>
 (() => {
 function getHostname() {

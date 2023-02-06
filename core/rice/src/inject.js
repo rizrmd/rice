@@ -141,14 +141,12 @@
   var src_exports = {};
   __export(src_exports, {
     app: () => app,
+    asset: () => asset,
     bar: () => bar,
     createApp: () => createApp,
     css: () => u,
     cx: () => cx,
-    injectCSS: () => injectCSS,
-    preload: () => preload,
-    publicURL: () => publicURL,
-    readState: () => readState
+    state: () => state
   });
 
   // core/rice/node_modules/@qiwi/deep-proxy/target/es6/cache.js
@@ -401,22 +399,24 @@
       this.start = fn;
     }
   };
-  var readState = (fn) => {
-    return new Promise((resolve) => __async(void 0, null, function* () {
-      const getter = fn(
-        new DeepProxy(
-          {},
-          ({ trapName, PROXY, path, key }) => {
-            if (trapName === "set") {
-              throw new TypeError("target is immutable");
+  var state = {
+    peek: (fn) => {
+      return new Promise((resolve) => __async(void 0, null, function* () {
+        const getter = fn(
+          new DeepProxy(
+            {},
+            ({ trapName, PROXY, path, key }) => {
+              if (trapName === "set") {
+                throw new TypeError("target is immutable");
+              }
+              if (key === "___READ___")
+                return path;
+              return PROXY({});
             }
-            if (key === "___READ___")
-              return path;
-            return PROXY({});
-          }
-        )
-      );
-    }));
+          )
+        );
+      }));
+    }
   };
   var bar = {
     create: (fn) => __async(void 0, null, function* () {
@@ -430,13 +430,15 @@
       }
     })
   };
-  var injectCSS = (path) => {
-    app.rpc.importCSS(app.name, path);
-  };
-  var publicURL = (path) => {
-    return `/app/${app.name}/${path}`;
-  };
-  var preload = (arg) => {
+  var asset = {
+    injectCSS: (path) => {
+      app.rpc.importCSS(app.name, path);
+    },
+    url: (path) => {
+      return `/app/${app.name}/${path}`;
+    },
+    preload: (arg) => {
+    }
   };
 
   // core/rice/src/inject.ts
