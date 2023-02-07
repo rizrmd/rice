@@ -40096,6 +40096,8 @@ const FrameItem = ({ item , containerEl , frame  })=>{
     _s1();
     const local = (0, _useLocal.useLocal)({
         bodyEl: null,
+        outerEl: null,
+        controlEl: null,
         resizing: false
     });
     const controls = (0, _framerMotion.useDragControls)();
@@ -40103,6 +40105,9 @@ const FrameItem = ({ item , containerEl , frame  })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
         drag: true,
         dragConstraints: containerEl,
+        ref: (el)=>{
+            if (el) local.outerEl = el;
+        },
         dragMomentum: false,
         dragControls: controls,
         dragElastic: false,
@@ -40116,6 +40121,9 @@ const FrameItem = ({ item , containerEl , frame  })=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.AnimatePresence), {
                 children: (frame.focus === item || frame.hover === item) && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
                     className: "frame-control",
+                    ref: (el)=>{
+                        if (el) local.controlEl = el;
+                    },
                     initial: {
                         opacity: 1
                     },
@@ -40156,17 +40164,17 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                                     d: "M6 18L18 6M6 6l12 12"
                                 }, void 0, false, {
                                     fileName: "src/element/desktop/frame.tsx",
-                                    lineNumber: 92,
+                                    lineNumber: 100,
                                     columnNumber: 17
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/element/desktop/frame.tsx",
-                                lineNumber: 85,
+                                lineNumber: 93,
                                 columnNumber: 15
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/element/desktop/frame.tsx",
-                            lineNumber: 78,
+                            lineNumber: 86,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -40184,28 +40192,28 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                                     children: item.appName
                                 }, void 0, false, {
                                     fileName: "src/element/desktop/frame.tsx",
-                                    lineNumber: 110,
+                                    lineNumber: 118,
                                     columnNumber: 19
                                 }, undefined) : item.title
                             }, void 0, false, {
                                 fileName: "src/element/desktop/frame.tsx",
-                                lineNumber: 108,
+                                lineNumber: 116,
                                 columnNumber: 15
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/element/desktop/frame.tsx",
-                            lineNumber: 99,
+                            lineNumber: 107,
                             columnNumber: 13
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/element/desktop/frame.tsx",
-                    lineNumber: 63,
+                    lineNumber: 68,
                     columnNumber: 11
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/element/desktop/frame.tsx",
-                lineNumber: 61,
+                lineNumber: 66,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -40234,7 +40242,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                 }
             }, void 0, false, {
                 fileName: "src/element/desktop/frame.tsx",
-                lineNumber: 119,
+                lineNumber: 127,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -40254,7 +40262,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                 }
             }, void 0, false, {
                 fileName: "src/element/desktop/frame.tsx",
-                lineNumber: 145,
+                lineNumber: 153,
                 columnNumber: 7
             }, undefined),
             local.resizing && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
@@ -40263,7 +40271,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                         className: "cursor-nwse-resize absolute inset-0 bg-white bg-opacity-20"
                     }, void 0, false, {
                         fileName: "src/element/desktop/frame.tsx",
-                        lineNumber: 166,
+                        lineNumber: 174,
                         columnNumber: 11
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _framerMotion.motion).div, {
@@ -40277,16 +40285,27 @@ const FrameItem = ({ item , containerEl , frame  })=>{
                         onDragEnd: ()=>{
                             document.body.style.cursor = "";
                             local.resizing = false;
+                            const ol = local.outerEl;
+                            const el = local.bodyEl;
+                            const xy = getTranslateXY(ol);
+                            if (xy) {
+                                const max = {
+                                    x: containerEl.current.offsetWidth,
+                                    y: containerEl.current.offsetHeight
+                                };
+                                if (xy.x + ol.offsetWidth >= max.x) el.style.width = max.x - xy.x - local.controlEl.offsetWidth + "px";
+                                if (xy.y + ol.offsetHeight >= max.y) el.style.height = max.y - xy.y + "px";
+                            }
                             local.render();
                         },
-                        onDrag: (e, info)=>{
+                        onDrag: (_, info)=>{
                             const el = local.bodyEl;
                             el.style.width = el.offsetWidth + info.delta.x + "px";
                             el.style.height = el.offsetHeight + info.delta.y + "px";
                         }
                     }, void 0, false, {
                         fileName: "src/element/desktop/frame.tsx",
-                        lineNumber: 167,
+                        lineNumber: 175,
                         columnNumber: 11
                     }, undefined)
                 ]
@@ -40294,7 +40313,7 @@ const FrameItem = ({ item , containerEl , frame  })=>{
         ]
     }, void 0, true, {
         fileName: "src/element/desktop/frame.tsx",
-        lineNumber: 51,
+        lineNumber: 53,
         columnNumber: 5
     }, undefined);
 };
@@ -40306,6 +40325,15 @@ _s1(FrameItem, "IwSlb0jvFmWu12odUW35AgLkB2I=", false, function() {
     ];
 });
 _c1 = FrameItem;
+function getTranslateXY(element) {
+    const style = window.getComputedStyle(element);
+    const matrix = new DOMMatrixReadOnly(style.getPropertyValue("transform"));
+    if (matrix.isIdentity) return null;
+    return {
+        x: matrix.e,
+        y: matrix.f
+    };
+}
 var _c, _c1;
 $RefreshReg$(_c, "Frame");
 $RefreshReg$(_c1, "FrameItem");
@@ -40363,7 +40391,7 @@ const state_frame = (0, _useGlobal.declareGlobal)({
 
           &:active {
             &::before {
-              background-color: rgba(255, 255, 255, 0.1);
+              background-color: rgb(100, 100, 100);
             }
           }
         }
@@ -40410,7 +40438,7 @@ const state_frame = (0, _useGlobal.declareGlobal)({
       }
 
       .frame-resizer {
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
         &.resizing,
         &:hover {
           border-bottom-width: 2px;

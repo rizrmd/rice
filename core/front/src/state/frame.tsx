@@ -43,7 +43,7 @@ export const state_frame = declareGlobal({
 
           &:active {
             &::before {
-              background-color: rgba(255, 255, 255, 0.1);
+              background-color: rgb(100, 100, 100);
             }
           }
         }
@@ -90,7 +90,7 @@ export const state_frame = declareGlobal({
       }
 
       .frame-resizer {
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
         &.resizing,
         &:hover {
           border-bottom-width: 2px;

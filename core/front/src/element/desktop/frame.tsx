@@ -42,6 +42,8 @@ const FrameItem: FC<{
 }> = ({ item, containerEl, frame }) => {
   const local = useLocal({
     bodyEl: null as HTMLDivElement,
+    outerEl: null as HTMLDivElement,
+    controlEl: null as HTMLDivElement,
     resizing: false,
   });
   const controls = useDragControls();
@@ -51,6 +53,9 @@ const FrameItem: FC<{
     <motion.div
       drag
       dragConstraints={containerEl}
+      ref={(el) => {
+        if (el) local.outerEl = el;
+      }}
       dragMomentum={false}
       dragControls={controls}
       dragElastic={false}
@@ -62,6 +67,9 @@ const FrameItem: FC<{
         {(frame.focus === item || frame.hover === item) && (
           <motion.div
             className="frame-control"
+            ref={(el) => {
+              if (el) local.controlEl = el;
+            }}
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -175,9 +183,26 @@ const FrameItem: FC<{
             onDragEnd={() => {
               document.body.style.cursor = "";
               local.resizing = false;
+              const ol = local.outerEl;
+              const el = local.bodyEl;
+              const xy = getTranslateXY(ol);
+              if (xy) {
+                const max = {
+                  x: containerEl.current.offsetWidth,
+                  y: containerEl.current.offsetHeight,
+                };
+                if (xy.x + ol.offsetWidth >= max.x) {
+                  el.style.width =
+                    max.x - xy.x - local.controlEl.offsetWidth + "px";
+                }
+                if (xy.y + ol.offsetHeight >= max.y) {
+                  el.style.height = max.y - xy.y + "px";
+                }
+              }
+
               local.render();
             }}
-            onDrag={(e, info) => {
+            onDrag={(_, info) => {
               const el = local.bodyEl;
               el.style.width = el.offsetWidth + info.delta.x + "px";
               el.style.height = el.offsetHeight + info.delta.y + "px";
@@ -188,3 +213,10 @@ const FrameItem: FC<{
     </motion.div>
   );
 };
+
+function getTranslateXY(element) {
+  const style = window.getComputedStyle(element);
+  const matrix = new DOMMatrixReadOnly(style.getPropertyValue("transform"));
+  if (matrix.isIdentity) return null;
+  return { x: matrix.e, y: matrix.f };
+}

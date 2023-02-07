@@ -303,10 +303,6 @@ html {
   height: 15px;
 }
 
-.min-h-\[100px\] {
-  min-height: 100px;
-}
-
 .min-h-\[40px\] {
   min-height: 40px;
 }
